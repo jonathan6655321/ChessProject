@@ -176,6 +176,33 @@ Pieces.c.s:
 	$(MAKE) -f CMakeFiles\ChessProject.dir\build.make CMakeFiles/ChessProject.dir/Pieces.c.s
 .PHONY : Pieces.c.s
 
+main.obj: main.c.obj
+
+.PHONY : main.obj
+
+# target to build an object file
+main.c.obj:
+	$(MAKE) -f CMakeFiles\ChessProject.dir\build.make CMakeFiles/ChessProject.dir/main.c.obj
+.PHONY : main.c.obj
+
+main.i: main.c.i
+
+.PHONY : main.i
+
+# target to preprocess a source file
+main.c.i:
+	$(MAKE) -f CMakeFiles\ChessProject.dir\build.make CMakeFiles/ChessProject.dir/main.c.i
+.PHONY : main.c.i
+
+main.s: main.c.s
+
+.PHONY : main.s
+
+# target to generate assembly for a file
+main.c.s:
+	$(MAKE) -f CMakeFiles\ChessProject.dir\build.make CMakeFiles/ChessProject.dir/main.c.s
+.PHONY : main.c.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -191,6 +218,9 @@ help:
 	@echo ... Pieces.obj
 	@echo ... Pieces.i
 	@echo ... Pieces.s
+	@echo ... main.obj
+	@echo ... main.i
+	@echo ... main.s
 .PHONY : help
 
 
