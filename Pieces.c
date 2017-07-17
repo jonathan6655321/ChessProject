@@ -26,7 +26,7 @@ char getPieceChar(Piece * piece)
 		case King: c = 'k';
 			break;
 		default:
-			return -1;
+			return 'X'; // so we can recognize the erro TODO is there something better than this?
 	}
 	if(color == Black)
 	{

@@ -122,6 +122,33 @@ ChessProject/fast:
 	$(MAKE) -f CMakeFiles\ChessProject.dir\build.make CMakeFiles/ChessProject.dir/build
 .PHONY : ChessProject/fast
 
+GameBoard.obj: GameBoard.c.obj
+
+.PHONY : GameBoard.obj
+
+# target to build an object file
+GameBoard.c.obj:
+	$(MAKE) -f CMakeFiles\ChessProject.dir\build.make CMakeFiles/ChessProject.dir/GameBoard.c.obj
+.PHONY : GameBoard.c.obj
+
+GameBoard.i: GameBoard.c.i
+
+.PHONY : GameBoard.i
+
+# target to preprocess a source file
+GameBoard.c.i:
+	$(MAKE) -f CMakeFiles\ChessProject.dir\build.make CMakeFiles/ChessProject.dir/GameBoard.c.i
+.PHONY : GameBoard.c.i
+
+GameBoard.s: GameBoard.c.s
+
+.PHONY : GameBoard.s
+
+# target to generate assembly for a file
+GameBoard.c.s:
+	$(MAKE) -f CMakeFiles\ChessProject.dir\build.make CMakeFiles/ChessProject.dir/GameBoard.c.s
+.PHONY : GameBoard.c.s
+
 Pieces.obj: Pieces.c.obj
 
 .PHONY : Pieces.obj
@@ -158,6 +185,9 @@ help:
 	@echo ... ChessProject
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... GameBoard.obj
+	@echo ... GameBoard.i
+	@echo ... GameBoard.s
 	@echo ... Pieces.obj
 	@echo ... Pieces.i
 	@echo ... Pieces.s

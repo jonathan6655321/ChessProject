@@ -82,6 +82,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Development/C/TheBigProject/ChessProject/GameBoard.c">
+			<Option target="ChessProject"/>
+		</Unit>
+		<Unit filename="C:/Development/C/TheBigProject/ChessProject/GameBoard.h">
+			<Option target="ChessProject"/>
+		</Unit>
 		<Unit filename="C:/Development/C/TheBigProject/ChessProject/Pieces.c">
 			<Option target="ChessProject"/>
 		</Unit>
