@@ -8,6 +8,7 @@
 #ifndef PIECES_H_
 #define PIECES_H_
 
+#include <ctype.h>
 
 typedef enum PieceType  {
 	Pawn, // simple soldier
@@ -28,8 +29,7 @@ typedef struct Piece {
 	Color color;
 } Piece;
 
-char getPieceChar(Piece * piece);
-
+char getPieceChar(Piece *piece);
 
 
 #endif /* PIECES_H_ */
