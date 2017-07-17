@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Development/C/TheBigProject/ChessProject/GameBoard.c
+stdlib.h
+-
+GameBoard.h
+C:/Development/C/TheBigProject/ChessProject/GameBoard.h
+Pieces.h
+C:/Development/C/TheBigProject/ChessProject/Pieces.h
+
+C:/Development/C/TheBigProject/ChessProject/GameBoard.h
+stdio.h
+-
+Pieces.h
+C:/Development/C/TheBigProject/ChessProject/Pieces.h
+
+C:/Development/C/TheBigProject/ChessProject/Pieces.c
+stdlib.h
+-
+Pieces.h
+C:/Development/C/TheBigProject/ChessProject/Pieces.h
+
+C:/Development/C/TheBigProject/ChessProject/Pieces.h
+ctype.h
+-
+
+C:/Development/C/TheBigProject/ChessProject/main.c
+GameBoard.h
+C:/Development/C/TheBigProject/ChessProject/GameBoard.h
+Pieces.h
+C:/Development/C/TheBigProject/ChessProject/Pieces.h
+

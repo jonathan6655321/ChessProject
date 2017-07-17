@@ -31,7 +31,7 @@ void removePieceAt(int row, char col, GameBoard * gameBoard)
 
 GameBoard *makeGameBoard(Color playerColor)
 {
-    GameBoard *gameBoard = malloc(sizeof(GameBoard)); // sets all pointers to NULL
+    GameBoard *gameBoard = (GameBoard*)calloc(1,sizeof(GameBoard)); // sets all pointers to NULL
     Color opponentColor = getOppositeColor(playerColor);
 
     // set pawns
@@ -75,4 +75,29 @@ GameBoard *makeGameBoard(Color playerColor)
         setPieceAt(8,'E',gameBoard,makePiece(Queen,opponentColor));
         setPieceAt(8,'D',gameBoard,makePiece(King,opponentColor));
     }
+}
+
+
+void printBoard(GameBoard *gameBoard)
+{
+    Piece *tempPiece;
+    for (int row = 8; row >=1 ; --row)
+    {
+        printf("%d| ", row);
+        for (char col = 'A'; col <= 'H'; ++col)
+        {
+            tempPiece = getPieceAt(row,col,gameBoard);
+            if(tempPiece == NULL)
+            {
+                printf("_ ");
+            }
+            else
+            {
+                printf("%c ", getPieceChar(tempPiece));
+            }
+        }
+        printf("|\n");
+    }
+    printf("  -----------------\n");
+    printf("   A B C D E F G H\n");
 }

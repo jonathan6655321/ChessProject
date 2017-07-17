@@ -21,5 +21,6 @@ void removePieceAt(int row, char col, GameBoard *gameBoard);
 int rowColAsIndex(int row, char col);
 
 GameBoard *makeGameBoard(Color playerColor);
+void printBoard(GameBoard *gameBoard);
 
 #endif //CHESSPROJECT_GAMEBOARD_H
