@@ -4,6 +4,7 @@
  *  Created on: Jul 18, 2017
  *      Author: Jonathan
  */
+#include <stdlib.h>
 #include "Pieces.h"
 
 char getPieceChar(Piece * piece)
@@ -26,7 +27,7 @@ char getPieceChar(Piece * piece)
 		case King: c = 'k';
 			break;
 		default:
-			return 'X'; // so we can recognize the erro TODO is there something better than this?
+			return 'X'; // so we can recognize the erro TODO X?
 	}
 	if(color == Black)
 	{
@@ -36,3 +37,22 @@ char getPieceChar(Piece * piece)
 	return c;
 }
 
+Piece *makePiece(PieceType type, Color color)
+{
+    Piece *piece = malloc(sizeof(Piece));
+    piece->type = type;
+    piece->color = color;
+    return piece;
+}
+
+Color getOppositeColor(Color color)
+{
+    if(color == White)
+    {
+        return Black;
+    }
+    else
+    {
+        return White;
+    }
+}

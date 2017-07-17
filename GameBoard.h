@@ -15,10 +15,11 @@ typedef struct GameBoard {
 } GameBoard;
 
 // assumes row: 1-8, and col: A-H
-Piece * getPieceAt(int row, char col, GameBoard * gameBoard);
-void setPieceAt(int row, char col, GameBoard * gameBoard, Piece * piece);
-void removePieceAt(int row, char col, GameBoard * gameBoard);
-
+Piece * getPieceAt(int row, char col, GameBoard *gameBoard);
+void setPieceAt(int row, char col, GameBoard *gameBoard, Piece * piece);
+void removePieceAt(int row, char col, GameBoard *gameBoard);
 int rowColAsIndex(int row, char col);
+
+GameBoard *makeGameBoard(Color playerColor);
 
 #endif //CHESSPROJECT_GAMEBOARD_H

@@ -16,8 +16,7 @@ typedef enum PieceType  {
 	Rook, // "tsariah"
 	Knight, // "sus"
 	Queen,
-	King,
-    NonPiece
+	King
 } PieceType;
 
 typedef enum Color{
@@ -31,6 +30,8 @@ typedef struct Piece {
 } Piece;
 
 char getPieceChar(Piece *piece);
+Piece *makePiece(PieceType type, Color color);
+Color getOppositeColor(Color color);
 
 
 #endif /* PIECES_H_ */
