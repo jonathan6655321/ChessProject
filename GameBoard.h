@@ -7,10 +7,10 @@
 
 #include <stdio.h>
 #include "Pieces.h"
-#define NUM_ROWS 8
+#define BOARD_SIZE 64
 
 typedef struct GameBoard {
-    Piece *gameState [NUM_ROWS * NUM_ROWS]; // 64 lengthed array, indeces 0-7 correspond to 1A - 1H, 8-15 to 2A-2H and so on
+    Piece *gameState [BOARD_SIZE]; // array of length 64, indexes 0-7 correspond to 1A - 1H, 8-15 to 2A-2H and so on
 
 } GameBoard;
 
