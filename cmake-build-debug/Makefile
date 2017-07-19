@@ -176,6 +176,33 @@ Pieces.c.s:
 	$(MAKE) -f CMakeFiles\ChessProject.dir\build.make CMakeFiles/ChessProject.dir/Pieces.c.s
 .PHONY : Pieces.c.s
 
+consoleRendering.obj: consoleRendering.c.obj
+
+.PHONY : consoleRendering.obj
+
+# target to build an object file
+consoleRendering.c.obj:
+	$(MAKE) -f CMakeFiles\ChessProject.dir\build.make CMakeFiles/ChessProject.dir/consoleRendering.c.obj
+.PHONY : consoleRendering.c.obj
+
+consoleRendering.i: consoleRendering.c.i
+
+.PHONY : consoleRendering.i
+
+# target to preprocess a source file
+consoleRendering.c.i:
+	$(MAKE) -f CMakeFiles\ChessProject.dir\build.make CMakeFiles/ChessProject.dir/consoleRendering.c.i
+.PHONY : consoleRendering.c.i
+
+consoleRendering.s: consoleRendering.c.s
+
+.PHONY : consoleRendering.s
+
+# target to generate assembly for a file
+consoleRendering.c.s:
+	$(MAKE) -f CMakeFiles\ChessProject.dir\build.make CMakeFiles/ChessProject.dir/consoleRendering.c.s
+.PHONY : consoleRendering.c.s
+
 main.obj: main.c.obj
 
 .PHONY : main.obj
@@ -218,6 +245,9 @@ help:
 	@echo ... Pieces.obj
 	@echo ... Pieces.i
 	@echo ... Pieces.s
+	@echo ... consoleRendering.obj
+	@echo ... consoleRendering.i
+	@echo ... consoleRendering.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

@@ -7,6 +7,47 @@
 #include <stdlib.h>
 #include "Pieces.h"
 
+void initPiece(Piece *piece, PieceType type, Player player)
+{
+    piece->player = player;
+    piece->type = type;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 char getPieceChar(Piece * piece)
 {
 	PieceType type = piece->type;
@@ -37,19 +78,6 @@ char getPieceChar(Piece * piece)
 	return c;
 }
 
-int initPiece(Piece *piece, PieceType type, Color color, int row, char col, Player player)
-{
-    piece->type = type;
-    piece->player = player;
-    piece->color = color;
-    piece->currentPosition.row = row;
-    piece->currentPosition.row = col;
-
-    setPossibleMoves(piece);
-
-    return SUCCESS;
-}
-
 Color getOppositeColor(Color color)
 {
     if(color == White)
@@ -77,3 +105,5 @@ int setPossibleMoves(Piece *piece)
             return -1; // this should never happen...
     }
 }
+
+ */

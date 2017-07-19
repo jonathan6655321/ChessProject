@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/ChessProject.dir/Pieces.c.obj"
   "CMakeFiles/ChessProject.dir/GameBoard.c.obj"
   "CMakeFiles/ChessProject.dir/main.c.obj"
+  "CMakeFiles/ChessProject.dir/consoleRendering.c.obj"
   "ChessProject.pdb"
   "ChessProject.exe"
   "ChessProject.exe.manifest"

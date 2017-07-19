@@ -29,10 +29,28 @@ C:/Development/C/TheBigProject/ChessProject/Pieces.h
 C:/Development/C/TheBigProject/ChessProject/Pieces.h
 ctype.h
 -
+constants.h
+C:/Development/C/TheBigProject/ChessProject/constants.h
+
+C:/Development/C/TheBigProject/ChessProject/consoleRendering.c
+stdlib.h
+-
+consoleRendering.h
+C:/Development/C/TheBigProject/ChessProject/consoleRendering.h
+
+C:/Development/C/TheBigProject/ChessProject/consoleRendering.h
+GameBoard.h
+C:/Development/C/TheBigProject/ChessProject/GameBoard.h
+Pieces.h
+C:/Development/C/TheBigProject/ChessProject/Pieces.h
+
+C:/Development/C/TheBigProject/ChessProject/constants.h
 
 C:/Development/C/TheBigProject/ChessProject/main.c
 GameBoard.h
 C:/Development/C/TheBigProject/ChessProject/GameBoard.h
 Pieces.h
 C:/Development/C/TheBigProject/ChessProject/Pieces.h
+consoleRendering.h
+C:/Development/C/TheBigProject/ChessProject/consoleRendering.h
 
