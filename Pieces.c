@@ -27,7 +27,7 @@ char getPieceChar(Piece * piece)
 		case King: c = 'k';
 			break;
 		default:
-			return 'X'; // so we can recognize the erro TODO X?
+			return 'X'; // this should never happen...
 	}
 	if(color == Black)
 	{
@@ -37,12 +37,17 @@ char getPieceChar(Piece * piece)
 	return c;
 }
 
-Piece *makePiece(PieceType type, Color color)
+int initPiece(Piece *piece, PieceType type, Color color, int row, char col, Player player)
 {
-    Piece *piece = malloc(sizeof(Piece));
     piece->type = type;
+    piece->player = player;
     piece->color = color;
-    return piece;
+    piece->currentPosition.row = row;
+    piece->currentPosition.row = col;
+
+    setPossibleMoves(piece);
+
+    return SUCCESS;
 }
 
 Color getOppositeColor(Color color)
@@ -54,5 +59,21 @@ Color getOppositeColor(Color color)
     else
     {
         return White;
+    }
+}
+
+int setPossibleMoves(Piece *piece)
+{
+    PieceType type = piece->type;
+    switch (type)
+    {
+        case Pawn: return setPossibleMovesPawn(piece);
+        case Bishop: return setPossibleMovesBishop(piece);
+        case Rook: return setPossibleMovesRook(piece);
+        case Knight: return setPossibleMovesKnight(piece);
+        case Queen: return setPossibleMovesQueen(piece);
+        case King: return setPossibleMovesKing(piece);
+        default:
+            return -1; // this should never happen...
     }
 }

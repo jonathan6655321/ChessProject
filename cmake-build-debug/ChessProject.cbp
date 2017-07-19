@@ -94,6 +94,9 @@
 		<Unit filename="C:/Development/C/TheBigProject/ChessProject/Pieces.h">
 			<Option target="ChessProject"/>
 		</Unit>
+		<Unit filename="C:/Development/C/TheBigProject/ChessProject/constants.h">
+			<Option target="ChessProject"/>
+		</Unit>
 		<Unit filename="C:/Development/C/TheBigProject/ChessProject/main.c">
 			<Option target="ChessProject"/>
 		</Unit>

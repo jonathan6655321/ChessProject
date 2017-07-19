@@ -1,0 +1,7 @@
+Gameboard:
+initGameBoard function
+free board function
+
+Pieces:
+setPossible moves for all pieces
+
