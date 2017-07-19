@@ -5,6 +5,7 @@
 #include "GameBoard.h"
 #include "Pieces.h"
 #include "consoleRendering.h"
+#include "Moves.h"
 
 int main( int argc, char **argv )
 {
@@ -13,20 +14,21 @@ int main( int argc, char **argv )
     printBoard(&gameBoard,White);
 
     printf("\n\n");
-    movePiece('1','A', '3','C', &gameBoard);
+    movePiece('1','A', '3','E', &gameBoard);
     printBoard(&gameBoard,White);
 
     printf("\n\n");
-    movePiece('1','C', '4','C', &gameBoard);
+    movePiece('1','B', '6','F', &gameBoard);
     printBoard(&gameBoard,White);
 
     printf("\n\n");
-    movePiece('8','E', '1','A', &gameBoard);
+    movePiece('1','C', '6','D', &gameBoard);
     printBoard(&gameBoard,White);
 
-    printf("\n\n");
-    movePiece('7','H', '8','C', &gameBoard);
-    printBoard(&gameBoard,White);
+    LegalMoves legalMoves = {0};
+    getLegalMovesForPieceAt('7','E',&gameBoard,&legalMoves);
+
+    printLegalMoves(&legalMoves);
 
 
 }

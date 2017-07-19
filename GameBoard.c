@@ -128,7 +128,7 @@ void swapQueenKing(GameBoard *gameBoard)
  */
 int getPieceAt(char row, char col, GameBoard *gameBoard, Piece *piece)
 {
-    int pieceIndex = gameBoard->mapLocationOnBoardToPieceIndex[rowColToLocationIndex(row,col)];
+    int pieceIndex = getIndexOfPieceAt(row,col,gameBoard);
     if(pieceIndex == NO_PIECE)
     {
         return FAIL;
@@ -191,6 +191,10 @@ int movePiece(char rowFrom, char colFrom, char rowTo, char colTo, GameBoard *gam
  */
 void setPieceAt(char row, char col, GameBoard *gameBoard, int pieceIndex)
 {
+    if (isValidRowCol(row,col) == FAIL)
+    {
+        return;
+    }
     gameBoard->mapLocationOnBoardToPieceIndex[rowColToLocationIndex(row,col)] = pieceIndex;
     gameBoard->mapPieceIndexToLocationOnBoard[pieceIndex] = rowColToLocationIndex(row,col);
 }
@@ -200,15 +204,41 @@ void setPieceAt(char row, char col, GameBoard *gameBoard, int pieceIndex)
  */
 void removePieceAt(char row, char col, GameBoard *gameBoard)
 {
+    if (isValidRowCol(row,col) == FAIL)
+    {
+        return;
+    }
     gameBoard->mapPieceIndexToLocationOnBoard[gameBoard->mapLocationOnBoardToPieceIndex[rowColToLocationIndex(row,col)]] = NOT_IN_GAME;
     gameBoard->mapLocationOnBoardToPieceIndex[rowColToLocationIndex(row,col)] = NO_PIECE;
 }
 
 /*
  * returns index of piece at row col
+ *
+ * note: returns NO_PIECE if no piece there
  */
 int getIndexOfPieceAt(char row, char col, GameBoard *gameBoard)
 {
+    if (isValidRowCol(row,col) == FAIL)
+    {
+        return FAIL;
+    }
     return gameBoard->mapLocationOnBoardToPieceIndex[rowColToLocationIndex(row,col)];
 }
 
+
+/*
+ * returns 1 if is
+ * 0 if player 2
+ */
+int isPlayer1Index(int i)
+{
+    if (i >=0 && i <= 15)
+    {
+        return SUCCESS;
+    }
+    else // (i >=16 && i <= 31)
+    {
+        return FAIL;
+    }
+}

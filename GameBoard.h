@@ -9,8 +9,10 @@
 #include "Pieces.h"
 #define NUM_ROWS 8
 #define NUM_COLS NUM_ROWS
+#define BOARD_SIZE NUM_COLS*NUM_ROWS
+
 #define NUM_STARTING_PIECES 32
-#define NO_PIECE -1
+#define NO_PIECE -2
 #define NOT_IN_GAME -1
 
 typedef struct GameBoard {
@@ -88,5 +90,13 @@ void removePieceAt(char row, char col, GameBoard *gameBoard);
  * returns index of piece at row col
  */
 int getIndexOfPieceAt(char row, char col, GameBoard *gameBoard);
+
+/*
+ * returns 1 if is
+ * 0 if player 2
+ *
+ * assumes valid index!
+ */
+int isPlayer1Index(int i);
 
 #endif //CHESSPROJECT_GAMEBOARD_H

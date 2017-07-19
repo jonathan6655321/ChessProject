@@ -5,6 +5,6 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES
         Pieces.c
-        Pieces.h GameBoard.c GameBoard.h main.c constants.h consoleRendering.h consoleRendering.c)
+        Pieces.h GameBoard.c GameBoard.h main.c constants.h consoleRendering.h consoleRendering.c Moves.c Moves.h)
 
 add_executable(ChessProject ${SOURCE_FILES})

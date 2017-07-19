@@ -6,6 +6,12 @@ CMakeFiles/ChessProject.dir/GameBoard.c.obj: ../GameBoard.h
 CMakeFiles/ChessProject.dir/GameBoard.c.obj: ../Pieces.h
 CMakeFiles/ChessProject.dir/GameBoard.c.obj: ../constants.h
 
+CMakeFiles/ChessProject.dir/Moves.c.obj: ../GameBoard.h
+CMakeFiles/ChessProject.dir/Moves.c.obj: ../Moves.c
+CMakeFiles/ChessProject.dir/Moves.c.obj: ../Moves.h
+CMakeFiles/ChessProject.dir/Moves.c.obj: ../Pieces.h
+CMakeFiles/ChessProject.dir/Moves.c.obj: ../constants.h
+
 CMakeFiles/ChessProject.dir/Pieces.c.obj: ../Pieces.c
 CMakeFiles/ChessProject.dir/Pieces.c.obj: ../Pieces.h
 CMakeFiles/ChessProject.dir/Pieces.c.obj: ../constants.h
@@ -17,6 +23,7 @@ CMakeFiles/ChessProject.dir/consoleRendering.c.obj: ../consoleRendering.h
 CMakeFiles/ChessProject.dir/consoleRendering.c.obj: ../constants.h
 
 CMakeFiles/ChessProject.dir/main.c.obj: ../GameBoard.h
+CMakeFiles/ChessProject.dir/main.c.obj: ../Moves.h
 CMakeFiles/ChessProject.dir/main.c.obj: ../Pieces.h
 CMakeFiles/ChessProject.dir/main.c.obj: ../consoleRendering.h
 CMakeFiles/ChessProject.dir/main.c.obj: ../constants.h

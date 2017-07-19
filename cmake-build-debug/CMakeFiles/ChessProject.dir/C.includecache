@@ -20,6 +20,14 @@ stdio.h
 Pieces.h
 C:/Development/C/TheBigProject/ChessProject/Pieces.h
 
+C:/Development/C/TheBigProject/ChessProject/Moves.c
+Moves.h
+C:/Development/C/TheBigProject/ChessProject/Moves.h
+
+C:/Development/C/TheBigProject/ChessProject/Moves.h
+GameBoard.h
+C:/Development/C/TheBigProject/ChessProject/GameBoard.h
+
 C:/Development/C/TheBigProject/ChessProject/Pieces.c
 stdlib.h
 -
@@ -53,4 +61,6 @@ Pieces.h
 C:/Development/C/TheBigProject/ChessProject/Pieces.h
 consoleRendering.h
 C:/Development/C/TheBigProject/ChessProject/consoleRendering.h
+Moves.h
+C:/Development/C/TheBigProject/ChessProject/Moves.h
 

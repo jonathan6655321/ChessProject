@@ -18,7 +18,7 @@ void printBoard(GameBoard *gameBoard, Color player1Color)
         printf("%c| ", row);
         for (char col = 'A'; col <= 'H'; ++col)
         {
-            if(getPieceAt(row,col,gameBoard, tempPiece) == NO_PIECE)
+            if(getPieceAt(row,col,gameBoard, tempPiece) == FAIL)
             {
                 printf("_ ");
             }

@@ -149,6 +149,33 @@ GameBoard.c.s:
 	$(MAKE) -f CMakeFiles\ChessProject.dir\build.make CMakeFiles/ChessProject.dir/GameBoard.c.s
 .PHONY : GameBoard.c.s
 
+Moves.obj: Moves.c.obj
+
+.PHONY : Moves.obj
+
+# target to build an object file
+Moves.c.obj:
+	$(MAKE) -f CMakeFiles\ChessProject.dir\build.make CMakeFiles/ChessProject.dir/Moves.c.obj
+.PHONY : Moves.c.obj
+
+Moves.i: Moves.c.i
+
+.PHONY : Moves.i
+
+# target to preprocess a source file
+Moves.c.i:
+	$(MAKE) -f CMakeFiles\ChessProject.dir\build.make CMakeFiles/ChessProject.dir/Moves.c.i
+.PHONY : Moves.c.i
+
+Moves.s: Moves.c.s
+
+.PHONY : Moves.s
+
+# target to generate assembly for a file
+Moves.c.s:
+	$(MAKE) -f CMakeFiles\ChessProject.dir\build.make CMakeFiles/ChessProject.dir/Moves.c.s
+.PHONY : Moves.c.s
+
 Pieces.obj: Pieces.c.obj
 
 .PHONY : Pieces.obj
@@ -242,6 +269,9 @@ help:
 	@echo ... GameBoard.obj
 	@echo ... GameBoard.i
 	@echo ... GameBoard.s
+	@echo ... Moves.obj
+	@echo ... Moves.i
+	@echo ... Moves.s
 	@echo ... Pieces.obj
 	@echo ... Pieces.i
 	@echo ... Pieces.s

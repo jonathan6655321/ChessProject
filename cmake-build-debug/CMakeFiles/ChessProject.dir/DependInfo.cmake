@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "C:/Development/C/TheBigProject/ChessProject/GameBoard.c" "C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir/GameBoard.c.obj"
+  "C:/Development/C/TheBigProject/ChessProject/Moves.c" "C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir/Moves.c.obj"
   "C:/Development/C/TheBigProject/ChessProject/Pieces.c" "C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir/Pieces.c.obj"
   "C:/Development/C/TheBigProject/ChessProject/consoleRendering.c" "C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir/consoleRendering.c.obj"
   "C:/Development/C/TheBigProject/ChessProject/main.c" "C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir/main.c.obj"

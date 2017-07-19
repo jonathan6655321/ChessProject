@@ -88,6 +88,12 @@
 		<Unit filename="C:/Development/C/TheBigProject/ChessProject/GameBoard.h">
 			<Option target="ChessProject"/>
 		</Unit>
+		<Unit filename="C:/Development/C/TheBigProject/ChessProject/Moves.c">
+			<Option target="ChessProject"/>
+		</Unit>
+		<Unit filename="C:/Development/C/TheBigProject/ChessProject/Moves.h">
+			<Option target="ChessProject"/>
+		</Unit>
 		<Unit filename="C:/Development/C/TheBigProject/ChessProject/Pieces.c">
 			<Option target="ChessProject"/>
 		</Unit>
