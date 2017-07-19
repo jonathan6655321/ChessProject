@@ -38,8 +38,8 @@
           <file leaf-file-name="Pieces.c" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Pieces.c">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="732">
-                  <caret line="44" column="37" lean-forward="true" selection-start-line="44" selection-start-column="37" selection-end-line="44" selection-end-column="37" />
+                <state relative-caret-position="1500">
+                  <caret line="60" column="21" lean-forward="true" selection-start-line="60" selection-start-column="21" selection-end-line="60" selection-end-column="21" />
                   <folding>
                     <element signature="e#76#95#0" expanded="true" />
                   </folding>
@@ -47,11 +47,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Pieces.h" pinned="false" current-in-tab="false">
+          <file leaf-file-name="Pieces.h" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Pieces.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1182">
-                  <caret line="61" column="57" lean-forward="true" selection-start-line="61" selection-start-column="57" selection-end-line="61" selection-end-column="75" />
+                <state relative-caret-position="550">
+                  <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
                   <folding>
                     <element signature="e#114#132#0" expanded="true" />
                   </folding>
@@ -59,11 +59,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="GameBoard.c" pinned="false" current-in-tab="true">
+          <file leaf-file-name="GameBoard.c" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/GameBoard.c">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="975">
-                  <caret line="74" column="95" lean-forward="false" selection-start-line="74" selection-start-column="95" selection-end-line="74" selection-end-column="95" />
+                <state relative-caret-position="225">
+                  <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
                   <folding>
                     <element signature="e#45#64#0" expanded="true" />
                   </folding>
@@ -74,8 +74,8 @@
           <file leaf-file-name="GameBoard.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/GameBoard.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="350">
-                  <caret line="14" column="41" lean-forward="true" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
+                <state relative-caret-position="300">
+                  <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
                   <folding>
                     <element signature="e#111#129#0" expanded="true" />
                   </folding>
@@ -112,8 +112,8 @@
           <file leaf-file-name="TDL" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/TDL">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="25">
-                  <caret line="1" column="22" lean-forward="false" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="22" />
+                <state relative-caret-position="450">
+                  <caret line="18" column="17" lean-forward="false" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
                   <folding />
                 </state>
               </provider>
@@ -138,11 +138,11 @@
       <list>
         <option value="$PROJECT_DIR$/main.c" />
         <option value="$PROJECT_DIR$/constants.h" />
-        <option value="$PROJECT_DIR$/GameBoard.h" />
-        <option value="$PROJECT_DIR$/TDL" />
-        <option value="$PROJECT_DIR$/Pieces.h" />
         <option value="$PROJECT_DIR$/Pieces.c" />
+        <option value="$PROJECT_DIR$/TDL" />
         <option value="$PROJECT_DIR$/GameBoard.c" />
+        <option value="$PROJECT_DIR$/GameBoard.h" />
+        <option value="$PROJECT_DIR$/Pieces.h" />
       </list>
     </option>
   </component>
@@ -414,12 +414,12 @@
       <updated>1500327574997</updated>
       <workItem from="1500327576499" duration="13068000" />
       <workItem from="1500389749334" duration="687000" />
-      <workItem from="1500455548491" duration="4231000" />
+      <workItem from="1500455548491" duration="8273000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17986000" />
+    <option name="totallyTimeSpent" value="22028000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="2902" height="1582" extended-state="6" />
@@ -583,14 +583,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TDL">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="1" column="22" lean-forward="false" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/constants.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="250">
@@ -609,42 +601,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GameBoard.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="14" column="41" lean-forward="true" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
-          <folding>
-            <element signature="e#111#129#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Pieces.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="732">
-          <caret line="44" column="37" lean-forward="true" selection-start-line="44" selection-start-column="37" selection-end-line="44" selection-end-column="37" />
+        <state relative-caret-position="1500">
+          <caret line="60" column="21" lean-forward="true" selection-start-line="60" selection-start-column="21" selection-end-line="60" selection-end-column="21" />
           <folding>
             <element signature="e#76#95#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Pieces.h">
+    <entry file="file://$PROJECT_DIR$/TDL">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1182">
-          <caret line="61" column="57" lean-forward="true" selection-start-line="61" selection-start-column="57" selection-end-line="61" selection-end-column="75" />
-          <folding>
-            <element signature="e#114#132#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="450">
+          <caret line="18" column="17" lean-forward="false" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/GameBoard.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="975">
-          <caret line="74" column="95" lean-forward="false" selection-start-line="74" selection-start-column="95" selection-end-line="74" selection-end-column="95" />
+        <state relative-caret-position="225">
+          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding>
             <element signature="e#45#64#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GameBoard.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding>
+            <element signature="e#111#129#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pieces.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <element signature="e#114#132#0" expanded="true" />
           </folding>
         </state>
       </provider>

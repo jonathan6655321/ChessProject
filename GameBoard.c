@@ -7,6 +7,44 @@
 #include "GameBoard.h"
 #include "Pieces.h"
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------------------------------------------------------------
 // assumes row: 1-8, and col: A-H
 int rowColAsIndex(int row, char col)
 {
@@ -76,10 +114,10 @@ int initGameBoard(Color playerColor)
     }
     else // Player's Queen is on Black!
     {
-        setPieceAt(1,'E',gameBoard, initPiece(currentPiecePointer++, Queen, playerColor,));
-        setPieceAt(1,'D',gameBoard, initPiece(currentPiecePointer++, King, playerColor,));
-        setPieceAt(8,'E',gameBoard, initPiece(currentPiecePointer++, Queen, opponentColor,));
-        setPieceAt(8,'D',gameBoard, initPiece(currentPiecePointer++, King, opponentColor,));
+        setPieceAt(1,'E',gameBoard, initPiece(currentPiecePointer++, Queen, playerColor,1,'E',));
+        setPieceAt(1,'D',gameBoard, initPiece(currentPiecePointer++, King, playerColor,1,'D',));
+        setPieceAt(8,'E',gameBoard, initPiece(currentPiecePointer++, Queen, opponentColor,8,'E',));
+        setPieceAt(8,'D',gameBoard, initPiece(currentPiecePointer++, King, opponentColor,8,'D',));
     }
 }
 

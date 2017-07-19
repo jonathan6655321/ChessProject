@@ -10,6 +10,32 @@
 #define BOARD_SIZE 64
 #define NUM_STARTING_PIECES 32
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 typedef struct GameBoard {
     Piece *gameState [BOARD_SIZE]; // array of length 64, indexes 0-7 correspond to 1A - 1H, 8-15 to 2A-2H and so on
     Piece allPieces[NUM_STARTING_PIECES];
@@ -23,5 +49,5 @@ int rowColAsIndex(int row, char col);
 
 int initGameBoard(Color playerColor);
 void printBoard(GameBoard *gameBoard);
-
+*/
 #endif //CHESSPROJECT_GAMEBOARD_H

@@ -1,3 +1,5 @@
+Jonathan:
+
 Gameboard:
 initGameBoard function
 free board function
@@ -5,3 +7,17 @@ free board function
 Pieces:
 setPossible moves for all pieces
 
+
+
+// gameboard:
+movePiece: recieves point to point, player returns error type
+getPieceAt: struct Piece
+checkWinner: check if checkmate
+get moves,
+
+
+isLegalMove Board
+-----------------------------------------
+IDO:
+
+undo, game loop, parsing, save, load, reset, quit,

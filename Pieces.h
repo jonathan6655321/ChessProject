@@ -21,6 +21,40 @@ typedef enum PieceType  {
 	King
 } PieceType;
 
+/*
+ * Player 1 is always the user. Player 2 can be the cpu or another user.
+ * this is used to determine ownership of piece and direction pawns can move.
+ * Player 1 always starts with pieces at rows 1,2
+ */
+typedef enum Player {
+    Player1,
+    Player2
+}Player;
+
+typedef struct Piece {
+    PieceType type;
+    Player player;
+} Piece;
+
+// sets all paramaters
+void initPiece(Piece *piece, PieceType type, Player player);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------
+/*
 typedef enum Color{
 	Black,
 	White
@@ -58,8 +92,7 @@ typedef struct Piece {
 // get the char representing the piece, based on color and type
 char getPieceChar(Piece *piece);
 
-// set all paramaters, including possible moves
-int initPiece(Piece *piece, PieceType type, Color color, int row, char col, Player player);
+
 
 // assumes all fields in piece were initialized before call.
 int setPossibleMoves(Piece *piece);
