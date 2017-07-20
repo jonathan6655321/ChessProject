@@ -26,10 +26,18 @@ typedef struct LegalMoves
 
 /*
  * gets <x,y> and <i,j> and moves from first to second
- * fails if piece at position x,y is not users
- * fails if illegal move request
+ * if x,y or i,j not on board returns: invalidPosition
+ * if at position x,y no users piece: returns notYourPiece
+ * if is your piece but illegal move request returns: illegalMove
+ *
  */
-int executeUserMoveCommand(char rowFrom, char colFrom, char rowTo, char colTo, GameBoard *gameBoard);
+int executeUserMoveCommand(char rowFrom, char colFrom, char rowTo, char colTo, GameBoard *gameBoard, Player currentPlayer,
+                           Piece *pieceDestinationBefore, Piece* pieceAtDestinationAfter);
+
+/*
+ * gets row, col and piece from user. and sets the piece in this location
+ */
+int executeSetPieceAt(char row, char col, Piece * piece);
 
 /*
  * sets legalMoves to hold legal moves for piece at row col
