@@ -1,0 +1,14 @@
+
+*.cmake
+*.cmake
+*.bin
+cmake-build-debug/CMakeFiles/Makefile2
+*.marks
+*.marks
+*.txt
+cmake-build-debug/Makefile
+CMakeLists.txt
+CMakeLists.txt
+cmake-build-debug/ChessProject.cbp
+cmake-build-debug/ChessProject.cbp
+*.cmake
