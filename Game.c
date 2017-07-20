@@ -31,6 +31,7 @@ HandleCommandMessage handleCommand(Command command, Game* game) {
 		return handleUndoMove(game);
 	default:
 		message.messageType = invalidCommandMessage;
+		break;
 	}
 	return message;
 }
@@ -51,8 +52,8 @@ HandleCommandMessage handleSetGameMode(Command command, Game* game) {
 HandleCommandMessage handleSetDefult(Game* game) {
 	game->gameMode = DEFAULT_GAME_MODE;
 	game->difficulty = DEFAULT_DIFFICULTY;
+	game->currentPlayer = DEFAULT_CURRENT_PLAYER;
 	game->player1Color = DEFAULT_USER_COLOR;
-    initGame(&(game->board), game->player1Color);
 
 	HandleCommandMessage message;
 	message.messageType = successMessage;
@@ -101,16 +102,67 @@ HandleCommandMessage handlePrintSettings(Game* game) {
 	return message;
 }
 HandleCommandMessage handleStartGame(Game* game) {
-	game->currentPlayer = White;
+	if (game->gameMode == PlayerVsPlayer) {
+		game->currentPlayer = Player1;
+		game->player1Color = White;
+	}
+	//TODO: if loaded don't init...
+	initGame(&(game->board), game->player1Color);
+	//TODO: if loaded don't init history.
+	initHistoryArray(&game);
+
 	HandleCommandMessage message;
 	message.messageType = successMessage;
 	return message;
 }
+void initHistoryArray(Game* game) {
+	memset(game->historyPiecesBefore, 0, sizeof(game->historyPiecesBefore));
+	memset(game->historyPiecesAfter, 0, sizeof(game->historyPiecesAfter));
+	memset(game->historyPositions, 0, sizeof(game->historyPositions));
+	memset(game->historyIsSet, 0, sizeof(game->historyIsSet));
+	game->historyIndex = 0;
+}
 HandleCommandMessage handleSetMove(Command command, Game* game) {
+	char rowFrom = command.argument[0];
+	char colFrom = command.argument[1];
+	char rowTo = command.argument[2];
+	char colTo = command.argument[3];
+	Piece pieceAtDestinationBefore;
+	Piece pieceAtDestinationAfter;
 	HandleCommandMessage message;
-	message.messageType = errorLoadMessage;
+	Response response = executeUserMoveCommand(rowFrom, colFrom, rowTo, colTo,
+			game->board, game->currentPlayer, &pieceAtDestinationBefore,
+			&pieceAtDestinationAfter);
+	switch (response) {
+	case InvalidPosition:
+		message.messageType = errorSetMovePositionsMessage;
+		break;
+	case NotYourPiece:
+		message.messageType = errorSetMoveNotYourPieceMessage;
+		break;
+	case IllegalMove:
+		message.messageType = errorIllegalMoveMessage;
+		break;
+	default:
+		message.messageType = setMoveMessage;
+		message.argument[0] = pieceAtDestinationBefore.type;
+		message.argument[1] = pieceAtDestinationAfter.type;
+		game->historyIndex++;
+		if (game->historyIndex >= MAX_HISTORY_SIZE)
+			game->historyIndex -= MAX_HISTORY_SIZE; //loop array;
+		game->historyPiecesAfter[game->historyIndex] = pieceAtDestinationAfter;
+		game->historyPiecesBefore[game->historyIndex] =
+				pieceAtDestinationBefore;
+		game->historyPositions[game->historyIndex][0] = rowFrom;
+		game->historyPositions[game->historyIndex][1] = colFrom;
+		game->historyPositions[game->historyIndex][2] = rowTo;
+		game->historyPositions[game->historyIndex][3] = colTo;
+		game->historyIsSet[game->historyIndex] = 1;
+		game->currentPlayer =
+				(game->currentPlayer == Player1) ? Player2 : Player1;
+		break;
+	}
 	return message;
-//TODO: return in arg[0] piece type
 }
 HandleCommandMessage handleGetMoves(Command command, Game* game) {
 	HandleCommandMessage message;
@@ -126,10 +178,36 @@ HandleCommandMessage handleSaveGame(Command command, Game* game) {
 }
 HandleCommandMessage handleUndoMove(Game* game) {
 	HandleCommandMessage message;
-	message.messageType = errorLoadMessage;
-//TODO: undo move.
+	if (game->gameMode == PlayerVsPlayer) {
+		message.messageType = errorUndo2PlayerModeMessage;
+	} else if (game->historyIsSet[game->historyIndex]) {
+		for (int i = 0; i < 2; i++) {
+			char row = message.argument[4 * i + 0] =
+					game->historyPositions[game->historyIndex][0];
+			char col = message.argument[4 * i + 1] =
+					game->historyPositions[game->historyIndex][1];
+			Piece* piece = &(game->historyPiecesBefore[game->historyIndex]);
+			executeSetPieceAt(row, col, piece, &(game->board));
+
+			row = message.argument[4 * i + 2] =
+					game->historyPositions[game->historyIndex][2];
+			col = message.argument[4 * i + 3] =
+					game->historyPositions[game->historyIndex][3];
+			piece = *(game->historyPiecesAfter[game->historyIndex]);
+			executeSetPieceAt(row, col, piece, &(game->board));
+
+			game->historyIsSet[game->historyIndex] = 0;
+			game->historyIndex--;
+			if (game->historyIndex < 0)
+				game->historyIndex += MAX_HISTORY_SIZE;
+		}
+		message.messageType = undoMessage;
+	} else {
+		message.messageType = errorUndoEmptyHistoryMessage;
+	}
 	return message;
 }
+
 Command getComputerMove(Game* game) {
 	Command command;
 //TODO: implement createComputerMove.

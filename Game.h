@@ -15,6 +15,7 @@
 #define DEFAULT_GAME_MODE PlayerVsComputer
 #define DEFAULT_DIFFICULTY '2'
 #define DEFAULT_USER_COLOR White
+#define DEFAULT_CURRENT_PLAYER Player1
 #define CAN_HANDLE_EXPERT_DIFFICULTY '1'
 
 //STRUCTS&ENUMS:
@@ -25,11 +26,15 @@ typedef enum {
 
 typedef struct Game {
 	GameBoard board;
-	char history[MAX_HISTORY_SIZE][10]; //TODO: implements.
+	Piece historyPiecesBefore[MAX_HISTORY_SIZE];
+	Piece historyPiecesAfter[MAX_HISTORY_SIZE];
+	char historyPositions[MAX_HISTORY_SIZE][4];
+	char historyIsSet[MAX_HISTORY_SIZE];
+	int historyIndex;
 	char difficulty;
 	Color player1Color;
 	GameMode gameMode;
-	Color currentPlayer;
+	Player currentPlayer;
 } Game;
 
 typedef enum {
@@ -85,7 +90,7 @@ typedef enum {
 
 typedef struct HandleCommandMessage {
 	HandleCommandMessageType messageType;
-	char argument[4];
+	char argument[8];
 //TODO: add what Somer will output from game
 } HandleCommandMessage;
 
@@ -107,5 +112,6 @@ HandleCommandMessage handleUndoMove(Game* game);
 
 Command getComputerMove(Game* game);
 CheckmateType getCheckmate(Game* game);
+void initHistoryArray(Game* game) ;
 
 #endif /* GAME_H_ */

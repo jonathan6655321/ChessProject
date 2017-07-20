@@ -31,7 +31,8 @@ void commandLineGameLoop() {
 			if (isUserMove(&game)) {
 				//TODO: print game board
 				printf(ASK_FOR_PLAYER_MOVE_FORMAT_STRING,
-						game.currentPlayer == White ?
+						((game.currentPlayer == Player1)
+								^ (game.player1Color == Black)) ?
 								WHITE_COLOR_SMALL_STRING :
 								BLACK_COLOR_SMALL_STRING);
 				command = getNextGameCommand();
@@ -39,7 +40,7 @@ void commandLineGameLoop() {
 				command = getComputerMove(&game);
 			}
 		}
-		
+
 		commandMessage = handleCommand(command, &game);
 		printCommandLineMessages(&game, command, commandMessage);
 		switchStateIfNeeded(command, &state);
@@ -66,11 +67,13 @@ void handlePrintSettingMessage(HandleCommandMessage message) {
 	}
 }
 
-void handlePrintUndoMessage(HandleCommandMessage message) {
-	//TODO: implement
+void handlePrintUndoMessage(Game * game, HandleCommandMessage message) {
+	Color currentPlayerColor =
+			((game.currentPlayer == Player1) ^ (game.player1Color == Black)) ?
+					BLACK_COLOR_SMALL_STRING : WHITE_COLOR_SMALL_STRING;
 }
 
-void printMove(Game* game, Command command, HandleCommandMessage message) {
+void handlePrintMove(Game* game, Command command, HandleCommandMessage message) {
 	//if game is against AI and the current player is after the AI:
 	int moveWasComputerMove = (game->gameMode == PlayerVsComputer
 			&& game->currentPlayer == game->player1Color);
@@ -81,10 +84,10 @@ void printMove(Game* game, Command command, HandleCommandMessage message) {
 	}
 
 	CheckmateType checkmateType = getCheckmate(game);
-	handleCheckmatePrinting(checkmateType, moveWasComputerMove);
+	handlePrintCheckmate(checkmateType, moveWasComputerMove);
 }
 
-void handleCheckmatePrinting(CheckmateType checkmateType,
+void handlePrintCheckmate(CheckmateType checkmateType,
 		int moveWasComputerMove) {
 	switch (checkmateType) {
 	case blackChecked:
@@ -172,7 +175,7 @@ void printCommandLineMessages(Game* game, Command command,
 		printf("%s", SET_MOVE_ILLEGAL_MOVE_ERROR_STRING);
 		break;
 	case setMoveMessage:
-		printMove(game, command, message);
+		handlePrintMove(game, command, message);
 		break;
 	case errorSaveMessage:
 		printf("%s", SAVE_SETTING_ERROR_STRING);
@@ -184,12 +187,13 @@ void printCommandLineMessages(Game* game, Command command,
 		printf("%s", UNDO_EMPTY_HISTORY_ERROR_STRING);
 		break;
 	case undoMessage:
-		handlePrintUndoMessage(message);
+		handlePrintUndoMessage(game, message);
 		break;
 	case resetMessage:
 		printf("%s", RESTARTING_STRING);
 		break;
 	default:
 		printf("%s", "something wrong happened here");
+		break;
 	}
 }
