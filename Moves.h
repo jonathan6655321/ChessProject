@@ -28,18 +28,20 @@ typedef struct LegalMoves
  * sets legalMoves to hold legal moves for piece at row col
  * fails if no piece at row col
  * fails if row col invalid
+ *
+ * MAKE SURE LEGALMOVES is 0 initialized!
  */
 int getLegalMovesForPieceAt(char row,char col,GameBoard *gameBoard,LegalMoves *legalMoves);
 
 /*
  * used in getLegalMovesForPieceAt
  */
-int getLegalMovesForPawnAt(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves);
-int getLegalMovesForBishopAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
-int getLegalMovesForRookAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
-int getLegalMovesForKnighAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
-int getLegalMovesForQueenAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
-int getLegalMovesForKingAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
+void getLegalMovesForPawnAt(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves);
+void getLegalMovesForBishopAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
+void getLegalMovesForRookAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
+void getLegalMovesForKnighAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
+void getLegalMovesForQueenAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
+void getLegalMovesForKingAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
 
 /*
  * used in Queen and bishop

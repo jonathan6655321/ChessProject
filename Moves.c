@@ -7,7 +7,11 @@
 
 
 /*
- * make sure legal moves is 0 initialized!!!
+ * sets legalMoves to hold legal moves for piece at row col
+ * fails if no piece at row col
+ * fails if row col invalid
+ *
+ * MAKE SURE LEGALMOVES is 0 initialized!
  */
 int getLegalMovesForPieceAt(char row, char col, GameBoard *gameBoard,LegalMoves *legalMoves)
 {
@@ -24,25 +28,26 @@ int getLegalMovesForPieceAt(char row, char col, GameBoard *gameBoard,LegalMoves 
 
     switch (piece.type)
     {
-        case Pawn:
-            return getLegalMovesForPawnAt(row,col,gameBoard,legalMoves);
-//        case Bishop:
-//            return getLegalMovesForBishopAt(row,col,gameBoard,legalMoves);
-//        case Rook:
-//            return getLegalMovesForRookAt(row,col,gameBoard,legalMoves);
-//        case Knight:
-//            return getLegalMovesForKnighAt(row,col,gameBoard,legalMoves);
-//        case Queen:
-//            return getLegalMovesForQueenAt(row,col,gameBoard,legalMoves);
-//        case King:
-//            return getLegalMovesForKingAt(row,col,gameBoard,legalMoves);
+        case Pawn: getLegalMovesForPawnAt(row,col,gameBoard,legalMoves);
+            break;
+        case Bishop: getLegalMovesForBishopAt(row,col,gameBoard,legalMoves);
+            break;
+        case Rook: getLegalMovesForRookAt(row,col,gameBoard,legalMoves);
+            break;
+        case Knight: getLegalMovesForKnighAt(row,col,gameBoard,legalMoves);
+            break;
+        case Queen: getLegalMovesForQueenAt(row,col,gameBoard,legalMoves);
+            break;
+//        case King: getLegalMovesForKingAt(row,col,gameBoard,legalMoves);
+//            break;
         default:
             return FAIL; // this should never happen...
     }
+    return SUCCESS;
 }
 
 
-int getLegalMovesForPawnAt(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves)
+void getLegalMovesForPawnAt(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves)
 {
     int pieceAtDestinationIndex;
     if(isPlayer1Index(getIndexOfPieceAt(row,col,gameBoard)) == SUCCESS)
@@ -95,8 +100,68 @@ int getLegalMovesForPawnAt(char row,char col,GameBoard *gameBoard, LegalMoves *l
             setMoveValid(row-1,col-1,legalMoves);
         }
     }
-    return SUCCESS;
 }
+void getLegalMovesForBishopAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves)
+{
+    setLegalMovesDiagonals(row,col,gameBoard,legalMoves);
+}
+void getLegalMovesForRookAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves)
+{
+    setLegalStraightMoves(row,col,gameBoard,legalMoves);
+}
+void getLegalMovesForQueenAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves)
+{
+    setLegalStraightMoves(row,col,gameBoard,legalMoves);
+    setLegalMovesDiagonals(row,col,gameBoard,legalMoves);
+}
+void getLegalMovesForKnighAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves)
+{
+    int knightsIndex = getIndexOfPieceAt(row,col,gameBoard);
+    if(isValidRowCol(row+2,col+1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+2,col+1,gameBoard))==FAIL)
+    {
+        setMoveValid(row+2,col+1,legalMoves);
+    }
+    if(isValidRowCol(row+2,col-1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+2,col-1,gameBoard))==FAIL)
+    {
+        setMoveValid(row+2,col-1,legalMoves);
+    }
+    if(isValidRowCol(row-2,col+1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-2,col+1,gameBoard))==FAIL)
+    {
+        setMoveValid(row-2,col+1,legalMoves);
+    }
+    if(isValidRowCol(row-2,col-1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-2,col-1,gameBoard))==FAIL)
+    {
+        setMoveValid(row-2,col-1,legalMoves);
+    }
+    if(isValidRowCol(row+1,col+2) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col+2,gameBoard))==FAIL)
+    {
+        setMoveValid(row+1,col+2,legalMoves);
+    }
+    if(isValidRowCol(row+1,col-2) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col-2,gameBoard))==FAIL)
+    {
+        setMoveValid(row+1,col-2,legalMoves);
+    }
+    if(isValidRowCol(row-1,col-2) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col-2,gameBoard))==FAIL)
+    {
+        setMoveValid(row-1,col-2,legalMoves);
+    }
+    if(isValidRowCol(row-1,col+2) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col+2,gameBoard))==FAIL)
+    {
+        setMoveValid(row-1,col+2,legalMoves);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 void setLegalMovesDiagonals(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves)
 {
