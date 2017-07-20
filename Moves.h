@@ -8,8 +8,8 @@
 #include "GameBoard.h"
 #include "consoleRendering.h"
 
-#define VALID_MOVE 1
-#define INVALID_MOVE 0
+#define LEGAL_MOVE 1
+#define ILLEGAL_MOVE 0
 
 typedef struct LegalMoves
 {
@@ -91,7 +91,7 @@ void setLegalStraightMovesDown(char row,char col,GameBoard *gameBoard, LegalMove
 /*
  * set row col to valid in legalMoves
  */
-void setMoveValid(char row, char col,LegalMoves *legalMoves);
+void setMoveLegal(char row, char col, LegalMoves *legalMoves);
 
 /*
  * prints the board with the valid moves of the piece
