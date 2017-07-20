@@ -10,6 +10,7 @@ CMakeFiles/ChessProject.dir/Moves.c.obj: ../GameBoard.h
 CMakeFiles/ChessProject.dir/Moves.c.obj: ../Moves.c
 CMakeFiles/ChessProject.dir/Moves.c.obj: ../Moves.h
 CMakeFiles/ChessProject.dir/Moves.c.obj: ../Pieces.h
+CMakeFiles/ChessProject.dir/Moves.c.obj: ../consoleRendering.h
 CMakeFiles/ChessProject.dir/Moves.c.obj: ../constants.h
 
 CMakeFiles/ChessProject.dir/Pieces.c.obj: ../Pieces.c

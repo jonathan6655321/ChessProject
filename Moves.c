@@ -34,12 +34,12 @@ int getLegalMovesForPieceAt(char row, char col, GameBoard *gameBoard,LegalMoves 
             break;
         case Rook: getLegalMovesForRookAt(row,col,gameBoard,legalMoves);
             break;
-        case Knight: getLegalMovesForKnighAt(row,col,gameBoard,legalMoves);
+        case Knight: getLegalMovesForKnightAt(row, col, gameBoard, legalMoves);
             break;
         case Queen: getLegalMovesForQueenAt(row,col,gameBoard,legalMoves);
             break;
-//        case King: getLegalMovesForKingAt(row,col,gameBoard,legalMoves);
-//            break;
+        case King: getLegalMovesForKingAt(row,col,gameBoard,legalMoves);
+            break;
         default:
             return FAIL; // this should never happen...
     }
@@ -114,7 +114,7 @@ void getLegalMovesForQueenAt(char row, char col, GameBoard *gameBoard, LegalMove
     setLegalStraightMoves(row,col,gameBoard,legalMoves);
     setLegalMovesDiagonals(row,col,gameBoard,legalMoves);
 }
-void getLegalMovesForKnighAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves)
+void getLegalMovesForKnightAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves)
 {
     int knightsIndex = getIndexOfPieceAt(row,col,gameBoard);
     if(isValidRowCol(row+2,col+1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+2,col+1,gameBoard))==FAIL)
@@ -148,6 +148,42 @@ void getLegalMovesForKnighAt(char row, char col, GameBoard *gameBoard, LegalMove
     if(isValidRowCol(row-1,col+2) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col+2,gameBoard))==FAIL)
     {
         setMoveValid(row-1,col+2,legalMoves);
+    }
+}
+void getLegalMovesForKingAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves)
+{
+    int knightsIndex = getIndexOfPieceAt(row,col,gameBoard);
+    if(isValidRowCol(row+1,col) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col,gameBoard))==FAIL)
+    {
+        setMoveValid(row+1,col,legalMoves);
+    }
+    if(isValidRowCol(row-1,col) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col,gameBoard))==FAIL)
+    {
+        setMoveValid(row-1,col,legalMoves);
+    }
+    if(isValidRowCol(row,col+1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row,col+1,gameBoard))==FAIL)
+    {
+        setMoveValid(row,col+1,legalMoves);
+    }
+    if(isValidRowCol(row,col-1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row,col-1,gameBoard))==FAIL)
+    {
+        setMoveValid(row,col-1,legalMoves);
+    }
+    if(isValidRowCol(row+1,col+1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col+1,gameBoard))==FAIL)
+    {
+        setMoveValid(row+1,col+1,legalMoves);
+    }
+    if(isValidRowCol(row+1,col-1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col-1,gameBoard))==FAIL)
+    {
+        setMoveValid(row+1,col-1,legalMoves);
+    }
+    if(isValidRowCol(row-1,col-1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col-1,gameBoard))==FAIL)
+    {
+        setMoveValid(row-1,col-1,legalMoves);
+    }
+    if(isValidRowCol(row-1,col+1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col+1,gameBoard))==FAIL)
+    {
+        setMoveValid(row-1,col+1,legalMoves);
     }
 }
 
@@ -396,4 +432,23 @@ void printLegalMoves(LegalMoves *legalMoves)
     }
     printf("  -----------------\n");
     printf("   A B C D E F G H\n");
+}
+
+/*
+ * for testing..
+ */
+void printLegalMovesForAllPieces(GameBoard *gameBoard)
+{
+    for (char row = '8'; row >='1' ; --row)
+    {
+        for (char col = 'A'; col <= 'H'; ++col)
+        {
+            printf("The moves for piece at %c%c are: \n", row, col);
+            LegalMoves legalMoves = {0};
+            getLegalMovesForPieceAt(row,col,gameBoard,&legalMoves);
+            printLegalMoves(&legalMoves);
+            printBoard(gameBoard,White);
+            printf("\n---------------\n");
+        }
+    }
 }
