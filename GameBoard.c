@@ -8,6 +8,13 @@
 #include "Pieces.h"
 #define PLAYER_1_QUEEN_INDEX 3
 #define PLAYER_1_KING_INDEX 4
+//#define PLAYER_1_BISHOP_1 2
+//#define PLAYER_1_BISHOP_2 5
+//#define PLAYER_1_ROOK_1 2
+//#define PLAYER_1_ROOK_2 2
+//#define PLAYER_1_KNIGHT_1 2
+//#define PLAYER_1_BISHOP_1 2
+
 #define PLAYER_2_QUEEN_INDEX 27
 #define PLAYER_2_KING_INDEX 28
 
@@ -75,6 +82,139 @@ PieceType getTypeFromIndex(int i)
         {
             return Bishop;
         }
+    }
+}
+
+/*
+ * used for undo, assumes piece is not on the board now.
+ * fails player has max amount of this kind of piece.
+ */
+int getPieceIndexFromPiece(GameBoard *gameBoard, Piece *piece)
+{
+    PieceType type = piece->type;
+    Player piecePlayer = piece->player;
+    switch (type)
+    {
+        case Pawn:
+            if (piecePlayer == Player1)
+            {
+                for (int i=8; i<=15; i++)
+                {
+                    if(getLocationOfPieceIndex(gameBoard,i) == NOT_IN_GAME)
+                    {
+                        return i;
+                    }
+                }
+            }
+            else
+            {
+                for (int i=16; i<=23; i++)
+                {
+                    if(getLocationOfPieceIndex(gameBoard,i) == NOT_IN_GAME)
+                    {
+                        return i;
+                    }
+                }
+            }
+            break;
+        case Bishop: // 2,5
+            if (piecePlayer == Player1)
+            {
+                if (getLocationOfPieceIndex(gameBoard,2) == NOT_IN_GAME)
+                {
+                    return 2;
+                }
+                if (getLocationOfPieceIndex(gameBoard,5) == NOT_IN_GAME)
+                {
+                    return 5;
+                }
+            }
+            else
+            {
+                if (getLocationOfPieceIndex(gameBoard,26) == NOT_IN_GAME)
+                {
+                    return 26;
+                }
+                if (getLocationOfPieceIndex(gameBoard,29) == NOT_IN_GAME)
+                {
+                    return 29;
+                }
+            }
+            break;
+        case Rook:
+            if (piecePlayer == Player1)
+            {
+                if (getLocationOfPieceIndex(gameBoard,0) == NOT_IN_GAME)
+                {
+                    return 0;
+                }
+                if (getLocationOfPieceIndex(gameBoard,7) == NOT_IN_GAME)
+                {
+                    return 7;
+                }
+            }
+            else
+            {
+                if (getLocationOfPieceIndex(gameBoard,24) == NOT_IN_GAME)
+                {
+                    return 24;
+                }
+                if (getLocationOfPieceIndex(gameBoard,31) == NOT_IN_GAME)
+                {
+                    return 31;
+                }
+            }
+            break;
+        case Knight:
+            if (piecePlayer == Player1)
+            {
+                if (getLocationOfPieceIndex(gameBoard,1) == NOT_IN_GAME)
+                {
+                    return 1;
+                }
+                if (getLocationOfPieceIndex(gameBoard,6) == NOT_IN_GAME)
+                {
+                    return 6;
+                }
+            }
+            else
+            {
+                if (getLocationOfPieceIndex(gameBoard,25) == NOT_IN_GAME)
+                {
+                    return 25;
+                }
+                if (getLocationOfPieceIndex(gameBoard,30) == NOT_IN_GAME)
+                {
+                    return 30;
+                }
+            }
+            break;
+        case Queen:
+            if (piecePlayer == Player1)
+            {
+                if (getLocationOfPieceIndex(gameBoard,3) == NOT_IN_GAME)
+                {
+                    return 3;
+                }
+                if (getLocationOfPieceIndex(gameBoard,4) == NOT_IN_GAME)
+                {
+                    return 4;
+                }
+            }
+            else
+            {
+                if (getLocationOfPieceIndex(gameBoard,27) == NOT_IN_GAME)
+                {
+                    return 27;
+                }
+                if (getLocationOfPieceIndex(gameBoard,28) == NOT_IN_GAME)
+                {
+                    return 28;
+                }
+            }
+            break;
+        default:
+            return -1; // this should never happen...
     }
 }
 
@@ -259,4 +399,13 @@ int isSamePlayerPiece(int piece1Index, int piece2Index)
     }
     else
         return FAIL;
+}
+
+/*
+ * returns current location of pieceIndex
+ * returns NOT_IN_GAME if was eaten at any point
+ */
+int getLocationOfPieceIndex(GameBoard *gameBoard, int pieceIndex)
+{
+    return gameBoard->mapPieceIndexToLocationOnBoard[pieceIndex];
 }

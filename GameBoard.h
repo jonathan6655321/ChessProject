@@ -103,4 +103,17 @@ int isPlayer1Index(int i);
  *
  */
 int isSamePlayerPiece(int piece1Index, int piece2Index);
+
+/*
+ * returns current location of pieceIndex
+ * returns NOT_IN_GAME if was eaten at any point
+ */
+int getLocationOfPieceIndex(GameBoard *gameBoard, int pieceIndex);
+
+/*
+ * used for undo, assumes piece is not on the board now.
+ * fails player has max amount of this kind of piece.
+ */
+int getPieceIndexFromPiece(GameBoard *gameBoard, Piece *piece);
+
 #endif //CHESSPROJECT_GAMEBOARD_H

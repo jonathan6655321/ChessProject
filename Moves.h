@@ -24,6 +24,16 @@ typedef struct LegalMoves
     int legalMovesArray[BOARD_SIZE];
 }LegalMoves;
 
+
+typedef enum Response {
+    InvalidPosition,
+    NotYourPiece,
+    IllegalMove,
+    AteOpponentsPiece,
+    MadeMove
+}Response;
+
+
 /*
  * gets <x,y> and <i,j> and moves from first to second
  * if x,y or i,j not on board returns: invalidPosition
@@ -31,13 +41,13 @@ typedef struct LegalMoves
  * if is your piece but illegal move request returns: illegalMove
  *
  */
-int executeUserMoveCommand(char rowFrom, char colFrom, char rowTo, char colTo, GameBoard *gameBoard, Player currentPlayer,
-                           Piece *pieceDestinationBefore, Piece* pieceAtDestinationAfter);
+Response executeUserMoveCommand(char rowFrom, char colFrom, char rowTo, char colTo, GameBoard *gameBoard, Player currentPlayer,
+                                Piece *pieceDestinationBefore, Piece* pieceAtDestinationAfter);
 
 /*
  * gets row, col and piece from user. and sets the piece in this location
  */
-int executeSetPieceAt(char row, char col, Piece * piece);
+int executeSetPieceAt(char row, char col, Piece * piece, GameBoard *gameBoard);
 
 /*
  * gets x,y and currentPlayer

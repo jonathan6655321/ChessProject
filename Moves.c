@@ -5,13 +5,6 @@
 
 #include "Moves.h"
 
-typedef enum Response {
-    InvalidPosition,
-    NotYourPiece,
-    IllegalMove,
-    AteOpponentsPiece,
-    MadeMove
-}Response;
 
 /*
  * gets <x,y> and <i,j> and moves from first to second
@@ -64,19 +57,17 @@ Response executeUserMoveCommand(char rowFrom, char colFrom, char rowTo, char col
  * gets row, col and piece from user. and sets the piece in this location.
  * Assumes the piece is not in the game!
  */
-int executeSetPieceAt(char row, char col, Piece * piece)
+int executeSetPieceAt(char row, char col, Piece * piece, GameBoard *gameBoard)
 {
-    
+    int pieceIndex = getPieceIndexFromPiece(gameBoard,piece);
+    if (pieceIndex >= 0)
+    {
+        setPieceAt(row,col,gameBoard,pieceIndex);
+        return SUCCESS;
+    }
+    else
+        return FAIL;
 }
-
-
-
-
-
-
-
-
-
 
 
 
