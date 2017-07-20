@@ -8,20 +8,22 @@
 #include "CommandLineGame.h"
 
 //create a empty game board
-static const GameBoard EmptyBoard;
+static const Game EmptyGame;
 
 void commandLineGameLoop() {
 	commandLineState state = settingCommandState;
-	Game game;
-	setGameDefultValue(&game);
+	Game game = EmptyGame;
 	Command command;
-	HandleCommandMessage message;
+	HandleCommandMessage commandMessage;
 
+	setGameDefultValue(&game);
 	command.commandType = resetGame;
+
 	while (command.commandType != quitGame && state != gameEndedCommandState) {
 		if (state == settingCommandState) {
 			if (command.commandType == resetGame) {
-				game.board = EmptyBoard;
+				game = EmptyGame;
+				setGameDefultValue(&game);
 				printf("%s", SETTING_STATE_FIRST_MESSAGE);
 			}
 			command = getNextSettingCommand();
@@ -29,16 +31,17 @@ void commandLineGameLoop() {
 			if (isUserMove(&game)) {
 				//TODO: print game board
 				printf(ASK_FOR_PLAYER_MOVE_FORMAT_STRING,
-						game.currentPlayer == WhiteColor ?
+						game.currentPlayer == White ?
 								WHITE_COLOR_SMALL_STRING :
 								BLACK_COLOR_SMALL_STRING);
 				command = getNextGameCommand();
-			} else {
+			} else { //Computer Move
 				command = getComputerMove(&game);
 			}
 		}
-		message = handleCommand(command, &game);
-		handleCommandLineMessages(&game, command, message);
+		
+		commandMessage = handleCommand(command, &game);
+		printCommandLineMessages(&game, command, commandMessage);
 		switchStateIfNeeded(command, &state);
 		handleCheckmates(&game, &state);
 	}
@@ -56,7 +59,7 @@ int isUserMove(Game* game) {
 void handlePrintSettingMessage(HandleCommandMessage message) {
 	if (message.argument[0] == PlayerVsComputer) {
 		printf(PRINT_SETTING_FORMAT_IN_GAME_MODE_1_STRING, message.argument[1],
-				message.argument[2] == WhiteColor ?
+				message.argument[2] == White ?
 						WHITE_COLOR_STRING : BLACK_COLOR_STRING);
 	} else {
 		printf("%s", PRINT_SETTING_FORMAT_IN_GAME_MODE_2_STRING);
@@ -136,7 +139,7 @@ void setGameDefultValue(Game* game) {
 	handleCommand(command, game);
 }
 
-void handleCommandLineMessages(Game* game, Command command,
+void printCommandLineMessages(Game* game, Command command,
 		HandleCommandMessage message) {
 	switch (message.messageType) {
 	case successMessage:

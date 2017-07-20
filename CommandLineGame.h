@@ -18,7 +18,7 @@ typedef enum {
 
 void commandLineGameLoop();
 int isUserMove(Game* game);
-void handleCommandLineMessages(Game* game, Command command,
+void printCommandLineMessages(Game* game, Command command,
 		HandleCommandMessage message);
 void switchStateIfNeeded(Command command, commandLineState* state);
 void setGameDefultValue(Game* game);

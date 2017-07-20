@@ -14,7 +14,7 @@
 #define MAX_COMMAND_LENGTH 1024
 #define DEFAULT_GAME_MODE PlayerVsComputer
 #define DEFAULT_DIFFICULTY '2'
-#define DEFAULT_USER_COLOR WhiteColor
+#define DEFAULT_USER_COLOR White
 #define CAN_HANDLE_EXPERT_DIFFICULTY '1'
 
 //STRUCTS&ENUMS:
@@ -22,19 +22,14 @@ typedef enum {
 	PlayerVsComputer = '1', PlayerVsPlayer = '2'
 } GameMode;
 
-typedef enum ColorType{
-	BlackColor = '0',
-	WhiteColor = '1'
-}ColorType;
-
 
 typedef struct Game {
 	GameBoard board;
 	char history[MAX_HISTORY_SIZE][10]; //TODO: implements.
 	char difficulty;
-	ColorType player1Color;
+	Color player1Color;
 	GameMode gameMode;
-	ColorType currentPlayer;
+	Color currentPlayer;
 } Game;
 
 typedef enum {

@@ -39,8 +39,8 @@ Player getPlayerFromIndex(int i); // used in above^
 PieceType getTypeFromIndex(int i); // used in above^^
 
 typedef enum Color{
-    Black,
-    White
+    Black = '0',
+    White = '1'
 }Color;
 
 /*

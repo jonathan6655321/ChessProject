@@ -37,15 +37,12 @@ HandleCommandMessage handleCommand(Command command, Game* game) {
 
 HandleCommandMessage handleSetGameMode(Command command, Game* game) {
 	HandleCommandMessage message;
-	if (command.numberOfArgs == 1) {
-		char gameModeChar = command.stringArgument[0];
-		message.argument[0] = gameModeChar;
-		if ('1' <= gameModeChar && gameModeChar <= '2') {
-			message.messageType = setGameModeMessage;
-			game->gameMode = gameModeChar;
-		} else {
-			message.messageType = errorSetGameModeMessage;
-		}
+	char gameModeChar = command.stringArgument[0];
+	message.argument[0] = gameModeChar;
+	if (command.numberOfArgs == 1 && '1' <= gameModeChar
+			&& gameModeChar <= '2') {
+		message.messageType = setGameModeMessage;
+		game->gameMode = gameModeChar;
 	} else {
 		message.messageType = errorSetGameModeMessage;
 	}
@@ -55,6 +52,7 @@ HandleCommandMessage handleSetDefult(Game* game) {
 	game->gameMode = DEFAULT_GAME_MODE;
 	game->difficulty = DEFAULT_DIFFICULTY;
 	game->player1Color = DEFAULT_USER_COLOR;
+    initGame(&(game->board), game->player1Color);
 
 	HandleCommandMessage message;
 	message.messageType = successMessage;
