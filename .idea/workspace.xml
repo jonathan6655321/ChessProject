@@ -47,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GameBoard.c" pinned="false" current-in-tab="false">
+      <file leaf-file-name="GameBoard.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/GameBoard.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="482">
-              <caret line="164" column="1" lean-forward="true" selection-start-line="164" selection-start-column="1" selection-end-line="164" selection-end-column="1" />
+            <state relative-caret-position="4275">
+              <caret line="171" column="55" lean-forward="true" selection-start-line="171" selection-start-column="55" selection-end-line="171" selection-end-column="55" />
               <folding>
                 <element signature="e#45#64#0" expanded="true" />
               </folding>
@@ -62,8 +62,8 @@
       <file leaf-file-name="GameBoard.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GameBoard.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="76" column="86" lean-forward="false" selection-start-line="76" selection-start-column="14" selection-end-line="76" selection-end-column="86" />
+            <state relative-caret-position="185">
+              <caret line="69" column="4" lean-forward="false" selection-start-line="69" selection-start-column="4" selection-end-line="69" selection-end-column="4" />
               <folding>
                 <element signature="e#111#129#0" expanded="true" />
               </folding>
@@ -84,15 +84,13 @@
       <file leaf-file-name="Moves.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Moves.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
-              <caret line="444" column="9" lean-forward="true" selection-start-line="444" selection-start-column="9" selection-end-line="444" selection-end-column="9" />
+            <state relative-caret-position="92">
+              <caret line="118" column="0" lean-forward="false" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
               <folding>
                 <element signature="e#0#2#0" expanded="false" />
                 <element signature="e#1209#3174#0" expanded="false" />
                 <element signature="e#3175#3332#0" expanded="false" />
-                <element signature="e#3333#3487#0" expanded="false" />
                 <element signature="e#3488#3701#0" expanded="false" />
-                <element signature="e#3702#5262#0" expanded="false" />
                 <element signature="e#5263#6797#0" expanded="false" />
                 <element signature="e#6811#7128#0" expanded="false" />
                 <element signature="e#7130#7776#0" expanded="false" />
@@ -100,9 +98,7 @@
                 <element signature="e#8423#9071#0" expanded="false" />
                 <element signature="e#9072#9719#0" expanded="false" />
                 <element signature="e#9721#9753#0" expanded="false" />
-                <element signature="e#9721#10099#0" expanded="false" />
                 <element signature="e#10100#10746#0" expanded="false" />
-                <element signature="e#10747#11392#0" expanded="false" />
                 <element signature="e#11394#12035#0" expanded="false" />
                 <element signature="e#12036#12680#0" expanded="false" />
                 <element signature="e#12684#12826#0" expanded="false" />
@@ -112,11 +108,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Moves.h" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Moves.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Moves.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="29" column="32" lean-forward="false" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="32" />
+            <state relative-caret-position="375">
+              <caret line="30" column="3" lean-forward="true" selection-start-line="30" selection-start-column="3" selection-end-line="30" selection-end-column="3" />
               <folding>
                 <element signature="e#103#125#0" expanded="true" />
               </folding>
@@ -176,10 +172,10 @@
         <option value="$PROJECT_DIR$/Pieces.h" />
         <option value="$PROJECT_DIR$/consoleRendering.c" />
         <option value="$PROJECT_DIR$/GameBoard.h" />
-        <option value="$PROJECT_DIR$/GameBoard.c" />
         <option value="$PROJECT_DIR$/main.c" />
         <option value="$PROJECT_DIR$/Moves.c" />
         <option value="$PROJECT_DIR$/Moves.h" />
+        <option value="$PROJECT_DIR$/GameBoard.c" />
       </list>
     </option>
   </component>
@@ -455,12 +451,12 @@
       <updated>1500327574997</updated>
       <workItem from="1500327576499" duration="13068000" />
       <workItem from="1500389749334" duration="687000" />
-      <workItem from="1500455548491" duration="37261000" />
+      <workItem from="1500455548491" duration="38043000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51016000" />
+    <option name="totallyTimeSpent" value="51798000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
@@ -470,13 +466,13 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38356164" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33789954" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.04109589" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980227" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1703125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32305935" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16552511" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.06278539" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -501,8 +497,23 @@
           <line>159</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/Moves.c</url>
+          <line>445</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/Moves.c</url>
+          <line>28</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/Moves.c</url>
+          <line>117</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="5" />
+      <option name="time" value="9" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -703,45 +714,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GameBoard.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="482">
-          <caret line="164" column="1" lean-forward="true" selection-start-line="164" selection-start-column="1" selection-end-line="164" selection-end-column="1" />
-          <folding>
-            <element signature="e#45#64#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Moves.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="444" column="9" lean-forward="true" selection-start-line="444" selection-start-column="9" selection-end-line="444" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#2#0" expanded="false" />
-            <element signature="e#1209#3174#0" expanded="false" />
-            <element signature="e#3175#3332#0" expanded="false" />
-            <element signature="e#3333#3487#0" expanded="false" />
-            <element signature="e#3488#3701#0" expanded="false" />
-            <element signature="e#3702#5262#0" expanded="false" />
-            <element signature="e#5263#6797#0" expanded="false" />
-            <element signature="e#6811#7128#0" expanded="false" />
-            <element signature="e#7130#7776#0" expanded="false" />
-            <element signature="e#7777#8422#0" expanded="false" />
-            <element signature="e#8423#9071#0" expanded="false" />
-            <element signature="e#9072#9719#0" expanded="false" />
-            <element signature="e#9721#9753#0" expanded="false" />
-            <element signature="e#9721#10099#0" expanded="false" />
-            <element signature="e#10100#10746#0" expanded="false" />
-            <element signature="e#10747#11392#0" expanded="false" />
-            <element signature="e#11394#12035#0" expanded="false" />
-            <element signature="e#12036#12680#0" expanded="false" />
-            <element signature="e#12684#12826#0" expanded="false" />
-            <element signature="e#12829#13351#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/consoleRendering.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -750,22 +722,57 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Moves.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="30" column="3" lean-forward="true" selection-start-line="30" selection-start-column="3" selection-end-line="30" selection-end-column="3" />
+          <folding>
+            <element signature="e#103#125#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/GameBoard.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="76" column="86" lean-forward="false" selection-start-line="76" selection-start-column="14" selection-end-line="76" selection-end-column="86" />
+        <state relative-caret-position="185">
+          <caret line="69" column="4" lean-forward="false" selection-start-line="69" selection-start-column="4" selection-end-line="69" selection-end-column="4" />
           <folding>
             <element signature="e#111#129#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Moves.h">
+    <entry file="file://$PROJECT_DIR$/Moves.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="29" column="32" lean-forward="false" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="32" />
+        <state relative-caret-position="92">
+          <caret line="118" column="0" lean-forward="false" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
           <folding>
-            <element signature="e#103#125#0" expanded="true" />
+            <element signature="e#0#2#0" expanded="false" />
+            <element signature="e#1209#3174#0" expanded="false" />
+            <element signature="e#3175#3332#0" expanded="false" />
+            <element signature="e#3488#3701#0" expanded="false" />
+            <element signature="e#5263#6797#0" expanded="false" />
+            <element signature="e#6811#7128#0" expanded="false" />
+            <element signature="e#7130#7776#0" expanded="false" />
+            <element signature="e#7777#8422#0" expanded="false" />
+            <element signature="e#8423#9071#0" expanded="false" />
+            <element signature="e#9072#9719#0" expanded="false" />
+            <element signature="e#9721#9753#0" expanded="false" />
+            <element signature="e#10100#10746#0" expanded="false" />
+            <element signature="e#11394#12035#0" expanded="false" />
+            <element signature="e#12036#12680#0" expanded="false" />
+            <element signature="e#12684#12826#0" expanded="false" />
+            <element signature="e#12829#13351#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GameBoard.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4275">
+          <caret line="171" column="55" lean-forward="true" selection-start-line="171" selection-start-column="55" selection-end-line="171" selection-end-column="55" />
+          <folding>
+            <element signature="e#45#64#0" expanded="true" />
           </folding>
         </state>
       </provider>

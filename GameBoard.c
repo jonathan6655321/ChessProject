@@ -157,7 +157,7 @@ int isValidRowCol(char row, char col)
 {
     if (row < '1' || row > '8' || col < 'A' || col > 'H')
     {
-        printf("Invalid row, col\n");
+//        printf("Invalid row, col\n");
         return FAIL;
     }
     else
