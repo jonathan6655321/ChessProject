@@ -4,11 +4,14 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "C:/Development/C/TheBigProject/ChessProject/GameBoard.c" "C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir/GameBoard.c.obj"
-  "C:/Development/C/TheBigProject/ChessProject/Moves.c" "C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir/Moves.c.obj"
-  "C:/Development/C/TheBigProject/ChessProject/Pieces.c" "C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir/Pieces.c.obj"
-  "C:/Development/C/TheBigProject/ChessProject/consoleRendering.c" "C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir/consoleRendering.c.obj"
-  "C:/Development/C/TheBigProject/ChessProject/main.c" "C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir/main.c.obj"
+  "F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/CommandLineGame.c" "F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir/CommandLineGame.c.obj"
+  "F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/Game.c" "F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir/Game.c.obj"
+  "F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/GameBoard.c" "F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir/GameBoard.c.obj"
+  "F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/Moves.c" "F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir/Moves.c.obj"
+  "F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/Parser.c" "F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir/Parser.c.obj"
+  "F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/Pieces.c" "F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir/Pieces.c.obj"
+  "F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/consoleRendering.c" "F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir/consoleRendering.c.obj"
+  "F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/main.c" "F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir/main.c.obj"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

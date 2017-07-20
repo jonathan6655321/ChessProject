@@ -1,4 +1,4 @@
-# Install script for directory: C:/Development/C/TheBigProject/ChessProject
+# Install script for directory: F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -35,5 +35,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

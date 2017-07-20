@@ -1,10 +1,25 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.8)
 project(ChessProject)
 
 set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES
+        CommandLineGame.c
+        CommandLineGame.h
+        consoleRendering.c
+        consoleRendering.h
+        constants.h
+        Game.c
+        Game.h
+        GameBoard.c
+        GameBoard.h
+        main.c
+        Messages.h
+        Moves.c
+        Moves.h
+        Parser.c
+        Parser.h
         Pieces.c
-        Pieces.h GameBoard.c GameBoard.h main.c constants.h consoleRendering.h consoleRendering.c Moves.c Moves.h)
+        Pieces.h)
 
 add_executable(ChessProject ${SOURCE_FILES})

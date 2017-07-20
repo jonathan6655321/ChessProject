@@ -8,18 +8,18 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="C:/Development/C/TheBigProject/ChessProject/cmake-build-debug"/>
+				<Option working_dir="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ChessProject">
-				<Option output="C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/ChessProject.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Development/C/TheBigProject/ChessProject/cmake-build-debug"/>
+				<Option output="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/ChessProject.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -33,15 +33,15 @@
 					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/5.1.0/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 ChessProject"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 ChessProject"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="ChessProject/fast">
-				<Option output="C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/ChessProject.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="C:/Development/C/TheBigProject/ChessProject/cmake-build-debug"/>
+				<Option output="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/ChessProject.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -55,64 +55,85 @@
 					<Add directory="C:/MinGW/bin/../lib/gcc/x86_64-w64-mingw32/5.1.0/../../../../x86_64-w64-mingw32/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 ChessProject/fast"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 ChessProject/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="C:/Development/C/TheBigProject/ChessProject/cmake-build-debug"/>
+				<Option working_dir="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="C:/Development/C/TheBigProject/ChessProject/cmake-build-debug"/>
+				<Option working_dir="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Development/C/TheBigProject/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Development/C/TheBigProject/ChessProject/GameBoard.c">
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/CommandLineGame.c">
 			<Option target="ChessProject"/>
 		</Unit>
-		<Unit filename="C:/Development/C/TheBigProject/ChessProject/GameBoard.h">
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/CommandLineGame.h">
 			<Option target="ChessProject"/>
 		</Unit>
-		<Unit filename="C:/Development/C/TheBigProject/ChessProject/Moves.c">
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/Game.c">
 			<Option target="ChessProject"/>
 		</Unit>
-		<Unit filename="C:/Development/C/TheBigProject/ChessProject/Moves.h">
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/Game.h">
 			<Option target="ChessProject"/>
 		</Unit>
-		<Unit filename="C:/Development/C/TheBigProject/ChessProject/Pieces.c">
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/GameBoard.c">
 			<Option target="ChessProject"/>
 		</Unit>
-		<Unit filename="C:/Development/C/TheBigProject/ChessProject/Pieces.h">
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/GameBoard.h">
 			<Option target="ChessProject"/>
 		</Unit>
-		<Unit filename="C:/Development/C/TheBigProject/ChessProject/consoleRendering.c">
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/Messages.h">
 			<Option target="ChessProject"/>
 		</Unit>
-		<Unit filename="C:/Development/C/TheBigProject/ChessProject/consoleRendering.h">
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/Moves.c">
 			<Option target="ChessProject"/>
 		</Unit>
-		<Unit filename="C:/Development/C/TheBigProject/ChessProject/constants.h">
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/Moves.h">
 			<Option target="ChessProject"/>
 		</Unit>
-		<Unit filename="C:/Development/C/TheBigProject/ChessProject/main.c">
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/Parser.c">
 			<Option target="ChessProject"/>
 		</Unit>
-		<Unit filename="C:/Development/C/TheBigProject/ChessProject/CMakeLists.txt">
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/Parser.h">
+			<Option target="ChessProject"/>
+		</Unit>
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/Pieces.c">
+			<Option target="ChessProject"/>
+		</Unit>
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/Pieces.h">
+			<Option target="ChessProject"/>
+		</Unit>
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/consoleRendering.c">
+			<Option target="ChessProject"/>
+		</Unit>
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/consoleRendering.h">
+			<Option target="ChessProject"/>
+		</Unit>
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/constants.h">
+			<Option target="ChessProject"/>
+		</Unit>
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/main.c">
+			<Option target="ChessProject"/>
+		</Unit>
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>
