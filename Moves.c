@@ -117,35 +117,35 @@ void getLegalMovesForQueenAt(char row, char col, GameBoard *gameBoard, LegalMove
 void getLegalMovesForKnightAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves)
 {
     int knightsIndex = getIndexOfPieceAt(row,col,gameBoard);
-    if(isValidRowCol(row+2,col+1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+2,col+1,gameBoard))==FAIL)
+    if(isValidRowCol(row+2,col+1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+2,col+1,gameBoard))==FAIL)
     {
         setMoveValid(row+2,col+1,legalMoves);
     }
-    if(isValidRowCol(row+2,col-1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+2,col-1,gameBoard))==FAIL)
+    if(isValidRowCol(row+2,col-1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+2,col-1,gameBoard))==FAIL)
     {
         setMoveValid(row+2,col-1,legalMoves);
     }
-    if(isValidRowCol(row-2,col+1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-2,col+1,gameBoard))==FAIL)
+    if(isValidRowCol(row-2,col+1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-2,col+1,gameBoard))==FAIL)
     {
         setMoveValid(row-2,col+1,legalMoves);
     }
-    if(isValidRowCol(row-2,col-1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-2,col-1,gameBoard))==FAIL)
+    if(isValidRowCol(row-2,col-1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-2,col-1,gameBoard))==FAIL)
     {
         setMoveValid(row-2,col-1,legalMoves);
     }
-    if(isValidRowCol(row+1,col+2) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col+2,gameBoard))==FAIL)
+    if(isValidRowCol(row+1,col+2) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col+2,gameBoard))==FAIL)
     {
         setMoveValid(row+1,col+2,legalMoves);
     }
-    if(isValidRowCol(row+1,col-2) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col-2,gameBoard))==FAIL)
+    if(isValidRowCol(row+1,col-2) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col-2,gameBoard))==FAIL)
     {
         setMoveValid(row+1,col-2,legalMoves);
     }
-    if(isValidRowCol(row-1,col-2) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col-2,gameBoard))==FAIL)
+    if(isValidRowCol(row-1,col-2) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col-2,gameBoard))==FAIL)
     {
         setMoveValid(row-1,col-2,legalMoves);
     }
-    if(isValidRowCol(row-1,col+2) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col+2,gameBoard))==FAIL)
+    if(isValidRowCol(row-1,col+2) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col+2,gameBoard))==FAIL)
     {
         setMoveValid(row-1,col+2,legalMoves);
     }
@@ -153,35 +153,35 @@ void getLegalMovesForKnightAt(char row, char col, GameBoard *gameBoard, LegalMov
 void getLegalMovesForKingAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves)
 {
     int knightsIndex = getIndexOfPieceAt(row,col,gameBoard);
-    if(isValidRowCol(row+1,col) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col,gameBoard))==FAIL)
+    if(isValidRowCol(row+1,col) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col,gameBoard))==FAIL)
     {
         setMoveValid(row+1,col,legalMoves);
     }
-    if(isValidRowCol(row-1,col) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col,gameBoard))==FAIL)
+    if(isValidRowCol(row-1,col) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col,gameBoard))==FAIL)
     {
         setMoveValid(row-1,col,legalMoves);
     }
-    if(isValidRowCol(row,col+1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row,col+1,gameBoard))==FAIL)
+    if(isValidRowCol(row,col+1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row,col+1,gameBoard))==FAIL)
     {
         setMoveValid(row,col+1,legalMoves);
     }
-    if(isValidRowCol(row,col-1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row,col-1,gameBoard))==FAIL)
+    if(isValidRowCol(row,col-1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row,col-1,gameBoard))==FAIL)
     {
         setMoveValid(row,col-1,legalMoves);
     }
-    if(isValidRowCol(row+1,col+1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col+1,gameBoard))==FAIL)
+    if(isValidRowCol(row+1,col+1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col+1,gameBoard))==FAIL)
     {
         setMoveValid(row+1,col+1,legalMoves);
     }
-    if(isValidRowCol(row+1,col-1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col-1,gameBoard))==FAIL)
+    if(isValidRowCol(row+1,col-1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col-1,gameBoard))==FAIL)
     {
         setMoveValid(row+1,col-1,legalMoves);
     }
-    if(isValidRowCol(row-1,col-1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col-1,gameBoard))==FAIL)
+    if(isValidRowCol(row-1,col-1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col-1,gameBoard))==FAIL)
     {
         setMoveValid(row-1,col-1,legalMoves);
     }
-    if(isValidRowCol(row-1,col+1) && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col+1,gameBoard))==FAIL)
+    if(isValidRowCol(row-1,col+1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col+1,gameBoard))==FAIL)
     {
         setMoveValid(row-1,col+1,legalMoves);
     }

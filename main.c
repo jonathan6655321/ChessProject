@@ -17,6 +17,15 @@ int main( int argc, char **argv )
     movePiece('1','A', '4','E', &gameBoard);
     printBoard(&gameBoard,White);
 
+    printf("\n\n");
+    movePiece('8','B', '6','C', &gameBoard);
+    printBoard(&gameBoard,White);
+
+    printf("\n\n");
+    movePiece('8','C', '3','C', &gameBoard);
+    printBoard(&gameBoard,White);
+
+
     printLegalMovesForAllPieces(&gameBoard);
 
 

@@ -40,6 +40,18 @@ int executeUserMoveCommand(char rowFrom, char colFrom, char rowTo, char colTo, G
 int executeSetPieceAt(char row, char col, Piece * piece);
 
 /*
+ * gets x,y and currentPlayer
+ * if invalid x,y returns: invalidPosition
+ * if at position x,y no users piece: returns notYourPiece
+ *
+ * else:
+ */
+int executeGetMoves();
+
+
+
+
+/*
  * sets legalMoves to hold legal moves for piece at row col
  * fails if no piece at row col
  * fails if row col invalid
