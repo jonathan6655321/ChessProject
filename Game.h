@@ -27,15 +27,14 @@ typedef enum ColorType{
 	WhiteColor = '1'
 }ColorType;
 
-typedef ColorType GamePlayer;
 
 typedef struct Game {
 	GameBoard board;
 	char history[MAX_HISTORY_SIZE][10]; //TODO: implements.
 	char difficulty;
-	Color player1Color;
+	ColorType player1Color;
 	GameMode gameMode;
-	GamePlayer currentPlayer;
+	ColorType currentPlayer;
 } Game;
 
 typedef enum {

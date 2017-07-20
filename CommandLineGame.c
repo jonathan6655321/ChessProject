@@ -26,7 +26,7 @@ void commandLineGameLoop() {
 			}
 			command = getNextSettingCommand();
 		} else if (state == gameCommandState) {
-			if (needToAskPlayerForMove) {
+			if (isUserMove(&game)) {
 				//TODO: print game board
 				printf(ASK_FOR_PLAYER_MOVE_FORMAT_STRING,
 						game.currentPlayer == WhiteColor ?
@@ -44,16 +44,13 @@ void commandLineGameLoop() {
 	}
 }
 
-int needToAskPlayerForMove(Game* game) {
+int isUserMove(Game* game) {
 	if (game->gameMode == PlayerVsPlayer) {
 		return 1;
-	} else {
-		if (game.currentPlayer == game->player1Color) {
-			return 1;
-		} else {
-			return 0;
-		}
+	} else if (game->currentPlayer == game->player1Color) {
+		return 1;
 	}
+	return 0;
 }
 
 void handlePrintSettingMessage(HandleCommandMessage message) {
@@ -72,8 +69,8 @@ void handlePrintUndoMessage(HandleCommandMessage message) {
 
 void printMove(Game* game, Command command, HandleCommandMessage message) {
 	//if game is against AI and the current player is after the AI:
-	int moveWasComputerMove = (game.gameMode == PlayerVsComputer
-			&& game->currentPlayer == game.player1Color);
+	int moveWasComputerMove = (game->gameMode == PlayerVsComputer
+			&& game->currentPlayer == game->player1Color);
 	if (moveWasComputerMove) {
 		printf(COMPUTER_MOVE_FORMAT_STRING, pieceName(message.argument[0]),
 				command.argument[0], command.argument[1], command.argument[2],
@@ -116,7 +113,7 @@ void handleCheckmatePrinting(CheckmateType checkmateType,
 }
 
 void handleCheckmates(Game* game, commandLineState* state) {
-	if (state == gameCommandState) {
+	if (*state == gameCommandState) {
 		CheckmateType checkmateType = getCheckmate(game);
 		if (checkmateType == whiteCheckmated || checkmateType == blackCheckmated
 				|| checkmateType == tie) {

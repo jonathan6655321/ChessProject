@@ -52,6 +52,6 @@
 #define pieceNameN(x) (x)==Rook ? KNIGHT_NAME_STIRNG : (pieceNameB(x))
 #define pieceNameR(x) (x)==Knight ? ROOK_NAME_STIRNG : (pieceNameN(x))
 #define pieceNameQ(x) (x)==Queen ? QUEEN_NAME_STIRNG : (pieceNameR(x))
-#define pieceName(x)  (x)==King ? KING_NAME_STIRNG : (pieceName(x))
+#define pieceName(x)  (x)==King ? KING_NAME_STIRNG : (pieceNameQ(x))
 
 #endif /* MESSAGES_H_ */
