@@ -13,8 +13,8 @@
 #define SET_GAME_MODE_ERROR_STRING "Wrong game mode\n"
 #define SET_DIFFICULTY_EXPERT_ERROR_STRING "Expert level not supported, please choose a value between 1 to 4:\n"
 #define SET_DIFFICULTY_ERROR_STRING "Wrong difficulty level. The value should be between 1 to 5\n"
-#define LOAD_SETTING_ERROR_STRING "Error: File doesn’t exist or cannot be opened\n"
-#define PRINT_SETTING_FORMAT_IN_GAME_MODE_1_STRING "SETTINGS:\nGAME_MODE: 1\nDIFFICULTY_LVL: %c\n” “USER_CLR: %s\n”"
+#define LOAD_SETTING_ERROR_STRING "Error: File doesn't exist or cannot be opened\n"
+#define PRINT_SETTING_FORMAT_IN_GAME_MODE_1_STRING "SETTINGS:\nGAME_MODE: 1\nDIFFICULTY_LVL: %c\nUSER_CLR: %s\n"
 #define PRINT_SETTING_FORMAT_IN_GAME_MODE_2_STRING "SETTINGS:\nGAME_MODE: 2\n"
 #define BLACK_COLOR_STRING "BLACK"
 #define WHITE_COLOR_STRING "WHITE"
@@ -52,6 +52,9 @@
 #define pieceNameN(x) (x)==Rook ? KNIGHT_NAME_STIRNG : (pieceNameB(x))
 #define pieceNameR(x) (x)==Knight ? ROOK_NAME_STIRNG : (pieceNameN(x))
 #define pieceNameQ(x) (x)==Queen ? QUEEN_NAME_STIRNG : (pieceNameR(x))
-#define pieceName(x)  (x)==King ? KING_NAME_STIRNG : (pieceNameQ(x))
+#define getPieceTypeName(x)  (x)==King ? KING_NAME_STIRNG : (pieceNameQ(x))
+
+#define getColorName(x) (x)==White ? WHITE_COLOR_SMALL_STRING : BLACK_COLOR_SMALL_STRING
+#define getCAPITALColorName(x) (x)==White ? WHITE_COLOR_STRING : BLACK_COLOR_STRING
 
 #endif /* MESSAGES_H_ */

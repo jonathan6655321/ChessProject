@@ -6,6 +6,10 @@
  */
 #ifndef GAME_H_
 #define GAME_H_
+
+#include <string.h>
+#include "consoleRendering.h"
+#include "Moves.h"
 #include "GameBoard.h"
 #include "constants.h"
 
@@ -16,102 +20,121 @@
 #define DEFAULT_DIFFICULTY '2'
 #define DEFAULT_USER_COLOR White
 #define DEFAULT_CURRENT_PLAYER Player1
-#define CAN_HANDLE_EXPERT_DIFFICULTY '1'
+#define CAN_HANDLE_EXPERT_DIFFICULTY 0
 
 //STRUCTS&ENUMS:
 typedef enum {
-	PlayerVsComputer = '1', PlayerVsPlayer = '2'
+    PlayerVsComputer = '1', PlayerVsPlayer = '2'
 } GameMode;
 
 
 typedef struct Game {
-	GameBoard board;
-	Piece historyPiecesBefore[MAX_HISTORY_SIZE];
-	Piece historyPiecesAfter[MAX_HISTORY_SIZE];
-	char historyPositions[MAX_HISTORY_SIZE][4];
-	char historyIsSet[MAX_HISTORY_SIZE];
-	int historyIndex;
-	char difficulty;
-	Color player1Color;
-	GameMode gameMode;
-	Player currentPlayer;
+    GameBoard board;
+    Piece historyPiecesBefore[MAX_HISTORY_SIZE];
+    Piece historyPiecesAfter[MAX_HISTORY_SIZE];
+    char historyPositions[MAX_HISTORY_SIZE][4];
+    char historyNumberOfPieceToSet[MAX_HISTORY_SIZE];
+    int historyIndex;
+    char difficulty;
+    Color player1Color;
+    GameMode gameMode;
+    Player currentPlayer;
+    int needToReprintBoard;
 } Game;
 
 typedef enum {
-	//settings commands
-	setGameMode,
-	setDifficulty,
-	setUserColor,
-	loadSettings,
-	loadDefaultSettings,
-	printSettings,
-	startGame,
-	//game commands
-	setMove,
-	getMoves,
-	saveGame,
-	undoMove,
-	resetGame,
-	//general commands
-	quitGame,
-	invalidCommand
+    //settings commands
+            setGameMode,
+    setDifficulty,
+    setUserColor,
+    loadSettings,
+    loadDefaultSettings,
+    printSettings,
+    startGame,
+    //game commands
+            setMove,
+    getMoves,
+    saveGame,
+    undoMove,
+    resetGame,
+    //general commands
+            quitGame,
+    invalidCommand
 } CommandType;
 
 typedef struct Command {
-	CommandType commandType;
-	char stringArgument[MAX_COMMAND_LENGTH];
-	char argument[4];
-	int numberOfArgs;
+    CommandType commandType;
+    char stringArgument[MAX_COMMAND_LENGTH];
+    char argument[4];
+    int numberOfArgs;
 } Command;
 
 typedef enum {
-	successMessage,
-	setGameModeMessage,
-	errorSetGameModeMessage,
-	errorSetDifficultyMessage,
-	errorExpertSetDifficultyMessage,
-	errorLoadMessage,
-	printSettingMessage,
-	errorSetMovePositionsMessage,
-	errorSetMoveNotYourPieceMessage,
-	errorIllegalMoveMessage,
-	setMoveMessage,
-	errorSaveMessage,
-	errorUndo2PlayerModeMessage,
-	errorUndoEmptyHistoryMessage,
-	undoMessage,
-	resetMessage,
-	invalidCommandMessage
+    successMessage,
+    setGameModeMessage,
+    errorSetGameModeMessage,
+    errorSetDifficultyMessage,
+    errorExpertSetDifficultyMessage,
+    errorLoadMessage,
+    printSettingMessage,
+    errorSetMovePositionsMessage,
+    errorSetMoveNotYourPieceMessage,
+    errorIllegalMoveMessage,
+    setMoveMessage,
+    errorSaveMessage,
+    errorUndo2PlayerModeMessage,
+    errorUndoEmptyHistoryMessage,
+    undoMessage,
+    resetMessage,
+    quitMessage,
+    invalidCommandMessage
 } HandleCommandMessageType;
 
 typedef enum {
-	whiteChecked, whiteCheckmated, blackChecked, blackCheckmated, tie, noCheck
+    whiteChecked, whiteCheckmated, blackChecked, blackCheckmated, tie, noCheck
 } CheckmateType;
 
 typedef struct HandleCommandMessage {
-	HandleCommandMessageType messageType;
-	char argument[8];
+    HandleCommandMessageType messageType;
+    char argument[8];
 //TODO: add what Somer will output from game
 } HandleCommandMessage;
 
 //METHODS
-HandleCommandMessage handleCommand(Command command, Game* game);
+HandleCommandMessage handleCommand(Command command, Game *game);
 
-HandleCommandMessage handleSetGameMode(Command command, Game* game);
-HandleCommandMessage handleSetDefult(Game* game);
-HandleCommandMessage handleSetDifficulty(Command command, Game* game);
-HandleCommandMessage handleSetUserColor(Command command, Game* game);
-HandleCommandMessage handleLoadSettings(Command command, Game* game);
-HandleCommandMessage handlePrintSettings(Game* game);
+HandleCommandMessage handleSetGameMode(Command command, Game *game);
+
+HandleCommandMessage handleSetDefault(Game *game);
+
+HandleCommandMessage handleSetDifficulty(Command command, Game *game);
+
+HandleCommandMessage handleSetUserColor(Command command, Game *game);
+
+HandleCommandMessage handleLoadSettings(Command command, Game *game);
+
+HandleCommandMessage handlePrintSettings(Game *game);
+
 //TODO: make the first more if player color 1 is black
-HandleCommandMessage handleStartGame(Game* game);
-HandleCommandMessage handleSetMove(Command command, Game* game);
-HandleCommandMessage handleGetMoves(Command command, Game* game);
-HandleCommandMessage handleSaveGame(Command command, Game* game);
-HandleCommandMessage handleUndoMove(Game* game);
+HandleCommandMessage handleStartGame(Game *game);
 
-Command getComputerMove(Game* game);
-CheckmateType getCheckmate(Game* game);
-void initHistoryArray(Game* game) ;
+HandleCommandMessage handleSetMove(Command command, Game *game);
 
+HandleCommandMessage handleGetMoves(Command command, Game *game);
+
+HandleCommandMessage handleSaveGame(Command command, Game *game);
+
+HandleCommandMessage handleUndoMove(Game *game);
+
+Command getComputerMove(Game *game);
+
+CheckmateType getCheckmate(Game *game);
+
+void initHistoryArray(Game *game);
+
+Color getCurrentPlayerColor(Game *game);
+
+void printGame(Game *game);
+
+void switchPlayer(Game* game);
 #endif /* GAME_H_ */

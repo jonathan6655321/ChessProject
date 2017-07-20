@@ -21,12 +21,12 @@ int isUserMove(Game* game);
 void printCommandLineMessages(Game* game, Command command,
 		HandleCommandMessage message);
 void switchStateIfNeeded(Command command, commandLineState* state);
-void setGameDefultValue(Game* game);
+void setGameDefaultValue(Game *game);
 void handlePrintMove(Game* game, Command command, HandleCommandMessage message);
 void handlePrintSettingMessage(HandleCommandMessage message);
 void handlePrintCheckmate(CheckmateType checkmateType,
 		int moveWasComputerMove);
 void handleCheckmates(Game* game, commandLineState* state);
-void handlePrintUndoMessage(Game * game, HandleCommandMessage message) {
+void handlePrintUndoMessage(Game * game, HandleCommandMessage message) ;
 
 #endif /* COMMANDLINEGAME_H_ */

@@ -12,7 +12,7 @@ setPossible moves for all pieces
 // gameboard:
 movePiece: recieves point to point, player returns error type
 getPieceAt: struct Piece
-checkWinner: check if checkmate
+checkWinner: check if checkmate and if check (black is thretening the white kind~)
 get moves,
 
 

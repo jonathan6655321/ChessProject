@@ -50,13 +50,13 @@
 
 	//SETTING COMMANDS:
 		CommandType parseStringSettingCommandType(char* stringCommand);
-		void parseSettingCommandsArguments(Command settingCommand);
+		void parseSettingCommandsArguments(Command* settingCommand);
 		Command parseStringSettingCommand(StringCommand stringCommand);
 		Command getNextSettingCommand();
 
 	//GAME COMMANDS:
 		CommandType parseStringGameCommandType(char* stringCommand);
-		void parseGameCommandsArguments(Command gameCommand);
+		void parseGameCommandsArguments(Command* gameCommand);
 		Command parseStringGameCommand(StringCommand stringCommand);
 		Command getNextGameCommand();
 #endif /* PARSER_H_ */
