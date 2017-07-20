@@ -17,13 +17,12 @@ typedef enum {
 } commandLineState;
 
 void commandLineGameLoop();
-int needToAskPlayerForMove(Game* game);
+int isUserMove(Game* game);
 void handleCommandLineMessages(Game* game, Command command,
-		HandleCommandMessage message, commandLineState* state);
+		HandleCommandMessage message);
 void switchStateIfNeeded(Command command, commandLineState* state);
 void setGameDefultValue(Game* game);
-void printMove(Game* game, Command command, HandleCommandMessage message,
-		commandLineState* state);
+void printMove(Game* game, Command command, HandleCommandMessage message);
 void handlePrintSettingMessage(HandleCommandMessage message);
 void handleCheckmatePrinting(CheckmateType checkmateType,
 		int moveWasComputerMove);
