@@ -34,13 +34,39 @@ int getLegalMovesForPieceAt(char row,char col,GameBoard *gameBoard,LegalMoves *l
 /*
  * used in getLegalMovesForPieceAt
  */
-int getLegalMovesForPawnAt(char row,char col,GameBoard *gameBoard, Piece *piece, LegalMoves *legalMoves);
+int getLegalMovesForPawnAt(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves);
 int getLegalMovesForBishopAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
 int getLegalMovesForRookAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
 int getLegalMovesForKnighAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
 int getLegalMovesForQueenAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
 int getLegalMovesForKingAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
 
+/*
+ * used in Queen and bishop
+ */
+void setLegalMovesDiagonals(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves);
+void setRightUpDiagonal(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves);
+void setLeftUpDiagonal(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves);
+void setRightDownDiagonal(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves);
+void setLeftDownDiagonal(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves);
+
+/*
+ * used in Queen and rook
+ */
+void setLegalStraightMoves(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves);
+void setLegalStraightMovesRight(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves);
+void setLegalStraightMovesLeft(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves);
+void setLegalStraightMovesUp(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves);
+void setLegalStraightMovesDown(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves);
+
+
+
+
+
+
+/*
+ * set row col to valid in legalMoves
+ */
 void setMoveValid(char row, char col,LegalMoves *legalMoves);
 
 /*

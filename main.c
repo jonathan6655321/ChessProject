@@ -14,19 +14,21 @@ int main( int argc, char **argv )
     printBoard(&gameBoard,White);
 
     printf("\n\n");
-    movePiece('1','A', '3','E', &gameBoard);
+    movePiece('1','A', '4','E', &gameBoard);
     printBoard(&gameBoard,White);
 
-    printf("\n\n");
-    movePiece('1','B', '6','F', &gameBoard);
-    printBoard(&gameBoard,White);
-
-    printf("\n\n");
-    movePiece('1','C', '6','D', &gameBoard);
-    printBoard(&gameBoard,White);
+//    printf("\n\n");
+//    movePiece('1','B', '6','F', &gameBoard);
+//    printBoard(&gameBoard,White);
+//
+//    printf("\n\n");
+//    movePiece('1','C', '6','D', &gameBoard);
+//    printBoard(&gameBoard,White);
 
     LegalMoves legalMoves = {0};
-    getLegalMovesForPieceAt('7','E',&gameBoard,&legalMoves);
+//    getLegalMovesForPieceAt('7','E',&gameBoard,&legalMoves);
+
+    setLegalMovesDiagonals('4','E',&gameBoard,&legalMoves);
 
     printLegalMoves(&legalMoves);
 

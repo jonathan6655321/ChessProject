@@ -242,3 +242,21 @@ int isPlayer1Index(int i)
         return FAIL;
     }
 }
+
+/*
+ * gets two indexes and returns SUCCESS if belong to same player
+ * if two different player pieces, or if at least one is a NO_PIECE: returns FAIL
+ */
+int isSamePlayerPiece(int piece1Index, int piece2Index)
+{
+    if(piece1Index<0 || piece2Index<0 )
+    {
+        return FAIL;
+    }
+    else if (piece1Index / 16 == piece2Index / 16)
+    {
+        return SUCCESS;
+    }
+    else
+        return FAIL;
+}

@@ -99,4 +99,8 @@ int getIndexOfPieceAt(char row, char col, GameBoard *gameBoard);
  */
 int isPlayer1Index(int i);
 
+/*
+ *
+ */
+int isSamePlayerPiece(int piece1Index, int piece2Index);
 #endif //CHESSPROJECT_GAMEBOARD_H
