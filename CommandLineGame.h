@@ -55,7 +55,7 @@ void switchStateIfNeeded(Command command, commandLineState *state);
  * @param command - the command that was given to the game to execute beforehand.
  * @param message - the message the game return after executing the command. -
  */
-void handlePawnPromotion(Command *command, HandleCommandMessage *message, Game *game);
+void handlePawnPromotionLoop(Command *command, HandleCommandMessage *message, Game *game);
 
 /*!
  * send a "set value to default" command to the game.
@@ -83,6 +83,25 @@ void handlePrintMove(Game *game, Command command, HandleCommandMessage message);
 void handlePrintSettingMessage(HandleCommandMessage message);
 
 /*!
+ * Handle printing the pawn promotion message or move message after executing.
+ * @param game - the game the action is made on.
+ * @param command - the command that was given to the game to execute beforehand.
+ *          argument[0-3] = <x,y> to <w,z>
+ *          argument[4] = piece type promoted to
+ * @param message - pawn promotion message with
+ *          arguement[0] = piece type that was moved.
+ */
+void handlePrintPawnPromotion(Game *game, Command command);
+
+/*!
+ * Handle printing the computer's castle move message.
+ * @param game - the game the action is made on.
+ * @param message - castle move message with
+ *          argument[0-3] = king <x,y> to rook <w,z>
+ */
+void handlePrintCastleMove(Game *game, HandleCommandMessage message);
+
+/*!
  * Handle printing of check, checkmate and tie situations.
  * @param checkmateType - the checkmate type that the game returned.
  * @param moveWasComputerMove - true if the last move was made by a computer.
@@ -91,11 +110,20 @@ void handlePrintCheckmate(CheckmateType checkmateType,
                           int moveWasComputerMove);
 
 /*!
+ * Handle printing the optional move of certain piece.
+ * @param game - the game the action is made on.
+ * @param command - the command that was given to the game to execute beforehand.
+ *          argument[0-1] = <x,y>
+ * @param message - move message with the getMoves parameters //TODO: docmenteition.
+ */
+void handlePrintGetMoves(Game *game, Command command, HandleCommandMessage message);
+
+/*!
  * Handle checkmates -> end the game if needed (state - game ended state).
  * @param game - the game the action is made on.
  * @param state - pointer to the current game state.
  */
-void handleCheckmates(Game *game, commandLineState *state);
+    void handleCheckmates(Game *game, commandLineState *state);
 
 /*!
  * Handle printing the moves that were canceled after an undo command.
@@ -104,6 +132,6 @@ void handleCheckmates(Game *game, commandLineState *state);
  *      argument 0-3 first move that was canceled <x,y> to <w,z>
  *      argument 3-7 second move that was canceled <x,y> to <w,z>
  */
-void handlePrintUndoMessage(Game *game, HandleCommandMessage message);
+    void handlePrintUndoMessage(Game *game, HandleCommandMessage message);
 
 #endif /* COMMANDLINEGAME_H_ */

@@ -40,7 +40,7 @@ void commandLineGameLoop() {
             }
         }
         commandMessage = handleCommand(command, &game);
-        handlePawnPromotion(&command, &commandMessage, &game);
+        handlePawnPromotionLoop(&command, &commandMessage, &game);
         printCommandLineMessages(&game, command, commandMessage);
         switchStateIfNeeded(command, &state);
         handleCheckmates(&game, &state);
@@ -48,12 +48,7 @@ void commandLineGameLoop() {
 }
 
 int isUserMove(Game *game) {
-    if (game->gameMode == PlayerVsPlayer) {
-        return 1;
-    } else if (game->currentPlayer == Player1) {
-        return 1;
-    }
-    return 0;
+    return (game->gameMode == PlayerVsPlayer || game->currentPlayer == Player1);
 }
 
 void handlePrintSettingMessage(HandleCommandMessage message) {
@@ -83,9 +78,37 @@ void handlePrintMove(Game *game, Command command, HandleCommandMessage message) 
                command.argument[0], command.argument[1], command.argument[2], command.argument[3]);
     }
 
-    CheckmateType checkmateType = getCheckmate(game);
-    handlePrintCheckmate(checkmateType, moveWasComputerMove);
+    handlePrintCheckmate(getCheckmate(game), moveWasComputerMove);
 }
+
+void handlePrintPawnPromotion(Game *game, Command command) {
+    //if game is against AI and the current player is after the AI:
+    int moveWasComputerMove = (game->gameMode == PlayerVsComputer && game->currentPlayer == Player1);
+    if (moveWasComputerMove) {
+        printf(PAWN_PROMOTION_COMPUTER_FORMAT_STRING, command.argument[0], command.argument[1], command.argument[2],
+               command.argument[3], getPieceTypeName(command.argument[4]));
+    }
+
+    handlePrintCheckmate(getCheckmate(game), moveWasComputerMove);
+}
+
+void handlePrintCastleMove(Game *game, HandleCommandMessage message) {
+    //if game is against AI and the current player is after the AI:
+    int moveWasComputerMove = (game->gameMode == PlayerVsComputer && game->currentPlayer == Player1);
+    if (moveWasComputerMove) {
+        printf(CASTLING_MOVE_COMPUTER_FORMAT_STRING, message.argument[0], message.argument[1], message.argument[2],
+               message.argument[3]);
+    } else {
+
+    }
+
+    handlePrintCheckmate(getCheckmate(game), moveWasComputerMove);
+}
+
+void handlePrintGetMoves(Game *game, Command command, HandleCommandMessage message) {
+    //TODO: get moves message - after setting a format with Somer.
+}
+
 
 void handlePrintCheckmate(CheckmateType checkmateType,
                           int moveWasComputerMove) {
@@ -136,7 +159,7 @@ void switchStateIfNeeded(Command command, commandLineState *state) {
     }
 }
 
-void handlePawnPromotion(Command *command, HandleCommandMessage *message, Game *game) {
+void handlePawnPromotionLoop(Command *command, HandleCommandMessage *message, Game *game) {
     if (message->messageType == pawnPromoteNeededMessage) {
         if (CAN_HANDLE_PAWN_PROMOTION) {
             Command pawnCommand;
@@ -144,11 +167,11 @@ void handlePawnPromotion(Command *command, HandleCommandMessage *message, Game *
             while (pawnCommand.commandType == invalidCommand) {
                 printf("%s", PAWN_PROMOTION_REQUEST_STRING);
                 pawnCommand = getNextPawnPromotionCommand();
-                if((pawnCommand.commandType == invalidCommand)){
+                if ((pawnCommand.commandType == invalidCommand)) {
                     printf("%s", PAWN_PROMOTION_INVALID_STRING);
                 }
             }
-            switch(pawnCommand.commandType){
+            switch (pawnCommand.commandType) {
                 case pawnPromoteToPawn:
                     command->argument[4] = Pawn;
                     break;
@@ -171,7 +194,7 @@ void handlePawnPromotion(Command *command, HandleCommandMessage *message, Game *
                     break;
             }
             *message = handleCommand(*command, game);
-        }else{
+        } else {
             command->argument[4] = Pawn;
         }
     }
@@ -211,13 +234,37 @@ void printCommandLineMessages(Game *game, Command command,
             printf("%s", SET_MOVE_POSITION_ERROR_STRING);
             break;
         case errorSetMoveNotYourPieceMessage:
-            printf("%s", SET_MOVE_WRONG_PIECE_COLOR_ERROR_STRING);
+            printf(GET_MOVES_NOT_YOUR_PIECE_ERROR_FORMAT_STRING, getColorName(getCurrentPlayerColor(game)));
             break;
         case errorIllegalMoveMessage:
             printf("%s", SET_MOVE_ILLEGAL_MOVE_ERROR_STRING);
             break;
         case setMoveMessage:
             handlePrintMove(game, command, message);
+            break;
+        case pawnPromoteNeededMessage:
+            printf("%s", "ERROR: this shouldn't happen...");
+            break;
+        case pawnPromoteMessage:
+            handlePrintPawnPromotion(game, command);
+            break;
+        case errorCastleMoveNoRookMessage:
+            printf("%s", CASTLING_MOVE_NO_ROOK_ERROR_STRING);
+            break;
+        case errorCastleMoveIllegalMoveMessage:
+            printf("%s", CASTLING_MOVE_ILLEGAL_ERROR_STRING);
+            break;
+        case castleMoveMessage:
+            handlePrintCastleMove(game, message);
+            break;
+        case getMovesMessage:
+            handlePrintGetMoves(game, command, message);
+            break;
+        case errorGetMovesInvalidPositionMessage:
+            printf("%s", GET_MOVES_INVALID_POSITION_ERROR_STRING);
+            break;
+        case errorGetMovesNotYourPieceMessage:
+            printf("%s", CASTLING_MOVE_NO_ROOK_ERROR_STRING);
             break;
         case errorSaveMessage:
             printf("%s", SAVE_SETTING_ERROR_STRING);

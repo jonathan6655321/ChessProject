@@ -22,6 +22,8 @@ movePiece: add another argument called pawnPromotion which is of type pieceType 
 getPieceAt: struct Piece
 checkWinner: check if checkmate and if check (black is threatenings the white king~ and return the situation). method should also receive as argument the last Player moved to only check if he made a move that threatend the other-king or if he won.
 get moves,
+    -get moves should return a "not a valid board position" response if the position is outside of the board
+    - get move should return a "not your piece" response if on the board position there is no piece of the current player.
 add castle move function: also the castle move cannot be handled by movePiece (because they require that it to be handle by a different command so castling cannot be done by "move piece").
     castle move received: currentPlayer, rook to be moved to <x,y> (the king is not received, and should be found).
     castle move response:
@@ -48,6 +50,7 @@ handle castle move
 handle get moves and also check if castle move is available and only if so print it.
 
 Ido's test to do:
+make test for everythinggggg.
 check if move piece can do a castling move - not good.
 check if undo doesn't work in 2 player mode.
 end case to check - checkmate should be if no move for the kind get him to not be threatend. if it can stay in place and not be threatened while there are other piece with moves that doesn't cause it to be so, it's not a checkmate. but if all other pieces doesn't have possible moves - it's a check mate.
@@ -55,6 +58,7 @@ end case to check - checkmate should be if no move for the kind get him to not b
 TODO general:
 min max algo with pruning with castle move and pawn promotion (we should treat pawn move to the end action and promotion as a single action should probably only check knight or queen piece.)
 difficulty 5.
+
 
 
 check if

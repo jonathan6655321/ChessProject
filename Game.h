@@ -86,6 +86,9 @@ typedef enum {
     errorCastleMoveNoRookMessage,
     errorCastleMoveIllegalMoveMessage,
     castleMoveMessage,
+    getMovesMessage,
+    errorGetMovesInvalidPositionMessage,
+    errorGetMovesNotYourPieceMessage,
     errorSaveMessage,
     errorUndo2PlayerModeMessage,
     errorUndoEmptyHistoryMessage,
@@ -202,7 +205,7 @@ HandleCommandMessage handleSetMove(Command command, Game *game);
 /*!
  * Handle castle move.
  * @param command - command from user/computer.
- *          argument[0-1] = <x,y> of rook.
+ *          argument[0-1] = <w,z> of rook.
  * @param game - the game the action is made on.
  * @return
  *     errorCastleMoveNoRookMessage, if no piece of player's rook is found in <x,y>.
@@ -215,10 +218,14 @@ HandleCommandMessage handleCastleMove(Command command, Game *game);
 /*!
  *
  * @param command - command from user/computer.
+ *      argument[0-1] = <x,y> of piece.
  * @param game - the game the action is made on.
  * @return
+ *      getMovesMessage, a success message containing the needed information TODO
+ *      errorGetMovesInvalidPositionMessage, if the position given in the command is not on the board.
+ *      errorGetMovesNotYourPieceMessage, if the position is valid but doesn't contain the user piece.
  */
-//TODO: add documentaion after implementing Somer getMoves.
+//TODO: add documentation after implementing Somer getMoves.
 HandleCommandMessage handleGetMoves(Command command, Game *game);
 
 /*!

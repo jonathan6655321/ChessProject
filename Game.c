@@ -27,6 +27,8 @@ HandleCommandMessage handleCommand(Command command, Game *game) {
             return handleSetMove(command, game);
         case getMoves:
             return handleGetMoves(command, game);
+        case castleMove:
+            return handleCastleMove(command, game);
         case saveGame:
             return handleSaveGame(command, game);
         case undoMove:
@@ -37,7 +39,7 @@ HandleCommandMessage handleCommand(Command command, Game *game) {
         case quitGame:
             message.messageType = quitMessage;
             return message;
-        case invalidCommand:
+        default:
             message.messageType = invalidCommandMessage;
             return message;
     }
@@ -138,42 +140,55 @@ HandleCommandMessage handleSetMove(Command command, Game *game) {
     char colTo = command.argument[3];
     Piece pieceAtDestinationBefore;
     Piece pieceAtDestinationAfter;
-    //TODO: add pawn promotion piece.
     HandleCommandMessage message;
     Response response = executeUserMoveCommand(rowFrom, colFrom, rowTo, colTo,
                                                &(game->board), game->currentPlayer, &pieceAtDestinationBefore,
                                                &pieceAtDestinationAfter);
     switch (response) {
+        //case where no move should be done:
         case InvalidPosition:
             message.messageType = errorSetMovePositionsMessage;
-            break;
+            return message;
         case NotYourPiece:
             message.messageType = errorSetMoveNotYourPieceMessage;
-            break;
+            return message;
         case IllegalMove:
             message.messageType = errorIllegalMoveMessage;
+            return message;
+        case PawnPromotionNeeded:
+            message.messageType = pawnPromoteNeededMessage;
+            return message;
+
+            //cases where a move should be done:
+        case AteOpponentsPiece_PawnPromote:
+            message.messageType = pawnPromoteMessage;
+            game->historyNumberOfPieceToSet[game->historyIndex] = 2;
             break;
-        default:
-            game->needToReprintBoard = 1;
+        case AteOpponentsPiece:
             message.messageType = setMoveMessage;
-            message.argument[0] = pieceAtDestinationBefore.type;
-            message.argument[1] = pieceAtDestinationAfter.type;
-            game->historyIndex++;
-            if (game->historyIndex >= MAX_HISTORY_SIZE) game->historyIndex -= MAX_HISTORY_SIZE; //loop array;
-            game->historyPiecesAfter[game->historyIndex] = pieceAtDestinationAfter;
-            game->historyPiecesBefore[game->historyIndex] = pieceAtDestinationBefore;
-            game->historyPositions[game->historyIndex][0] = rowFrom;
-            game->historyPositions[game->historyIndex][1] = colFrom;
-            game->historyPositions[game->historyIndex][2] = rowTo;
-            game->historyPositions[game->historyIndex][3] = colTo;
-            if (response == AteOpponentsPiece) {
-                game->historyNumberOfPieceToSet[game->historyIndex] = 2;
-            } else { // just moved
-                game->historyNumberOfPieceToSet[game->historyIndex] = 1;
-            }
-            switchPlayer(game);
+            game->historyNumberOfPieceToSet[game->historyIndex] = 2;
+            break;
+        case MadeMove_Pawn_Promote:
+            message.messageType = pawnPromoteMessage;
+            game->historyNumberOfPieceToSet[game->historyIndex] = 1;
+            break;
+        case MadeMove:
+            message.messageType = setMoveMessage;
+            game->historyNumberOfPieceToSet[game->historyIndex] = 1;
             break;
     }
+    game->needToReprintBoard = 1;
+    message.argument[0] = pieceAtDestinationBefore.type;
+    message.argument[1] = pieceAtDestinationAfter.type;
+    game->historyIndex++;
+    if (game->historyIndex >= MAX_HISTORY_SIZE) game->historyIndex -= MAX_HISTORY_SIZE; //loop array;
+    game->historyPiecesAfter[game->historyIndex] = pieceAtDestinationAfter;
+    game->historyPiecesBefore[game->historyIndex] = pieceAtDestinationBefore;
+    game->historyPositions[game->historyIndex][0] = rowFrom;
+    game->historyPositions[game->historyIndex][1] = colFrom;
+    game->historyPositions[game->historyIndex][2] = rowTo;
+    game->historyPositions[game->historyIndex][3] = colTo;
+    switchPlayer(game);
     return message;
 }
 
@@ -186,7 +201,7 @@ HandleCommandMessage handleCastleMove(Command command, Game *game) {
 
 HandleCommandMessage handleGetMoves(Command command, Game *game) {
     HandleCommandMessage message;
-    message.messageType = errorLoadMessage;
+    message.messageType = errorGetMovesInvalidPositionMessage;
     return message;
 //TODO: return in new struct from Somer the get moves
 }
@@ -214,7 +229,7 @@ HandleCommandMessage handleUndoMove(Game *game) {
             if (game->historyNumberOfPieceToSet[game->historyIndex] == 2) {
                 piece = &(game->historyPiecesBefore[game->historyIndex]);
                 executeSetPieceAt(row, col, piece, &(game->board));
-            }else{
+            } else {
                 //TODO: tell Somer to make a remove piece at that is interfaced - execute remove piece at.
                 removePieceAt(row, col, &(game->board));
             }

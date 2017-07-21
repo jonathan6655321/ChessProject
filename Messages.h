@@ -41,9 +41,12 @@
 #define RESTARTING_STRING "Restarting...\n"
 #define CASTLING_MOVE_ILLEGAL_ERROR_STRING "Illegal castling move\n"
 #define CASTLING_MOVE_NO_ROOK_ERROR_STRING "Wrong position for a rook\n"
-#define CASTLING_MOVE_COMPUTER_FORMAT_STRING "Computer: castle King at <x,y> and Rook at <w,z>\n"
+#define CASTLING_MOVE_COMPUTER_FORMAT_STRING "Computer: castle King at <%c,%c> and Rook at <%c,%c>\n"
 #define PAWN_PROMOTION_REQUEST_STRING "Pawn promotion- please replace the pawn by queen, rook, knight, bishop or pawn:\n"
+#define PAWN_PROMOTION_COMPUTER_FORMAT_STRING "Computer: move pawn <%c,%c> to <%c,%c> and promote to %s\n"
 #define PAWN_PROMOTION_INVALID_STRING "Invalid Type\n"
+#define GET_MOVES_INVALID_POSITION_ERROR_STRING "Invalid position on the board\n"
+#define GET_MOVES_NOT_YOUR_PIECE_ERROR_FORMAT_STRING "The specified position does not contain %s player piece\n"
 
 
 #define PAWN_NAME_STRING "pawn"
