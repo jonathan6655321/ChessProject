@@ -82,6 +82,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/CommandLineCommands.h">
+			<Option target="ChessProject"/>
+		</Unit>
 		<Unit filename="F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/CommandLineGame.c">
 			<Option target="ChessProject"/>
 		</Unit>
