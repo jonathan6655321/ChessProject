@@ -31,3 +31,5 @@ cmake-build-debug/CMakeFiles/3.8.2/CompilerIdC/CMakeCCompilerId.c
 *.internal
 *.cbp
 *.xml
+*.xml___jb_tmp___
+*.xml
