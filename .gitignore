@@ -37,3 +37,10 @@ cmake-build-debug/CMakeFiles/3.8.2/CompilerIdC/CMakeCCompilerId.c
 *.txt
 *.cmake
 *.xml
+*.exe
+*.includecache
+*.internal
+*.make
+*.obj
+*.a
+*.xml

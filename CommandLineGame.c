@@ -39,8 +39,8 @@ void commandLineGameLoop() {
                 command = getComputerMove(&game);
             }
         }
-
         commandMessage = handleCommand(command, &game);
+        handlePawnPromotion(&command, &commandMessage, &game);
         printCommandLineMessages(&game, command, commandMessage);
         switchStateIfNeeded(command, &state);
         handleCheckmates(&game, &state);
@@ -135,6 +135,48 @@ void switchStateIfNeeded(Command command, commandLineState *state) {
         *state = gameCommandState;
     }
 }
+
+void handlePawnPromotion(Command *command, HandleCommandMessage *message, Game *game) {
+    if (message->messageType == pawnPromoteNeededMessage) {
+        if (CAN_HANDLE_PAWN_PROMOTION) {
+            Command pawnCommand;
+            pawnCommand.commandType = invalidCommand;
+            while (pawnCommand.commandType == invalidCommand) {
+                printf("%s", PAWN_PROMOTION_REQUEST_STRING);
+                pawnCommand = getNextPawnPromotionCommand();
+                if((pawnCommand.commandType == invalidCommand)){
+                    printf("%s", PAWN_PROMOTION_INVALID_STRING);
+                }
+            }
+            switch(pawnCommand.commandType){
+                case pawnPromoteToPawn:
+                    command->argument[4] = Pawn;
+                    break;
+                case pawnPromoteToRook:
+                    command->argument[4] = Rook;
+                    break;
+                case pawnPromoteToKnight:
+                    command->argument[4] = Knight;
+                    break;
+                case pawnPromoteToBishop:
+                    command->argument[4] = Bishop;
+                    break;
+                case pawnPromoteToQueen:
+                    command->argument[4] = Queen;
+                    break;
+                case quitGame:
+                case resetGame:
+                    command->commandType = pawnCommand.commandType;
+                default:
+                    break;
+            }
+            *message = handleCommand(*command, game);
+        }else{
+            command->argument[4] = Pawn;
+        }
+    }
+}
+
 
 void setGameDefaultValue(Game *game) {
     Command command;

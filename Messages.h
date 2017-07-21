@@ -39,6 +39,12 @@
 #define UNDO_EMPTY_HISTORY_ERROR_STRING "Empty history, move cannot be undone\n"
 #define UNDO_FORMAT_STRING "Undo move for player %s : <%c,%c> -> <%c,%c>\n"
 #define RESTARTING_STRING "Restarting...\n"
+#define CASTLING_MOVE_ILLEGAL_ERROR_STRING "Illegal castling move\n"
+#define CASTLING_MOVE_NO_ROOK_ERROR_STRING "Wrong position for a rook\n"
+#define CASTLING_MOVE_COMPUTER_FORMAT_STRING "Computer: castle King at <x,y> and Rook at <w,z>\n"
+#define PAWN_PROMOTION_REQUEST_STRING "Pawn promotion- please replace the pawn by queen, rook, knight, bishop or pawn:\n"
+#define PAWN_PROMOTION_INVALID_STRING "Invalid Type\n"
+
 
 #define PAWN_NAME_STRING "pawn"
 #define BISHOP_NAME_STRING "bishop"

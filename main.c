@@ -5,6 +5,7 @@
 #include "CommandLineGame.h"
 int main( int argc, char **argv )
 {
+
 //    GameBoard gameBoard;
 //    initGame(&gameBoard, White);
 //    printBoard(&gameBoard,White);

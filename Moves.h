@@ -30,7 +30,10 @@ typedef enum Response {
     NotYourPiece,
     IllegalMove,
     AteOpponentsPiece,
-    MadeMove
+    MadeMove,
+    PawnPromotionNeeded,
+    AteOpponentsPiece_PawnPromote,
+    MadeMove_Pawn_Promote
 }Response;
 
 

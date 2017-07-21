@@ -48,6 +48,16 @@ void printCommandLineMessages(Game *game, Command command,
 void switchStateIfNeeded(Command command, commandLineState *state);
 
 /*!
+ * If message is pawnPromotionNeeded:
+ *      ask the user for a pawn promotion, and change the command to the needed value.
+ *      then invoke the command and change the message accordingly.
+ * @param game - the game the action is made on.
+ * @param command - the command that was given to the game to execute beforehand.
+ * @param message - the message the game return after executing the command. -
+ */
+void handlePawnPromotion(Command *command, HandleCommandMessage *message, Game *game);
+
+/*!
  * send a "set value to default" command to the game.
  * @param game - the game the action is made on.
  */

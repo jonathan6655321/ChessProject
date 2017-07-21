@@ -38,7 +38,7 @@ StringCommand getNextStringCommand() {
     return stringCommand;
 }
 
-CommandType parseStringSettingCommandType(char *stringCommand) {
+CommandType parseStringCommandType(char *stringCommand) {
     if (strcmp(stringCommand, LOAD_DEFAULT_SETTINGS_COMMAND_STRING) == 0) {
         return loadDefaultSettings;
     } else if (strcmp(stringCommand, SET_DIFFICULTY_COMMAND_STRING) == 0) {
@@ -55,52 +55,26 @@ CommandType parseStringSettingCommandType(char *stringCommand) {
         return quitGame;
     } else if (strcmp(stringCommand, START_GAME_COMMAND_STRING) == 0) {
         return startGame;
-    } else {
-        return invalidCommand;
-    }
-}
-
-void parseSettingCommandsArguments(Command *settingCommand) {
-    switch (settingCommand->commandType) {
-        case setGameMode:
-        case setDifficulty:
-        case setUserColor:
-            settingCommand->numberOfArgs = sscanf(settingCommand->stringArgument,
-                                                  SETTING_ARGUMENT_FORMAT_STRING, &settingCommand->argument[0]);
-            if(settingCommand->numberOfArgs != 1){
-                settingCommand->commandType = invalidCommand;
-            }
-            break;
-        default:
-            return;
-    }
-}
-
-Command parseStringSettingCommand(StringCommand stringCommand) {
-    Command settingCommand;
-    strcpy(settingCommand.stringArgument, stringCommand.stringArgument);
-    //get command's type:
-    settingCommand.commandType = parseStringSettingCommandType(
-            stringCommand.stringCommand);
-    //get command's arguments:
-    parseSettingCommandsArguments(&settingCommand);
-    return settingCommand;
-}
-
-Command getNextSettingCommand() {
-    StringCommand stringCommand = getNextStringCommand();
-    return parseStringSettingCommand(stringCommand);
-}
-
-CommandType parseStringGameCommandType(char *stringCommand) {
-    if (strcmp(stringCommand, SET_MOVE_COMMAND_STRING) == 0) {
+    } else if (strcmp(stringCommand, SET_MOVE_COMMAND_STRING) == 0) {
         return setMove;
+    } else if (strcmp(stringCommand, CASTLE_COMMAND_STRING) == 0) {
+        return castleMove;
     } else if (strcmp(stringCommand, GET_MOVES_COMMAND_STRING) == 0) {
         return getMoves;
     } else if (strcmp(stringCommand, SAVE_GAME_COMMAND_STRING) == 0) {
         return saveGame;
     } else if (strcmp(stringCommand, UNDO_MOVE_COMMAND_STRING) == 0) {
         return undoMove;
+    } else if (strcmp(stringCommand, PAWN_PROMOTE_TO_PAWN_STRING) == 0) {
+        return pawnPromoteToPawn;
+    } else if (strcmp(stringCommand, PAWN_PROMOTE_TO_ROOK_STRING) == 0) {
+        return pawnPromoteToRook;
+    } else if (strcmp(stringCommand, PAWN_PROMOTE_TO_KNIGHT_STRING) == 0) {
+        return pawnPromoteToKnight;
+    } else if (strcmp(stringCommand, PAWN_PROMOTE_TO_BISHOP_STRING) == 0) {
+        return pawnPromoteToBishop;
+    } else if (strcmp(stringCommand, PAWN_PROMOTE_TO_QUEEN_STRING) == 0) {
+        return pawnPromoteToQueen;
     } else if (strcmp(stringCommand, RESET_GAME_COMMAND_STRING) == 0) {
         return resetGame;
     } else if (strcmp(stringCommand, QUIT_GAME_COMMAND_STRING) == 0) {
@@ -110,23 +84,33 @@ CommandType parseStringGameCommandType(char *stringCommand) {
     }
 }
 
-void parseGameCommandsArguments(Command *gameCommand) {
-    switch (gameCommand->commandType) {
-        case setMove:
-            gameCommand->numberOfArgs = sscanf(gameCommand->stringArgument,
-                                               SET_MOVE_ARGUMENT_FORMAT_STRING, &gameCommand->argument[0],
-                                               &gameCommand->argument[1], &gameCommand->argument[2],
-                                               &gameCommand->argument[3]);
-            if(gameCommand->numberOfArgs != 4){
-                gameCommand->commandType = invalidCommand;
+void parseCommandsArguments(Command *command) {
+    switch (command->commandType) {
+        case setGameMode:
+        case setDifficulty:
+        case setUserColor:
+            command->numberOfArgs = sscanf(command->stringArgument,
+                                           SETTING_ARGUMENT_FORMAT_STRING, &command->argument[0]);
+            if (command->numberOfArgs != 1) {
+                command->commandType = invalidCommand;
             }
             break;
+        case setMove:
+            command->numberOfArgs = sscanf(command->stringArgument,
+                                           SET_MOVE_ARGUMENT_FORMAT_STRING, &command->argument[0],
+                                           &command->argument[1], &command->argument[2],
+                                           &command->argument[3]);
+            if (command->numberOfArgs != 4) {
+                command->commandType = invalidCommand;
+            }
+            break;
+        case castleMove:
         case getMoves:
-            gameCommand->numberOfArgs = sscanf(gameCommand->stringArgument,
-                                               GET_MOVES_ARGUMENT_FORMAT_STRING, &gameCommand->argument[0],
-                                               &gameCommand->argument[1]);
-            if(gameCommand->numberOfArgs != 2){
-                gameCommand->commandType = invalidCommand;
+            command->numberOfArgs = sscanf(command->stringArgument,
+                                           GET_MOVES_ARGUMENT_FORMAT_STRING, &command->argument[0],
+                                           &command->argument[1]);
+            if (command->numberOfArgs != 2) {
+                command->commandType = invalidCommand;
             }
             break;
         default:
@@ -134,18 +118,69 @@ void parseGameCommandsArguments(Command *gameCommand) {
     }
 }
 
-Command parseStringGameCommand(StringCommand stringCommand) {
-    Command gameCommand;
-    strcpy(gameCommand.stringArgument, stringCommand.stringArgument);
+Command parseStringCommand(StringCommand stringCommand) {
+    Command command;
+    strcpy(command.stringArgument, stringCommand.stringArgument);
     //get command's type:
-    gameCommand.commandType = parseStringGameCommandType(
+    command.commandType = parseStringCommandType(
             stringCommand.stringCommand);
     //get command's arguments:
-    parseGameCommandsArguments(&gameCommand);
-    return gameCommand;
+    parseCommandsArguments(&command);
+    return command;
+}
+
+Command getNextSettingCommand() {
+    StringCommand stringCommand = getNextStringCommand();
+    Command command = parseStringCommand(stringCommand);
+    switch (command.commandType) {
+        case loadDefaultSettings:
+        case setDifficulty:
+        case setGameMode:
+        case printSettings:
+        case loadSettings:
+        case setUserColor:
+        case quitGame:
+        case startGame:
+            break;
+        default:
+            command.commandType = invalidCommand;
+            break;
+    }
+    return command;
 }
 
 Command getNextGameCommand() {
     StringCommand stringCommand = getNextStringCommand();
-    return parseStringGameCommand(stringCommand);
+    Command command = parseStringCommand(stringCommand);
+    switch (command.commandType) {
+        case setMove:
+        case castleMove:
+        case getMoves:
+        case undoMove:
+        case saveGame:
+        case resetGame:
+        case quitGame:
+            break;
+        default:
+            command.commandType = invalidCommand;
+    }
+    return command;
+}
+
+Command getNextPawnPromotionCommand() {
+    StringCommand stringCommand = getNextStringCommand();
+    Command command = parseStringCommand(stringCommand);
+    switch (command.commandType) {
+        case pawnPromoteToPawn:
+        case pawnPromoteToBishop:
+        case pawnPromoteToKnight:
+        case pawnPromoteToRook:
+        case pawnPromoteToQueen:
+        case resetGame:
+        case quitGame:
+            break;
+        default:
+            command.commandType = invalidCommand;
+    }
+    return command;
 }

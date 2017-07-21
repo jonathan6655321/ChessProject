@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/CommandLineCommands.h
+Parser.h
+F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/Parser.h
+
 F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/CommandLineGame.c
 CommandLineGame.h
 F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/CommandLineGame.h
@@ -71,6 +75,8 @@ string.h
 -
 Game.h
 F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/Game.h
+CommandLineCommands.h
+F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/CommandLineCommands.h
 
 F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/Pieces.c
 stdlib.h

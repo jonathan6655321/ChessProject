@@ -138,6 +138,7 @@ HandleCommandMessage handleSetMove(Command command, Game *game) {
     char colTo = command.argument[3];
     Piece pieceAtDestinationBefore;
     Piece pieceAtDestinationAfter;
+    //TODO: add pawn promotion piece.
     HandleCommandMessage message;
     Response response = executeUserMoveCommand(rowFrom, colFrom, rowTo, colTo,
                                                &(game->board), game->currentPlayer, &pieceAtDestinationBefore,
@@ -176,6 +177,13 @@ HandleCommandMessage handleSetMove(Command command, Game *game) {
     return message;
 }
 
+HandleCommandMessage handleCastleMove(Command command, Game *game) {
+    HandleCommandMessage message;
+    message.messageType = errorCastleMoveIllegalMoveMessage;
+    return message;
+//TODO: handle castle move
+}
+
 HandleCommandMessage handleGetMoves(Command command, Game *game) {
     HandleCommandMessage message;
     message.messageType = errorLoadMessage;
@@ -192,7 +200,7 @@ HandleCommandMessage handleSaveGame(Command command, Game *game) {
 
 HandleCommandMessage handleUndoMove(Game *game) {
     HandleCommandMessage message;
-    if (game->gameMode == PlayerVsPlayer) {
+    if (game->gameMode == PlayerVsPlayer && !(CAN_UNDO_IN_2_PLAYER_MODE)) {
         message.messageType = errorUndo2PlayerModeMessage;
     } else if (game->historyNumberOfPieceToSet[game->historyIndex] == 0) {
         message.messageType = errorUndoEmptyHistoryMessage;
@@ -201,11 +209,14 @@ HandleCommandMessage handleUndoMove(Game *game) {
         char row, col;
         Piece *piece;
         for (int i = 0; i < 2; i++) {
-            if (game->historyNumberOfPieceToSet == 2) {
-                row = message.argument[4 * i + 2] = game->historyPositions[game->historyIndex][2];
-                col = message.argument[4 * i + 3] = game->historyPositions[game->historyIndex][3];
+            row = message.argument[4 * i + 2] = game->historyPositions[game->historyIndex][2];
+            col = message.argument[4 * i + 3] = game->historyPositions[game->historyIndex][3];
+            if (game->historyNumberOfPieceToSet[game->historyIndex] == 2) {
                 piece = &(game->historyPiecesBefore[game->historyIndex]);
                 executeSetPieceAt(row, col, piece, &(game->board));
+            }else{
+                //TODO: tell Somer to make a remove piece at that is interfaced - execute remove piece at.
+                removePieceAt(row, col, &(game->board));
             }
             row = message.argument[4 * i + 0] = game->historyPositions[game->historyIndex][0];
             col = message.argument[4 * i + 1] = game->historyPositions[game->historyIndex][1];

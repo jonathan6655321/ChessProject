@@ -46,10 +46,17 @@ typedef enum {
     startGame,
     //game commands
             setMove,
+    castleMove,
     getMoves,
     saveGame,
     undoMove,
     resetGame,
+    //pawn promotion command
+            pawnPromoteToPawn,
+    pawnPromoteToKnight,
+    pawnPromoteToRook,
+    pawnPromoteToBishop,
+    pawnPromoteToQueen,
     //general commands
             quitGame,
     invalidCommand
@@ -58,7 +65,7 @@ typedef enum {
 typedef struct Command {
     CommandType commandType;
     char stringArgument[MAX_COMMAND_LENGTH];
-    char argument[4];
+    char argument[5];
     int numberOfArgs;
 } Command;
 
@@ -74,6 +81,11 @@ typedef enum {
     errorSetMoveNotYourPieceMessage,
     errorIllegalMoveMessage,
     setMoveMessage,
+    pawnPromoteNeededMessage,
+    pawnPromoteMessage,
+    errorCastleMoveNoRookMessage,
+    errorCastleMoveIllegalMoveMessage,
+    castleMoveMessage,
     errorSaveMessage,
     errorUndo2PlayerModeMessage,
     errorUndoEmptyHistoryMessage,
@@ -174,6 +186,8 @@ HandleCommandMessage handleStartGame(Game *game);
 /*!
  * Handle move action, change the board accordingly, save the move to the history array, and change current player.
  * @param command - command from user/computer.
+ *          argument[0-3] = <x,y> to <w,z>
+ *          argument[4] = pawn promotion to -> piece type.
  * @param game - the game the action is made on.
  * @return
  *      errorSetMovePositionsMessage, if position given as command argument is illegal.
@@ -186,6 +200,19 @@ HandleCommandMessage handleStartGame(Game *game);
 HandleCommandMessage handleSetMove(Command command, Game *game);
 
 /*!
+ * Handle castle move.
+ * @param command - command from user/computer.
+ *          argument[0-1] = <x,y> of rook.
+ * @param game - the game the action is made on.
+ * @return
+ *     errorCastleMoveNoRookMessage, if no piece of player's rook is found in <x,y>.
+ *     errorCastleMoveIllegalMoveMessage, if there's a rook in <x,y> and it's the user's, but the move is illegal.
+ *     castleMoveMessage, if castle move was done successfully.
+ *          argument[0-3] = king before <x,y> position, anf king after <w,z> position.
+ */
+HandleCommandMessage handleCastleMove(Command command, Game *game);
+
+/*!
  *
  * @param command - command from user/computer.
  * @param game - the game the action is made on.
@@ -193,6 +220,19 @@ HandleCommandMessage handleSetMove(Command command, Game *game);
  */
 //TODO: add documentaion after implementing Somer getMoves.
 HandleCommandMessage handleGetMoves(Command command, Game *game);
+
+/*!
+ * Handle undo command, undo 2 of the last game move.
+ * @param game - the game the action is made on.
+ * @return
+ *      errorUndo2PlayerModeMessage, if an undo move was invoked in 2Player game.
+ *      errorUndoEmptyHistoryMessage, if couldn't undo moves because the history is empty.
+ *      undoMessage, if successfully undo 2 moves
+ *          argument 0-3 first move that was canceled <x,y> to <w,z>
+ *          argument 3-7 second move that was canceled <x,y> to <w,z>
+ */
+HandleCommandMessage handleUndoMove(Game *game);
+
 
 /*!
  * Save the current game to a file.

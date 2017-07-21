@@ -37,56 +37,41 @@ StringCommand getNextStringCommand();
 
 /*!
  * parse a string command into command type.
- * @param stringCommand - a string command containing both command string and argument string.
+ * @param stringCommand - a string command containing command string.
  * @return
  *      the command type if success, and invalid command if not.
  */
-CommandType parseStringSettingCommandType(char *stringCommand);
+CommandType parseStringCommandType(char *stringCommand);
 
 /*!
- * parse the arguments of a specific setting command.
- * @param settingCommand the setting command it's argument are needed to parse.
+ * parse the arguments of a specific command.
+ * @param command the command it's argument are needed to parse.
  */
-void parseSettingCommandsArguments(Command *settingCommand);
+void parseSettingCommandsArguments(Command *command);
 
 /*!
  * parse a string command into command type (parse both command type and arguments).
  * @param stringCommand - the string command containing both the argument and the command in string form.
  * @return a parsed setting command.
  */
-Command parseStringSettingCommand(StringCommand stringCommand);
+Command parseSettingCommand(StringCommand stringCommand);
 
 /*!
- * get user input, parse it, and return the command the user entered.
+ * get user input, parse it, and return the command the user entered. (return only setting commands)
  * @return Command - containing the argument and the type the user enteted.
  */
 Command getNextSettingCommand();
 
 /*!
- * parse a string into command type.
- * @param stringCommand - a string containing the command.
- * @return the command type, or invalidCommand.
- */
-CommandType parseStringGameCommandType(char *stringCommand);
-
-/*!
- * parse the arguments of a specific game command.
- * @param gameCommand the game command and it's argument are needed to parse.
- * @return a parsed game command.
- */
-void parseGameCommandsArguments(Command *gameCommand);
-
-/*!
- * parse a string command into command type (parse both command type and arguments).
- * @param stringCommand - the string command containing both the argument and the command in string form.
- * @return a parsed setting command.
- */
-Command parseStringGameCommand(StringCommand stringCommand);
-
-/*!
- * get user input, parse it, and return the command the user entered.
+ * get user input, parse it, and return the command the user entered. (return only game commands)
  * @return Command - containing the argument and the type the user entered.
  */
 Command getNextGameCommand();
+
+/*!
+ * get user input, parse it, and return the command the user entered. (return only pawn promotion commands)
+ * @return Command - containing the type the user entered.
+ */
+Command getNextPawnPromotionCommand();
 
 #endif /* PARSER_H_ */
