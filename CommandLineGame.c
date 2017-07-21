@@ -33,8 +33,7 @@ void commandLineGameLoop() {
                     game.needToReprintBoard = 0;
                     printGame(&game);
                 }
-                printf(ASK_FOR_PLAYER_MOVE_FORMAT_STRING,
-                       getColorName(getCurrentPlayerColor(&game)));
+                printf(ASK_FOR_PLAYER_MOVE_FORMAT_STRING, getColorName(getCurrentPlayerColor(&game)));
                 command = getNextGameCommand();
             } else { //Computer Move
                 command = getComputerMove(&game);
@@ -78,12 +77,10 @@ void handlePrintUndoMessage(Game *game, HandleCommandMessage message) {
 
 void handlePrintMove(Game *game, Command command, HandleCommandMessage message) {
     //if game is against AI and the current player is after the AI:
-    int moveWasComputerMove = (game->gameMode == PlayerVsComputer
-                               && game->currentPlayer == Player2);
+    int moveWasComputerMove = (game->gameMode == PlayerVsComputer && game->currentPlayer == Player1);
     if (moveWasComputerMove) {
         printf(COMPUTER_MOVE_FORMAT_STRING, getPieceTypeName(message.argument[0]),
-               command.argument[0], command.argument[1], command.argument[2],
-               command.argument[3]);
+               command.argument[0], command.argument[1], command.argument[2], command.argument[3]);
     }
 
     CheckmateType checkmateType = getCheckmate(game);

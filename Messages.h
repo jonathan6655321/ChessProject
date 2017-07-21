@@ -40,21 +40,21 @@
 #define UNDO_FORMAT_STRING "Undo move for player %s : <%c,%c> -> <%c,%c>\n"
 #define RESTARTING_STRING "Restarting...\n"
 
-#define PAWN_NAME_STIRNG "pawn"
-#define BISHIP_NAME_STIRNG "bishop"
-#define KNIGHT_NAME_STIRNG "knight"
-#define ROOK_NAME_STIRNG "rook"
-#define QUEEN_NAME_STIRNG "queen"
-#define KING_NAME_STIRNG "king"
+#define PAWN_NAME_STRING "pawn"
+#define BISHOP_NAME_STRING "bishop"
+#define KNIGHT_NAME_STRING "knight"
+#define ROOK_NAME_STRING "rook"
+#define QUEEN_NAME_STRING "queen"
+#define KING_NAME_STRING "king"
 
-#define pieceNameM(x) (x)==Pawn ? PAWN_NAME_STIRNG : "error"
-#define pieceNameB(x) (x)==Bishop ? BISHIP_NAME_STIRNG : (pieceNameM(x))
-#define pieceNameN(x) (x)==Rook ? KNIGHT_NAME_STIRNG : (pieceNameB(x))
-#define pieceNameR(x) (x)==Knight ? ROOK_NAME_STIRNG : (pieceNameN(x))
-#define pieceNameQ(x) (x)==Queen ? QUEEN_NAME_STIRNG : (pieceNameR(x))
-#define getPieceTypeName(x)  (x)==King ? KING_NAME_STIRNG : (pieceNameQ(x))
+#define pieceNameM(x) (x)==Pawn ? PAWN_NAME_STRING : "error"
+#define pieceNameB(x) (x)==Bishop ? BISHOP_NAME_STRING : (pieceNameM(x))
+#define pieceNameN(x) (x)==Rook ? KNIGHT_NAME_STRING : (pieceNameB(x))
+#define pieceNameR(x) (x)==Knight ? ROOK_NAME_STRING : (pieceNameN(x))
+#define pieceNameQ(x) (x)==Queen ? QUEEN_NAME_STRING : (pieceNameR(x))
+#define getPieceTypeName(x)  ((x)==King ? KING_NAME_STRING : (pieceNameQ(x)))
 
-#define getColorName(x) (x)==White ? WHITE_COLOR_SMALL_STRING : BLACK_COLOR_SMALL_STRING
-#define getCAPITALColorName(x) (x)==White ? WHITE_COLOR_STRING : BLACK_COLOR_STRING
+#define getColorName(x) ((x)==White ? WHITE_COLOR_SMALL_STRING : BLACK_COLOR_SMALL_STRING)
+#define getCAPITALColorName(x) ((x)==White ? WHITE_COLOR_STRING : BLACK_COLOR_STRING)
 
 #endif /* MESSAGES_H_ */
