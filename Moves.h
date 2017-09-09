@@ -8,9 +8,9 @@
 #include "GameBoard.h"
 #include "consoleRendering.h"
 
+
 #define LEGAL_MOVE 1
 #define ILLEGAL_MOVE 0
-
 typedef struct LegalMoves
 {
     /*
@@ -33,7 +33,8 @@ typedef enum {
     MadeMove,
     PawnPromotionNeeded,
     AteOpponentsPiece_PawnPromote,
-    MadeMove_Pawn_Promote
+    MadeMove_Pawn_Promote,
+    OK
 } ResponseType;
 
 
@@ -57,7 +58,8 @@ int executeSetPieceAt(char row, char col, Piece * piece, GameBoard *gameBoard);
 typedef enum {
     LongCastle,
     ShortCastle,
-    BothCastle
+    BothCastle,
+    NoCastlingMovePossible
 } CastleType;
 
 typedef struct{
@@ -75,10 +77,29 @@ typedef struct{
  * if invalid x,y returns: invalidPosition
  * if at position x,y no users piece: returns notYourPiece
  *
- * else:
+ * returns the ExecuteGetMovesResponse initialized
  */
 ExecuteGetMovesResponse executeUserGetMovesCommand(char pieceRow, char pieceCol, GameBoard *gameBoard, Player currentPlayer);
 
+
+/*!
+ *
+ * @param gameBoard
+ * @param allMoves
+ * @param currentPlayer
+ * @param threatenedByOpponentMoves
+ *
+ * inits threatendByOpponentMoves according to allMoves.
+ */
+void getPositionsThreatenedByOpponent(GameBoard *gameBoard, Player currentPlayer,
+                                      LegalMoves *threatenedByOpponentMoves); // TODO castling threatened??
+
+/*
+ *
+ * returns: InvalidPositon, NotYourPiece or OK
+ * according to relevant logic..
+ */
+ResponseType getResponseTypeForGetMoves(char pieceRow, char pieceCol, GameBoard *gameBoard, Player currentPlayer);
 
 
 
@@ -134,3 +155,4 @@ void printLegalMoves(LegalMoves *legalMoves);
  */
 void printLegalMovesForAllPieces(GameBoard *gameBoard);
 #endif //CHESSPROJECT_MOVES_H
+

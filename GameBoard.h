@@ -12,6 +12,10 @@
 #define BOARD_SIZE NUM_COLS*NUM_ROWS
 
 #define NUM_STARTING_PIECES 32
+#define FIRST_PLAYER_1_PIECE_INDEX 0
+#define LAST_PLAYER_1_PIECE_INDEX 15
+#define FIRST_PLAYER_2_PIECE_INDEX 16
+#define LAST_PLAYER_2_PIECE_INDEX 31
 #define NO_PIECE -2
 #define NOT_IN_GAME -1
 
@@ -19,7 +23,7 @@ typedef struct GameBoard {
     /*
      * each location holds the index of the piece in it.
      */
-    int mapLocationOnBoardToPieceIndex[NUM_ROWS*NUM_COLS];
+    int mapLocationOnBoardToPieceIndex[BOARD_SIZE];
     int mapPieceIndexToLocationOnBoard[NUM_STARTING_PIECES];
 } GameBoard;
 
@@ -59,6 +63,7 @@ void swapQueenKing(GameBoard *gameBoard);
  * if there is no piece there function returns -1
  */
 int getPieceAt(char row, char col, GameBoard *gameBoard, Piece *piece);
+int getPieceFromLocationIndex(GameBoard *gameBoard, int locationIndex, Piece *piece);
 
 /*
  *
@@ -108,12 +113,26 @@ int isSamePlayerPiece(int piece1Index, int piece2Index);
  * returns current location of pieceIndex
  * returns NOT_IN_GAME if was eaten at any point
  */
-int getLocationOfPieceIndex(GameBoard *gameBoard, int pieceIndex);
+int getLocationIndexForPieceIndex(GameBoard *gameBoard, int pieceIndex);
 
 /*
  * used for undo, assumes piece is not on the board now.
  * fails player has max amount of this kind of piece.
  */
 int getPieceIndexFromPiece(GameBoard *gameBoard, Piece *piece);
+
+/*!
+ *
+ * @param i
+ * @return '1' to '8'
+ */
+char getRowFromLocationIndex(int i);
+
+/*!
+ *
+ * @param i
+ * @return 'A' to 'H'
+ */
+char getColFromLocationIndex(int i);
 
 #endif //CHESSPROJECT_GAMEBOARD_H
