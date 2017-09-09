@@ -100,7 +100,7 @@ int getPieceIndexFromPiece(GameBoard *gameBoard, Piece *piece)
             {
                 for (int i=8; i<=15; i++)
                 {
-                    if(getLocationOfPieceIndex(gameBoard,i) == NOT_IN_GAME)
+                    if(getLocationIndexForPieceIndex(gameBoard, i) == NOT_IN_GAME)
                     {
                         return i;
                     }
@@ -110,7 +110,7 @@ int getPieceIndexFromPiece(GameBoard *gameBoard, Piece *piece)
             {
                 for (int i=16; i<=23; i++)
                 {
-                    if(getLocationOfPieceIndex(gameBoard,i) == NOT_IN_GAME)
+                    if(getLocationIndexForPieceIndex(gameBoard, i) == NOT_IN_GAME)
                     {
                         return i;
                     }
@@ -120,22 +120,22 @@ int getPieceIndexFromPiece(GameBoard *gameBoard, Piece *piece)
         case Bishop: // 2,5
             if (piecePlayer == Player1)
             {
-                if (getLocationOfPieceIndex(gameBoard,2) == NOT_IN_GAME)
+                if (getLocationIndexForPieceIndex(gameBoard, 2) == NOT_IN_GAME)
                 {
                     return 2;
                 }
-                if (getLocationOfPieceIndex(gameBoard,5) == NOT_IN_GAME)
+                if (getLocationIndexForPieceIndex(gameBoard, 5) == NOT_IN_GAME)
                 {
                     return 5;
                 }
             }
             else
             {
-                if (getLocationOfPieceIndex(gameBoard,26) == NOT_IN_GAME)
+                if (getLocationIndexForPieceIndex(gameBoard, 26) == NOT_IN_GAME)
                 {
                     return 26;
                 }
-                if (getLocationOfPieceIndex(gameBoard,29) == NOT_IN_GAME)
+                if (getLocationIndexForPieceIndex(gameBoard, 29) == NOT_IN_GAME)
                 {
                     return 29;
                 }
@@ -144,22 +144,22 @@ int getPieceIndexFromPiece(GameBoard *gameBoard, Piece *piece)
         case Rook:
             if (piecePlayer == Player1)
             {
-                if (getLocationOfPieceIndex(gameBoard,0) == NOT_IN_GAME)
+                if (getLocationIndexForPieceIndex(gameBoard, 0) == NOT_IN_GAME)
                 {
                     return 0;
                 }
-                if (getLocationOfPieceIndex(gameBoard,7) == NOT_IN_GAME)
+                if (getLocationIndexForPieceIndex(gameBoard, 7) == NOT_IN_GAME)
                 {
                     return 7;
                 }
             }
             else
             {
-                if (getLocationOfPieceIndex(gameBoard,24) == NOT_IN_GAME)
+                if (getLocationIndexForPieceIndex(gameBoard, 24) == NOT_IN_GAME)
                 {
                     return 24;
                 }
-                if (getLocationOfPieceIndex(gameBoard,31) == NOT_IN_GAME)
+                if (getLocationIndexForPieceIndex(gameBoard, 31) == NOT_IN_GAME)
                 {
                     return 31;
                 }
@@ -168,22 +168,22 @@ int getPieceIndexFromPiece(GameBoard *gameBoard, Piece *piece)
         case Knight:
             if (piecePlayer == Player1)
             {
-                if (getLocationOfPieceIndex(gameBoard,1) == NOT_IN_GAME)
+                if (getLocationIndexForPieceIndex(gameBoard, 1) == NOT_IN_GAME)
                 {
                     return 1;
                 }
-                if (getLocationOfPieceIndex(gameBoard,6) == NOT_IN_GAME)
+                if (getLocationIndexForPieceIndex(gameBoard, 6) == NOT_IN_GAME)
                 {
                     return 6;
                 }
             }
             else
             {
-                if (getLocationOfPieceIndex(gameBoard,25) == NOT_IN_GAME)
+                if (getLocationIndexForPieceIndex(gameBoard, 25) == NOT_IN_GAME)
                 {
                     return 25;
                 }
-                if (getLocationOfPieceIndex(gameBoard,30) == NOT_IN_GAME)
+                if (getLocationIndexForPieceIndex(gameBoard, 30) == NOT_IN_GAME)
                 {
                     return 30;
                 }
@@ -192,22 +192,22 @@ int getPieceIndexFromPiece(GameBoard *gameBoard, Piece *piece)
         case Queen:
             if (piecePlayer == Player1)
             {
-                if (getLocationOfPieceIndex(gameBoard,3) == NOT_IN_GAME)
+                if (getLocationIndexForPieceIndex(gameBoard, 3) == NOT_IN_GAME)
                 {
                     return 3;
                 }
-                if (getLocationOfPieceIndex(gameBoard,4) == NOT_IN_GAME)
+                if (getLocationIndexForPieceIndex(gameBoard, 4) == NOT_IN_GAME)
                 {
                     return 4;
                 }
             }
             else
             {
-                if (getLocationOfPieceIndex(gameBoard,27) == NOT_IN_GAME)
+                if (getLocationIndexForPieceIndex(gameBoard, 27) == NOT_IN_GAME)
                 {
                     return 27;
                 }
-                if (getLocationOfPieceIndex(gameBoard,28) == NOT_IN_GAME)
+                if (getLocationIndexForPieceIndex(gameBoard, 28) == NOT_IN_GAME)
                 {
                     return 28;
                 }
@@ -275,10 +275,17 @@ int getPieceAt(char row, char col, GameBoard *gameBoard, Piece *piece)
     }
     else
     {
-        getPieceFromIndex(piece,pieceIndex);
+        return getPieceFromIndex(piece,pieceIndex);
     }
     return SUCCESS;
 }
+
+int getPieceFromLocationIndex(GameBoard *gameBoard, int locationIndex, Piece *piece)
+{
+    int pieceIndex = gameBoard->mapLocationOnBoardToPieceIndex[locationIndex];
+    return getPieceFromIndex(piece ,pieceIndex);
+}
+
 
 /*
  * converts row, col (as user inputs it) into location index used in gameboard
@@ -405,7 +412,17 @@ int isSamePlayerPiece(int piece1Index, int piece2Index)
  * returns current location of pieceIndex
  * returns NOT_IN_GAME if was eaten at any point
  */
-int getLocationOfPieceIndex(GameBoard *gameBoard, int pieceIndex)
+int getLocationIndexForPieceIndex(GameBoard *gameBoard, int pieceIndex)
 {
     return gameBoard->mapPieceIndexToLocationOnBoard[pieceIndex];
+}
+
+char getRowFromLocationIndex(int i)
+{
+    return '1' + (i/NUM_ROWS);
+}
+
+char getColFromLocationIndex(int i)
+{
+    return 'A' + (i % NUM_COLS);
 }

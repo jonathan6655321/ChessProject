@@ -519,4 +519,105 @@ void printLegalMovesForAllPieces(GameBoard *gameBoard)
 }
 
 
-ExecuteGetMovesResponse executeUserGetMovesCommand(char pieceRow, char pieceCol, GameBoard *gameBoard, Player currentPlayer);
+/*
+ * gets x,y and currentPlayer
+ * if invalid x,y returns: invalidPosition
+ * if at position x,y no users piece: returns notYourPiece
+ *
+ * returns the ExecuteGetMovesResponse initialized
+ */
+ExecuteGetMovesResponse executeUserGetMovesCommand(char pieceRow, char pieceCol, GameBoard *gameBoard, Player currentPlayer)
+{
+    ExecuteGetMovesResponse response = {0};
+
+    response.type = getResponseTypeForGetMoves(pieceRow, pieceCol, gameBoard, currentPlayer);
+    if(!(response.type == InvalidPosition || response.type == NotYourPiece))
+    {
+        getLegalMovesForPieceAt(pieceRow, pieceCol, gameBoard, &response.allMoves);
+
+        // ********************
+        // removePiece for checking threatened places
+        Piece movingPiece;
+        getPieceAt(pieceRow,pieceCol,gameBoard, &movingPiece);
+        removePieceAt(pieceRow, pieceCol, gameBoard);
+        // check now:
+        getPositionsThreatenedByOpponent(gameBoard, currentPlayer, &response.threatenedByOpponentMoves);
+        // put Piece Back
+        setPieceAt(pieceRow,pieceCol,gameBoard, getPieceIndexFromPiece(gameBoard, &movingPiece));
+
+        //
+        getMovesThatEatOpponent(gameBoard, &response.allMoves,
+                                 currentPlayer, &response.opponentAtLocationMoves);
+
+        // TODO !!!!!
+        response.castleType = NoCastlingMovePossible;
+    }
+    return response;
+}
+
+void getMovesThatEatOpponent(GameBoard *gameBoard, LegalMoves *allMoves,
+                              Player currentPlayer, LegalMoves *opponentAtLocationMoves)
+{
+    (*opponentAtLocationMoves) = {0};
+    for(int i=0; i < BOARD_SIZE; i++)
+    {
+        if(allMoves->legalMovesArray[i] == LEGAL_MOVE)
+        {
+            Piece piece;
+            int res = getPieceFromLocationIndex(gameBoard, i, &piece);
+            if(res == SUCCESS && piece.player != currentPlayer)
+            {
+                opponentAtLocationMoves->legalMovesArray[i] = LEGAL_MOVE;
+            }
+        }
+    }
+}
+
+void getPositionsThreatenedByOpponent(GameBoard *gameBoard, Player currentPlayer,
+                                       LegalMoves *threatenedByOpponentMoves)
+{
+    (*threatenedByOpponentMoves) = {0};
+
+    int firstPieceIndex = (currentPlayer==Player1)?FIRST_PLAYER_2_PIECE_INDEX:FIRST_PLAYER_1_PIECE_INDEX;
+    int lastPieceIndex = (currentPlayer==Player1)?LAST_PLAYER_2_PIECE_INDEX:LAST_PLAYER_1_PIECE_INDEX;
+
+    for(int i=firstPieceIndex; i <= lastPieceIndex; i++)
+    {
+        LegalMoves currentOpponentPieceMoves = {0};
+        int opponentPieceLocationIndex = getLocationIndexForPieceIndex(gameBoard, i);
+        char opponentPieceRow = getRowFromLocationIndex(opponentPieceLocationIndex);
+        char opponentPieceCol = getColFromLocationIndex(opponentPieceLocationIndex);
+
+        getLegalMovesForPieceAt(opponentPieceRow, opponentPieceCol, gameBoard, &currentOpponentPieceMoves);
+        for(int j = 0; j < BOARD_SIZE; j++)
+        {
+            if(currentOpponentPieceMoves.legalMovesArray[j] == LEGAL_MOVE)
+                threatenedByOpponentMoves->legalMovesArray[j] = LEGAL_MOVE;
+        }
+    }
+}
+
+/*
+ * returns: InvalidPositon, NotYourPiece or OK
+ * according to relevant logic..
+ */
+ResponseType getResponseTypeForGetMoves(char pieceRow, char pieceCol, GameBoard *gameBoard, Player currentPlayer)
+{
+    if(!isValidRowCol(pieceRow, pieceCol))
+    {
+        return InvalidPosition;
+    }
+    else
+    {
+        Piece pieceAtLocation = {0};
+        // trying to move no piece, or enemy piece
+        if (getPieceAt(pieceRow, pieceCol, gameBoard, &pieceAtLocation) == FAIL ||
+            pieceAtLocation.player != currentPlayer) {
+            return NotYourPiece;
+        }
+        else
+        {
+            return OK;
+        }
+    }
+}
