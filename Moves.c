@@ -517,3 +517,6 @@ void printLegalMovesForAllPieces(GameBoard *gameBoard)
         }
     }
 }
+
+
+ExecuteGetMovesResponse executeUserGetMovesCommand(char pieceRow, char pieceCol, GameBoard *gameBoard, Player currentPlayer);

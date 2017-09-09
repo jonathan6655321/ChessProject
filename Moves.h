@@ -77,7 +77,7 @@ typedef struct{
  *
  * else:
  */
-int executeGetMoves();
+ExecuteGetMovesResponse executeUserGetMovesCommand(char pieceRow, char pieceCol, GameBoard *gameBoard, Player currentPlayer);
 
 
 
