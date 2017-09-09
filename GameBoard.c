@@ -33,7 +33,8 @@ int getPieceFromIndex(Piece *piece, int i)
 {
     if (i > 31 || i < 0)
     {
-        printf("invalid index, i needs to be in range 0-31");
+        // TODO delete this print
+//        printf("invalid index, i needs to be in range 0-31");
         return FAIL;
     }
     piece->player = getPlayerFromIndex(i);
