@@ -1,0 +1,5 @@
+game_mode 2
+start
+get_moves <9,A>
+get_moves <8,A>
+quit

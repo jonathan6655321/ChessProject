@@ -6,6 +6,7 @@
  */
 
 #include "CommandLineGame.h"
+#include "Moves.h"
 
 //create a empty game board
 static const Game EmptyGame;
@@ -118,6 +119,14 @@ void handlePrintGetMoves(Game *game, Command command, HandleCommandMessage messa
             PRINT_SINGLE_GET_MOVE(row, col, isPossible, isThreatened, isCapturing, isCastle);
         }
     }
+    printf("#########allMoves###########");
+    printLegalMoves(&message.getMovesResponse.allMoves);
+    printf("#########opponentAtLocationMoves###########");
+    printLegalMoves(&message.getMovesResponse.opponentAtLocationMoves);
+    printf("#########threatenedByOpponentMoves###########");
+    printLegalMoves(&message.getMovesResponse.threatenedByOpponentMoves);
+    printf("####################");
+
     // Castle move:
     isCastle = 1;
     // castle move can't be threatened (it's the king!)
@@ -283,7 +292,7 @@ void printCommandLineMessages(Game *game, Command command,
             printf("%s", SET_MOVE_POSITION_ERROR_STRING);
             break;
         case errorSetMoveNotYourPieceMessage:
-            printf(GET_MOVES_NOT_YOUR_PIECE_ERROR_FORMAT_STRING, getColorName(getCurrentPlayerColor(game)));
+            printf("%s", SET_MOVE_WRONG_PIECE_COLOR_ERROR_STRING);
             break;
         case errorIllegalMoveMessage:
             printf("%s", SET_MOVE_ILLEGAL_MOVE_ERROR_STRING);
@@ -313,7 +322,7 @@ void printCommandLineMessages(Game *game, Command command,
             printf("%s", GET_MOVES_INVALID_POSITION_ERROR_STRING);
             break;
         case errorGetMovesNotYourPieceMessage:
-            printf("%s", CASTLING_MOVE_NO_ROOK_ERROR_STRING);
+            printf(GET_MOVES_NOT_YOUR_PIECE_ERROR_FORMAT_STRING, getColorName(getCurrentPlayerColor(game)));
             break;
         case errorSaveMessage:
             printf("%s", SAVE_SETTING_ERROR_STRING);

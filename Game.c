@@ -207,10 +207,13 @@ HandleCommandMessage handleGetMoves(Command command, Game *game) {
     switch (message.getMovesResponse.type) {
         case InvalidPosition:
             message.messageType = errorGetMovesInvalidPositionMessage;
+            break;
         case NotYourPiece:
             message.messageType = errorGetMovesNotYourPieceMessage;
+            break;
         default:
             message.messageType = getMovesMessage;
+            break;
     }
     return message;
 }
