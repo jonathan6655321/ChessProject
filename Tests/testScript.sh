@@ -1,5 +1,5 @@
 #!/bin/bash
-for i in `seq 1 2`
+for i in `seq 1 3`
 do	
 	res=$(./../cmake-build-debug/ChessProject.exe < test_"$i".in > test_"$i".res)
 	
@@ -9,6 +9,9 @@ do
 	#echo result for test $i is: $res
 	if [ "$res" != "" ]; then
 		echo FAIL:  test number $i "		" $desc
+		echo ___________"	"TEST $i DIFF START "	" ____________
+		echo $res
+		echo ___________"	"TEST $i DIFF END "	" ____________
 	else 
 		echo OK:    test number $i	"		" $desc
 	fi	
