@@ -603,7 +603,7 @@ void getPositionsThreatenedByOpponent(GameBoard *gameBoard, Player currentPlayer
  */
 ResponseType getResponseTypeForGetMoves(char pieceRow, char pieceCol, GameBoard *gameBoard, Player currentPlayer)
 {
-    if(!isValidRowCol(pieceRow, pieceCol))
+    if(isValidRowCol(pieceRow, pieceCol) == FAIL)
     {
         return InvalidPosition;
     }
