@@ -21,6 +21,6 @@ set(SOURCE_FILES
         Parser.h
         Pieces.c
         Pieces.h
-        CommandLineCommands.h)
+        CommandLineCommands.h MiniMaxAlgorithm.h)
 
 add_executable(ChessProject ${SOURCE_FILES})
