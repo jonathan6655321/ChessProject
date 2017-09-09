@@ -6,9 +6,9 @@
 int main( int argc, char **argv )
 {
 
-    GameBoard gameBoard;
-    initGame(&gameBoard, White);
-    printBoard(&gameBoard,White);
+//    GameBoard gameBoard;
+//    initGame(&gameBoard, White);
+//    printBoard(&gameBoard,White);
 //
 //    printf("\n\n");
 //    movePiece('1','A', '4','E', &gameBoard);
@@ -23,8 +23,8 @@ int main( int argc, char **argv )
 //    printBoard(&gameBoard,White);
 //
 //
-    printLegalMovesForAllPieces(&gameBoard);
+//    printLegalMovesForAllPieces(&gameBoard);
 
-//    commandLineGameLoop();
+    commandLineGameLoop();
     return 0;
 }

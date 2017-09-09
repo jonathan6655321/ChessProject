@@ -20,6 +20,7 @@ set(SOURCE_FILES
         Parser.c
         Parser.h
         Pieces.c
-        Pieces.h CommandLineCommands.h)
+        Pieces.h
+        CommandLineCommands.h)
 
 add_executable(ChessProject ${SOURCE_FILES})
