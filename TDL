@@ -48,6 +48,8 @@ IDO:
     handle pawn promotion
     handle castle move
     handle get moves and also check if castle move is available and only if so print it.
+    what happends when game ends? need to check the whle loop.
+
 
 Ido's test to do:
     make test for everythinggggg.

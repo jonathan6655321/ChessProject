@@ -17,7 +17,7 @@ void commandLineGameLoop() {
     HandleCommandMessage commandMessage;
 
     command.commandType = resetGame;
-    while (command.commandType != quitGame && state != gameEndedCommandState) {
+    while (command.commandType != quitGame) {
         if (state == settingCommandState) {
             if (command.commandType == resetGame) {
                 game = EmptyGame;
@@ -36,6 +36,9 @@ void commandLineGameLoop() {
             } else { //Computer Move
                 command = getComputerMove(&game);
             }
+        } else if (state == gameEndedCommandState) {
+            // TODO
+            return;
         }
         commandMessage = handleCommand(command, &game);
         handlePawnPromotionLoop(&command, &commandMessage, &game);

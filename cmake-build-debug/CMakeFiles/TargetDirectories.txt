@@ -1,3 +1,0 @@
-F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/CMakeFiles/ChessProject.dir
-F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/CMakeFiles/edit_cache.dir
-F:/Tau/Courses/Computer Science/2016-2017/Semester 2/C Project/ChessProject/cmake-build-debug/CMakeFiles/rebuild_cache.dir
