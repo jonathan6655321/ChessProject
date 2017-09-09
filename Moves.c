@@ -538,13 +538,13 @@ ExecuteGetMovesResponse executeUserGetMovesCommand(char pieceRow, char pieceCol,
 
         // ********************
         // removePiece for checking threatened places
-        Piece movingPiece;
-        getPieceAt(pieceRow,pieceCol,gameBoard, &movingPiece);
-        removePieceAt(pieceRow, pieceCol, gameBoard);
+//        Piece movingPiece;
+//        getPieceAt(pieceRow,pieceCol,gameBoard, &movingPiece);
+//        removePieceAt(pieceRow, pieceCol, gameBoard);
         // check now:
-        getPositionsThreatenedByOpponent(gameBoard, currentPlayer, &response.threatenedByOpponentMoves);
+        getPositionsThreatenedByOpponent(pieceRow, pieceCol, gameBoard, currentPlayer, &response.allMoves, &response.threatenedByOpponentMoves);
         // put Piece Back
-        setPieceAt(pieceRow,pieceCol,gameBoard, getPieceIndexFromPiece(gameBoard, &movingPiece));
+//        setPieceAt(pieceRow,pieceCol,gameBoard, getPieceIndexFromPiece(gameBoard, &movingPiece));
 
         //
         getMovesThatEatOpponent(gameBoard, &response.allMoves,
@@ -584,7 +584,7 @@ void getPositionsThreatenedByOpponent(char pieceRow, char pieceCol, GameBoard *g
 
     for(int moveIndex = 0; moveIndex < BOARD_SIZE; moveIndex++)
     {
-        if(allMoves->legalMovesArray[moveIndex] == IllegalMove)
+        if(allMoves->legalMovesArray[moveIndex] != LEGAL_MOVE)
             continue;
 
         // create a new board with the piece at the destination corresponding to moveIndex
@@ -593,20 +593,27 @@ void getPositionsThreatenedByOpponent(char pieceRow, char pieceCol, GameBoard *g
         movePiece(pieceRow, pieceCol, getRowFromLocationIndex(moveIndex),
                   getColFromLocationIndex(moveIndex), &gameAfterMove);
 
+
+        // board needs to be correct at this point..
+
         for(int i=firstPieceIndex; i <= lastPieceIndex; i++)
         {
             LegalMoves currentOpponentPieceMoves = {0};
-            int opponentPieceLocationIndex = getLocationIndexForPieceIndex(gameBoard, i);
+            int opponentPieceLocationIndex = getLocationIndexForPieceIndex(&gameAfterMove, i);
             if(opponentPieceLocationIndex == NOT_IN_GAME)
                 continue;
 
             char opponentPieceRow = getRowFromLocationIndex(opponentPieceLocationIndex);
             char opponentPieceCol = getColFromLocationIndex(opponentPieceLocationIndex);
 
-            getLegalMovesForPieceAt(opponentPieceRow, opponentPieceCol, gameBoard, &currentOpponentPieceMoves);
+            getLegalMovesForPieceAt(opponentPieceRow, opponentPieceCol, &gameAfterMove, &currentOpponentPieceMoves);
             for(int j = 0; j < BOARD_SIZE; j++)
             {
-                if(currentOpponentPieceMoves.legalMovesArray[j] == LEGAL_MOVE)
+                Piece p;
+                if(getPieceFromLocationIndex(&gameAfterMove, j, &p) == FAIL)
+                    continue;
+                if(currentOpponentPieceMoves.legalMovesArray[j] == LEGAL_MOVE
+                        && p.player == currentPlayer)
                     threatenedByOpponentMoves->legalMovesArray[j] = LEGAL_MOVE;
             }
         }

@@ -328,8 +328,9 @@ int movePiece(char rowFrom, char colFrom, char rowTo, char colTo, GameBoard *gam
     {
         return FAIL;
     }
-    setPieceAt(rowTo, colTo, gameBoard, movingPieceIndex);
     removePieceAt(rowFrom, colFrom, gameBoard);
+    setPieceAt(rowTo, colTo, gameBoard, movingPieceIndex);
+
 
     return pieceAtDestinationIndex;
 }
