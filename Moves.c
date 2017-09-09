@@ -14,45 +14,33 @@
  * if is your piece but illegal move request returns: illegalMove
  *
  */
-ResponseType executeUserMoveCommand(char rowFrom, char colFrom, char rowTo, char colTo, GameBoard *gameBoard, Player currentPlayer,
-                           Piece *pieceDestinationBefore, Piece* pieceAtDestinationAfter)
-{
-    if (isValidRowCol(rowFrom,colFrom) == FAIL || isValidRowCol(rowTo,colTo) == FAIL)
-    {
+ResponseType executeUserMoveCommand(char rowFrom, char colFrom, char rowTo, char colTo, GameBoard *gameBoard, Player currentPlayer) {
+    Piece pieceAtDestinationAfter, pieceDestinationBefore;
+    if (isValidRowCol(rowFrom, colFrom) == FAIL || isValidRowCol(rowTo, colTo) == FAIL) {
         return InvalidPosition;
-    }
-    else
-    {
+    } else {
         // trying to move no piece, or enemy piece
-        if (getPieceAt(rowFrom,colFrom,gameBoard,pieceAtDestinationAfter) == FAIL ||
-                pieceAtDestinationAfter->player != currentPlayer)
-        {
+        if (getPieceAt(rowFrom, colFrom, gameBoard, &pieceAtDestinationAfter) == FAIL ||
+            pieceAtDestinationAfter.player != currentPlayer) {
             return NotYourPiece;
-        }
-        else
-        {
+        } else {
             LegalMoves legalMoves = {0};
-            getLegalMovesForPieceAt(rowFrom,colFrom,gameBoard,&legalMoves);
-            if (legalMoves.legalMovesArray[rowColToLocationIndex(rowTo, colTo)] == ILLEGAL_MOVE)
-            {
+            getLegalMovesForPieceAt(rowFrom, colFrom, gameBoard, &legalMoves);
+            if (legalMoves.legalMovesArray[rowColToLocationIndex(rowTo, colTo)] == ILLEGAL_MOVE) {
                 return IllegalMove;
-            }
-            else
-            {
-                if (getPieceAt(rowTo,colTo,gameBoard,pieceDestinationBefore) == FAIL)
-                {
-                    movePiece(rowFrom,colFrom,rowTo,colTo,gameBoard);
+            } else {
+                if (getPieceAt(rowTo, colTo, gameBoard, &pieceDestinationBefore) == FAIL) {
+                    movePiece(rowFrom, colFrom, rowTo, colTo, gameBoard);
                     return MadeMove;
-                }
-                else
-                {
-                    movePiece(rowFrom,colFrom,rowTo,colTo,gameBoard);
+                } else {
+                    movePiece(rowFrom, colFrom, rowTo, colTo, gameBoard);
                     return AteOpponentsPiece;
                 }
             }
         }
     }
 }
+
 
 /*
  * gets row, col and piece from user. and sets the piece in this location.

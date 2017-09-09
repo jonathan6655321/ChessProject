@@ -47,8 +47,7 @@ typedef enum {
  * if is your piece but illegal move request returns: illegalMove
  *
  */
-ResponseType executeUserMoveCommand(char rowFrom, char colFrom, char rowTo, char colTo, GameBoard *gameBoard, Player currentPlayer,
-                                Piece *pieceDestinationBefore, Piece* pieceAtDestinationAfter);
+ResponseType executeUserMoveCommand(char rowFrom, char colFrom, char rowTo, char colTo, GameBoard *gameBoard, Player currentPlayer);
 
 /*
  * gets row, col and piece from user. and sets the piece in this location
