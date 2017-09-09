@@ -107,7 +107,50 @@ void handlePrintCastleMove(Game *game, HandleCommandMessage message) {
 }
 
 void handlePrintGetMoves(Game *game, Command command, HandleCommandMessage message) {
-    //TODO: get moves message - after setting a format with Somer.
+    int currentIndex;
+    char row, col;
+    int isPossible, isThreatened, isCapturing, isCastle;
+    isCastle = 0;
+    for (row = '1'; row <= '8'; ++row) {
+        for (col = 'A'; col <= 'H'; ++col) {
+            currentIndex = rowColToLocationIndex(row, col);
+            isPossible = message.getMovesResponse.allMoves.legalMovesArray[currentIndex];
+            isThreatened = message.getMovesResponse.threatenedByOpponentMoves.legalMovesArray[currentIndex];
+            isCapturing = message.getMovesResponse.opponentAtLocationMoves.legalMovesArray[currentIndex];
+            PRINT_SINGLE_GET_MOVE(row, col, isPossible, isThreatened, isCapturing, isCastle);
+        }
+    }
+    isCastle = 1;
+    // castle move can't be threatened (it's the king!)
+    // castle move can't capture anything (need to be unoccupied!).
+    isThreatened = 0;
+    isCapturing = 0;
+    // long castle
+    if (command.argument[1] == 'E') {
+        col = 'C';
+        row = command.argument[0];
+    } else {
+        col = 'F';
+        row = command.argument[0];
+    }
+    currentIndex = rowColToLocationIndex(row, col);
+    isPossible = (message.getMovesResponse.castleType == BothCastle ||
+                  message.getMovesResponse.castleType == LongCastle);
+    PRINT_SINGLE_GET_MOVE(row, col, isPossible, isThreatened, isCapturing, isCastle);
+    // short castle
+    if (command.argument[1] == 'E') {
+        col = 'G';
+        row = command.argument[0];
+    } else {
+        col = 'B';
+        row = command.argument[0];
+    }
+    currentIndex = rowColToLocationIndex(row, col);
+    isPossible = (message.getMovesResponse.castleType == BothCastle ||
+                  message.getMovesResponse.castleType == ShortCastle);
+    isThreatened = message.getMovesResponse.threatenedByOpponentMoves.legalMovesArray[currentIndex];
+    isCapturing = message.getMovesResponse.opponentAtLocationMoves.legalMovesArray[currentIndex];
+    PRINT_SINGLE_GET_MOVE(row, col, isPossible, isThreatened, isCapturing, isCastle);
 }
 
 

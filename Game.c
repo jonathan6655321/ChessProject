@@ -142,8 +142,8 @@ HandleCommandMessage handleSetMove(Command command, Game *game) {
     Piece pieceAtDestinationAfter;
     HandleCommandMessage message;
     ResponseType response = executeUserMoveCommand(rowFrom, colFrom, rowTo, colTo,
-                                               &(game->board), game->currentPlayer, &pieceAtDestinationBefore,
-                                               &pieceAtDestinationAfter);
+                                                   &(game->board), game->currentPlayer, &pieceAtDestinationBefore,
+                                                   &pieceAtDestinationAfter);
     switch (response) {
         //case where no move should be done:
         case InvalidPosition:
@@ -201,9 +201,18 @@ HandleCommandMessage handleCastleMove(Command command, Game *game) {
 
 HandleCommandMessage handleGetMoves(Command command, Game *game) {
     HandleCommandMessage message;
-    message.messageType = errorGetMovesInvalidPositionMessage;
+    char row = command.argument[0];
+    char col = command.argument[1];
+    message.getMovesResponse = executeUserGetMovesCommand(row, col, &(game->board), game->currentPlayer);
+    switch (message.getMovesResponse.type) {
+        case InvalidPosition:
+            message.messageType = errorGetMovesInvalidPositionMessage;
+        case NotYourPiece:
+            message.messageType = errorGetMovesNotYourPieceMessage;
+        default:
+            message.messageType = getMovesMessage;
+    }
     return message;
-//TODO: return in new struct from Somer the get moves
 }
 
 HandleCommandMessage handleSaveGame(Command command, Game *game) {

@@ -105,7 +105,7 @@ typedef enum {
 typedef struct HandleCommandMessage {
     HandleCommandMessageType messageType;
     char argument[8];
-//TODO: add what Somer will output from game
+    ExecuteGetMovesResponse getMovesResponse;
 } HandleCommandMessage;
 
 //METHODS
