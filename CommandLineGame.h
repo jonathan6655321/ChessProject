@@ -13,7 +13,9 @@
 #include "Messages.h"
 
 typedef enum {
-    settingCommandState, gameCommandState, gameEndedCommandState
+    settingCommandState,
+    gameCommandState,
+    gameEndedCommandState
 } commandLineState;
 
 /*!

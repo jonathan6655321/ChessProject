@@ -26,5 +26,5 @@ int main( int argc, char **argv )
 //    printLegalMovesForAllPieces(&gameBoard);
 
     commandLineGameLoop();
-    return 1;
+    return 0;
 }

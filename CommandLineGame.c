@@ -12,13 +12,11 @@ static const Game EmptyGame;
 
 void commandLineGameLoop() {
     commandLineState state = settingCommandState;
-    Game game = EmptyGame;
+    Game game;
     Command command;
     HandleCommandMessage commandMessage;
 
-    setGameDefaultValue(&game);
     command.commandType = resetGame;
-
     while (command.commandType != quitGame && state != gameEndedCommandState) {
         if (state == settingCommandState) {
             if (command.commandType == resetGame) {

@@ -10,55 +10,53 @@ setPossible moves for all pieces
 
 
 // gameboard:
-movePiece: receives point to point, player returns error type
-    in castling it was writen that if a move cause a check to the king - it shouldn't be available.
-    ^we need to update it in move piece and in get moves ( a  move that gets you to lose shouldn't be possible)
-    ^means that if I move a pawn and this cause my king to be threatened it shouldn't be a possible move.
-movePiece: add another argument called pawnPromotion which is of type pieceType (which can be null... so maybe add a piece type called noPiece).
-    if pawnPromotion is needed (pawn reached the end) then return a new response: pawnPromotionNeeded. (the user will be asked then to input the promotion type)
-    if pawnPromotion is made return in response that pawnPromotion was made (two new response:     AteOpponentsPiece_PawnPromoted,
-                                                                                                   MadeMove_PawnPromoted)
-    Because we have piece before and piece after they both should contain the -original- pieces (not after the pawn promotion) so that the undo can undo the pawn promotion as well.
-getPieceAt: struct Piece
-checkWinner: check if checkmate and if check (black is threatenings the white king~ and return the situation). method should also receive as argument the last Player moved to only check if he made a move that threatend the other-king or if he won.
-get moves,
-    -get moves should return a "not a valid board position" response if the position is outside of the board
-    - get move should return a "not your piece" response if on the board position there is no piece of the current player.
-add castle move function: also the castle move cannot be handled by movePiece (because they require that it to be handle by a different command so castling cannot be done by "move piece").
-    castle move received: currentPlayer, rook to be moved to <x,y> (the king is not received, and should be found).
-    castle move response:
-        if x,y doesn't contain a rook - NO ROOK
-        if x,y contains a rook, but castling move is not available then - ILLEGAL CASTLING
-            what we need for castling move to not be illegal:
-                The king and the chosen rook are on the player's first rank (row).
-                    - Neither the king nor the chosen rook have previously moved.
-                    - There are no pieces between the king and the chosen rook.
-                    - The king is not currently in check.
-                    - The king does not pass through a square that is threaten by an enemy piece.
-                    - The king doesn't end up in check (true for any legal move).
-        if castling move was successful return success and the <X,Y> of the king that was swapped.
-setBoard from string command:
-    receive a 64 char array (_____qMK_k and so on...) and set the board accordingly.
+    movePiece: receives point to point, player returns error type
+        in castling it was writen that if a move cause a check to the king - it shouldn't be available.
+        ^we need to update it in move piece and in get moves ( a  move that gets you to lose shouldn't be possible)
+        ^means that if I move a pawn and this cause my king to be threatened it shouldn't be a possible move.
+    movePiece: add another argument called pawnPromotion which is of type pieceType (which can be null... so maybe add a piece type called noPiece).
+        if pawnPromotion is needed (pawn reached the end) then return a new response: pawnPromotionNeeded. (the user will be asked then to input the promotion type)
+        if pawnPromotion is made return in response that pawnPromotion was made (two new response:     AteOpponentsPiece_PawnPromoted,
+                                                                                                       MadeMove_PawnPromoted)
+        Because we have piece before and piece after they both should contain the -original- pieces (not after the pawn promotion) so that the undo can undo the pawn promotion as well.
+    getPieceAt: struct Piece
+    checkWinner: check if checkmate and if check (black is threatenings the white king~ and return the situation). method should also receive as argument the last Player moved to only check if he made a move that threatend the other-king or if he won.
+    get moves,
+        -get moves should return a "not a valid board position" response if the position is outside of the board
+        - get move should return a "not your piece" response if on the board position there is no piece of the current player.
+    add castle move function: also the castle move cannot be handled by movePiece (because they require that it to be handle by a different command so castling cannot be done by "move piece").
+        castle move received: currentPlayer, rook to be moved to <x,y> (the king is not received, and should be found).
+        castle move response:
+            if x,y doesn't contain a rook - NO ROOK
+            if x,y contains a rook, but castling move is not available then - ILLEGAL CASTLING
+                what we need for castling move to not be illegal:
+                    The king and the chosen rook are on the player's first rank (row).
+                        - Neither the king nor the chosen rook have previously moved.
+                        - There are no pieces between the king and the chosen rook.
+                        - The king is not currently in check.
+                        - The king does not pass through a square that is threaten by an enemy piece.
+                        - The king doesn't end up in check (true for any legal move).
+            if castling move was successful return success and the <X,Y> of the king that was swapped.
+    setBoard from string command:
+        receive a 64 char array (_____qMK_k and so on...) and set the board accordingly.
 
 
 isLegalMove Board
 -----------------------------------------
 IDO:
-save, load.
-handle pawn promotion
-handle castle move
-handle get moves and also check if castle move is available and only if so print it.
+    save, load.
+    handle pawn promotion
+    handle castle move
+    handle get moves and also check if castle move is available and only if so print it.
 
 Ido's test to do:
-make test for everythinggggg.
-check if move piece can do a castling move - not good.
-check if undo doesn't work in 2 player mode.
-end case to check - checkmate should be if no move for the kind get him to not be threatend. if it can stay in place and not be threatened while there are other piece with moves that doesn't cause it to be so, it's not a checkmate. but if all other pieces doesn't have possible moves - it's a check mate.
+    make test for everythinggggg.
+    check if move piece can do a castling move - not good.
+    check if undo doesn't work in 2 player mode.
+    end case to check - checkmate should be if no move for the kind get him to not be threatend. if it can stay in place and not be threatened while there are other piece with moves that doesn't cause it to be so, it's not a checkmate. but if all other pieces doesn't have possible moves - it's a check mate.
 
 TODO general:
-min max algo with pruning with castle move and pawn promotion (we should treat pawn move to the end action and promotion as a single action should probably only check knight or queen piece.)
-difficulty 5.
-
-
+    min max algo with pruning with castle move and pawn promotion (we should treat pawn move to the end action and promotion as a single action should probably only check knight or queen piece.)
+    difficulty 5.
 
 check if
