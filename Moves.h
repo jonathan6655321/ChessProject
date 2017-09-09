@@ -7,7 +7,8 @@
 
 #include "GameBoard.h"
 #include "consoleRendering.h"
-
+#include <stdio.h>
+#include <string.h>
 
 #define LEGAL_MOVE 1
 #define ILLEGAL_MOVE 0
@@ -91,8 +92,8 @@ ExecuteGetMovesResponse executeUserGetMovesCommand(char pieceRow, char pieceCol,
  *
  * inits threatendByOpponentMoves according to allMoves.
  */
-void getPositionsThreatenedByOpponent(GameBoard *gameBoard, Player currentPlayer,
-                                      LegalMoves *threatenedByOpponentMoves); // TODO castling threatened??
+void getPositionsThreatenedByOpponent(char pieceRow, char pieceCol, GameBoard *gameBoard, Player currentPlayer,
+                                      LegalMoves *allMoves, LegalMoves *threatenedByOpponentMoves); // TODO castling threatened??
 
 /*!
  *

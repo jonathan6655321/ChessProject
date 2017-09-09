@@ -3,6 +3,7 @@
 //
 
 
+
 #include "Moves.h"
 
 
@@ -130,12 +131,12 @@ void getLegalMovesForPawnAt(char row,char col,GameBoard *gameBoard, LegalMoves *
 
         // diagonals:
         pieceAtDestinationIndex = getIndexOfPieceAt(row+1,col+1,gameBoard);
-        if (pieceAtDestinationIndex >= 0 && isPlayer1Index(pieceAtDestinationIndex) == FAIL)
+        if (pieceAtDestinationIndex >= 0 && (isPlayer1Index(pieceAtDestinationIndex) == FAIL))
         {
             setMoveLegal(row + 1, col + 1, legalMoves);
         }
         pieceAtDestinationIndex = getIndexOfPieceAt(row+1,col-1,gameBoard);
-        if (pieceAtDestinationIndex >= 0 && isPlayer1Index(pieceAtDestinationIndex) == FAIL)
+        if (pieceAtDestinationIndex >= 0 && (isPlayer1Index(pieceAtDestinationIndex) == FAIL))
         {
             setMoveLegal(row + 1, col - 1, legalMoves);
         }
@@ -155,12 +156,12 @@ void getLegalMovesForPawnAt(char row,char col,GameBoard *gameBoard, LegalMoves *
 
         // diagonals:
         pieceAtDestinationIndex = getIndexOfPieceAt(row-1,col+1,gameBoard);
-        if (pieceAtDestinationIndex >= 0 && isPlayer1Index(pieceAtDestinationIndex) == SUCCESS)
+        if (pieceAtDestinationIndex >= 0 && (isPlayer1Index(pieceAtDestinationIndex) == SUCCESS))
         {
             setMoveLegal(row - 1, col + 1, legalMoves);
         }
         pieceAtDestinationIndex = getIndexOfPieceAt(row-1,col-1,gameBoard);
-        if (pieceAtDestinationIndex >= 0 && isPlayer1Index(pieceAtDestinationIndex) == SUCCESS)
+        if (pieceAtDestinationIndex >= 0 && (isPlayer1Index(pieceAtDestinationIndex) == SUCCESS))
         {
             setMoveLegal(row - 1, col - 1, legalMoves);
         }
@@ -573,28 +574,44 @@ void getMovesThatEatOpponent(GameBoard *gameBoard, LegalMoves *allMoves,
     }
 }
 
-void getPositionsThreatenedByOpponent(GameBoard *gameBoard, Player currentPlayer,
-                                       LegalMoves *threatenedByOpponentMoves)
+void getPositionsThreatenedByOpponent(char pieceRow, char pieceCol, GameBoard *gameBoard, Player currentPlayer,
+                                      LegalMoves *allMoves, LegalMoves *threatenedByOpponentMoves)
 {
 //    (*threatenedByOpponentMoves) = {0};
 
     int firstPieceIndex = (currentPlayer==Player1)?FIRST_PLAYER_2_PIECE_INDEX:FIRST_PLAYER_1_PIECE_INDEX;
     int lastPieceIndex = (currentPlayer==Player1)?LAST_PLAYER_2_PIECE_INDEX:LAST_PLAYER_1_PIECE_INDEX;
 
-    for(int i=firstPieceIndex; i <= lastPieceIndex; i++)
+    for(int moveIndex = 0; moveIndex < BOARD_SIZE; moveIndex++)
     {
-        LegalMoves currentOpponentPieceMoves = {0};
-        int opponentPieceLocationIndex = getLocationIndexForPieceIndex(gameBoard, i);
-        char opponentPieceRow = getRowFromLocationIndex(opponentPieceLocationIndex);
-        char opponentPieceCol = getColFromLocationIndex(opponentPieceLocationIndex);
+        if(allMoves->legalMovesArray[moveIndex] == IllegalMove)
+            continue;
 
-        getLegalMovesForPieceAt(opponentPieceRow, opponentPieceCol, gameBoard, &currentOpponentPieceMoves);
-        for(int j = 0; j < BOARD_SIZE; j++)
+        // create a new board with the piece at the destination corresponding to moveIndex
+        GameBoard gameAfterMove;
+        memcpy(&gameAfterMove, gameBoard, sizeof(GameBoard));
+        movePiece(pieceRow, pieceCol, getRowFromLocationIndex(moveIndex),
+                  getColFromLocationIndex(moveIndex), &gameAfterMove);
+
+        for(int i=firstPieceIndex; i <= lastPieceIndex; i++)
         {
-            if(currentOpponentPieceMoves.legalMovesArray[j] == LEGAL_MOVE)
-                threatenedByOpponentMoves->legalMovesArray[j] = LEGAL_MOVE;
+            LegalMoves currentOpponentPieceMoves = {0};
+            int opponentPieceLocationIndex = getLocationIndexForPieceIndex(gameBoard, i);
+            if(opponentPieceLocationIndex == NOT_IN_GAME)
+                continue;
+
+            char opponentPieceRow = getRowFromLocationIndex(opponentPieceLocationIndex);
+            char opponentPieceCol = getColFromLocationIndex(opponentPieceLocationIndex);
+
+            getLegalMovesForPieceAt(opponentPieceRow, opponentPieceCol, gameBoard, &currentOpponentPieceMoves);
+            for(int j = 0; j < BOARD_SIZE; j++)
+            {
+                if(currentOpponentPieceMoves.legalMovesArray[j] == LEGAL_MOVE)
+                    threatenedByOpponentMoves->legalMovesArray[j] = LEGAL_MOVE;
+            }
         }
     }
+
 }
 
 /*
