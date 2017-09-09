@@ -1,0 +1,15 @@
+start
+reset
+print_setting
+game_mode 2
+start
+move <2,B> to <5,B>
+move <2,B> to <5,B>
+move <2,B> to <4,B>
+move <7,B> to <7,B>
+move <7,B> to <9,B>
+move <7,B> to <5,B>
+move <4,B> to <5,B>
+move <2,C> to <4,C>
+move <5,B> to <4,C>
+quit

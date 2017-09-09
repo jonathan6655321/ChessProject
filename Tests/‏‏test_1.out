@@ -1,0 +1,85 @@
+Specify game setting or type 'start' to begin a game with the current setting:
+8| R N B Q K B N R |
+7| M M M M M M M M |
+6| _ _ _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| _ _ _ _ _ _ _ _ |
+2| m m m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+white player - enter your move:
+Restarting...
+Specify game setting or type 'start' to begin a game with the current setting:
+SETTINGS:
+GAME_MODE: 1
+DIFFICULTY_LVL: 2
+USER_CLR: WHITE
+Game mode is set to 2 players
+8| R N B Q K B N R |
+7| M M M M M M M M |
+6| _ _ _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| _ _ _ _ _ _ _ _ |
+2| m m m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+white player - enter your move:
+Illegal move
+white player - enter your move:
+Illegal move
+white player - enter your move:
+8| R N B Q K B N R |
+7| M M M M M M M M |
+6| _ _ _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ m _ _ _ _ _ _ |
+3| _ _ _ _ _ _ _ _ |
+2| m _ m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+black player - enter your move:
+Illegal move
+black player - enter your move:
+Invalid position on the board
+black player - enter your move:
+8| R N B Q K B N R |
+7| M _ M M M M M M |
+6| _ _ _ _ _ _ _ _ |
+5| _ M _ _ _ _ _ _ |
+4| _ m _ _ _ _ _ _ |
+3| _ _ _ _ _ _ _ _ |
+2| m _ m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+white player - enter your move:
+Illegal move
+white player - enter your move:
+8| R N B Q K B N R |
+7| M _ M M M M M M |
+6| _ _ _ _ _ _ _ _ |
+5| _ M _ _ _ _ _ _ |
+4| _ m m _ _ _ _ _ |
+3| _ _ _ _ _ _ _ _ |
+2| m _ _ m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+black player - enter your move:
+8| R N B Q K B N R |
+7| M _ M M M M M M |
+6| _ _ _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ m M _ _ _ _ _ |
+3| _ _ _ _ _ _ _ _ |
+2| m _ _ m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+white player - enter your move:
+Exiting...
