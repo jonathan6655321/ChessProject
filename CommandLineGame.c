@@ -99,10 +99,7 @@ void handlePrintCastleMove(Game *game, HandleCommandMessage message) {
     if (moveWasComputerMove) {
         printf(CASTLING_MOVE_COMPUTER_FORMAT_STRING, message.argument[0], message.argument[1], message.argument[2],
                message.argument[3]);
-    } else {
-
     }
-
     handlePrintCheckmate(getCheckmate(game), moveWasComputerMove);
 }
 
@@ -111,6 +108,7 @@ void handlePrintGetMoves(Game *game, Command command, HandleCommandMessage messa
     char row, col;
     int isPossible, isThreatened, isCapturing, isCastle;
     isCastle = 0;
+    // Regular move:
     for (row = '1'; row <= '8'; ++row) {
         for (col = 'A'; col <= 'H'; ++col) {
             currentIndex = rowColToLocationIndex(row, col);
@@ -120,37 +118,45 @@ void handlePrintGetMoves(Game *game, Command command, HandleCommandMessage messa
             PRINT_SINGLE_GET_MOVE(row, col, isPossible, isThreatened, isCapturing, isCastle);
         }
     }
+    // Castle move:
     isCastle = 1;
     // castle move can't be threatened (it's the king!)
     // castle move can't capture anything (need to be unoccupied!).
     isThreatened = 0;
     isCapturing = 0;
-    // long castle
+    row = command.argument[0];
+    char shortCastleCol, longCastleCol;
     if (command.argument[1] == 'E') {
-        col = 'C';
-        row = command.argument[0];
+        longCastleCol = 'C';
+        shortCastleCol = 'G';
+    } else if (command.argument[1] == 'D') {
+        longCastleCol = 'F';
+        shortCastleCol = 'B';
     } else {
-        col = 'F';
-        row = command.argument[0];
+        // We are moving the rook!
+        if (command.argument[1] == 'A') {
+            longCastleCol = 'D';
+            shortCastleCol = 'C';
+        } else {
+            longCastleCol = 'E';
+            shortCastleCol = 'F';
+        }
+        if (message.getMovesResponse.castleType == LongCastle) {
+            currentIndex = rowColToLocationIndex(row, longCastleCol);
+        } else {
+            currentIndex = rowColToLocationIndex(row, shortCastleCol);
+        }
+        // if we are moving the rook, we need to check if it's being threatened.
+        isThreatened = message.getMovesResponse.threatenedByOpponentMoves.legalMovesArray[currentIndex];
     }
-    currentIndex = rowColToLocationIndex(row, col);
+    // long castle
     isPossible = (message.getMovesResponse.castleType == BothCastle ||
                   message.getMovesResponse.castleType == LongCastle);
-    PRINT_SINGLE_GET_MOVE(row, col, isPossible, isThreatened, isCapturing, isCastle);
+    PRINT_SINGLE_GET_MOVE(row, longCastleCol, isPossible, isThreatened, isCapturing, isCastle);
     // short castle
-    if (command.argument[1] == 'E') {
-        col = 'G';
-        row = command.argument[0];
-    } else {
-        col = 'B';
-        row = command.argument[0];
-    }
-    currentIndex = rowColToLocationIndex(row, col);
     isPossible = (message.getMovesResponse.castleType == BothCastle ||
                   message.getMovesResponse.castleType == ShortCastle);
-    isThreatened = message.getMovesResponse.threatenedByOpponentMoves.legalMovesArray[currentIndex];
-    isCapturing = message.getMovesResponse.opponentAtLocationMoves.legalMovesArray[currentIndex];
-    PRINT_SINGLE_GET_MOVE(row, col, isPossible, isThreatened, isCapturing, isCastle);
+    PRINT_SINGLE_GET_MOVE(row, shortCastleCol, isPossible, isThreatened, isCapturing, isCastle);
 }
 
 
@@ -204,7 +210,7 @@ void switchStateIfNeeded(Command command, commandLineState *state) {
 }
 
 void handlePawnPromotionLoop(Command *command, HandleCommandMessage *message, Game *game) {
-    if (message->messageType == pawnPromoteNeededMessage) {
+    if (message->messageType == pawnPromoteNeededMessage) { // TODO
         if (CAN_HANDLE_PAWN_PROMOTION) {
             Command pawnCommand;
             pawnCommand.commandType = invalidCommand;
@@ -243,7 +249,6 @@ void handlePawnPromotionLoop(Command *command, HandleCommandMessage *message, Ga
         }
     }
 }
-
 
 void setGameDefaultValue(Game *game) {
     Command command;

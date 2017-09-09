@@ -55,7 +55,8 @@ Ido's test to do:
     make test for everythinggggg.
     check if move piece can do a castling move - not good.
     check if undo doesn't work in 2 player mode.
-    end case to check - checkmate should be if no move for the kind get him to not be threatend. if it can stay in place and not be threatened while there are other piece with moves that doesn't cause it to be so, it's not a checkmate. but if all other pieces doesn't have possible moves - it's a check mate.
+    end case to check - checkmate should be if no move for the kind get him to not be threatened. if it can stay in place and not be threatened while there are other piece with moves that doesn't cause it to be so, it's not a checkmate.
+        but if all other pieces doesn't have possible moves - it's a check mate.
 
 TODO general:
     min max algo with pruning with castle move and pawn promotion (we should treat pawn move to the end action and promotion as a single action should probably only check knight or queen piece.)
