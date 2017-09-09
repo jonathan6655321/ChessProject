@@ -94,6 +94,19 @@ ExecuteGetMovesResponse executeUserGetMovesCommand(char pieceRow, char pieceCol,
 void getPositionsThreatenedByOpponent(GameBoard *gameBoard, Player currentPlayer,
                                       LegalMoves *threatenedByOpponentMoves); // TODO castling threatened??
 
+/*!
+ *
+ * @param gameBoard
+ * @param allMoves
+ * @param currentPlayer
+ * @param opponentAtLocationMoves
+ *
+ * inits opponentAtLocationMoves
+ */
+void getMovesThatEatOpponent(GameBoard *gameBoard, LegalMoves *allMoves,
+                             Player currentPlayer, LegalMoves *opponentAtLocationMoves);
+
+
 /*
  *
  * returns: InvalidPositon, NotYourPiece or OK
