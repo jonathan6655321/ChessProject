@@ -13,39 +13,27 @@
  * if is your piece but illegal move request returns: illegalMove
  *
  */
-ResponseType executeUserMoveCommand(char rowFrom, char colFrom, char rowTo, char colTo, GameBoard *gameBoard, Player currentPlayer,
-                           Piece *pieceDestinationBefore, Piece* pieceAtDestinationAfter)
-{
-    if (isValidRowCol(rowFrom,colFrom) == FAIL || isValidRowCol(rowTo,colTo) == FAIL)
-    {
+ResponseType
+executeUserMoveCommand(char rowFrom, char colFrom, char rowTo, char colTo, GameBoard *gameBoard, Player currentPlayer) {
+    Piece pieceAtDestinationAfter, pieceDestinationBefore;
+    if (isValidRowCol(rowFrom, colFrom) == FAIL || isValidRowCol(rowTo, colTo) == FAIL) {
         return InvalidPosition;
-    }
-    else
-    {
+    } else {
         // trying to move no piece, or enemy piece
-        if (getPieceAt(rowFrom,colFrom,gameBoard,pieceAtDestinationAfter) == FAIL ||
-                pieceAtDestinationAfter->player != currentPlayer)
-        {
+        if (getPieceAt(rowFrom, colFrom, gameBoard, &pieceAtDestinationAfter) == FAIL ||
+            pieceAtDestinationAfter.player != currentPlayer) {
             return NotYourPiece;
-        }
-        else
-        {
+        } else {
             LegalMoves legalMoves = {0};
-            getLegalMovesForPieceAt(rowFrom,colFrom,gameBoard,&legalMoves);
-            if (legalMoves.legalMovesArray[rowColToLocationIndex(rowTo, colTo)] == ILLEGAL_MOVE)
-            {
+            getLegalMovesForPieceAt(rowFrom, colFrom, gameBoard, &legalMoves);
+            if (legalMoves.legalMovesArray[rowColToLocationIndex(rowTo, colTo)] == ILLEGAL_MOVE) {
                 return IllegalMove;
-            }
-            else
-            {
-                if (getPieceAt(rowTo,colTo,gameBoard,pieceDestinationBefore) == FAIL)
-                {
-                    movePiece(rowFrom,colFrom,rowTo,colTo,gameBoard);
+            } else {
+                if (getPieceAt(rowTo, colTo, gameBoard, &pieceDestinationBefore) == FAIL) {
+                    movePiece(rowFrom, colFrom, rowTo, colTo, gameBoard);
                     return MadeMove;
-                }
-                else
-                {
-                    movePiece(rowFrom,colFrom,rowTo,colTo,gameBoard);
+                } else {
+                    movePiece(rowFrom, colFrom, rowTo, colTo, gameBoard);
                     return AteOpponentsPiece;
                 }
             }
@@ -57,18 +45,14 @@ ResponseType executeUserMoveCommand(char rowFrom, char colFrom, char rowTo, char
  * gets row, col and piece from user. and sets the piece in this location.
  * Assumes the piece is not in the game!
  */
-int executeSetPieceAt(char row, char col, Piece * piece, GameBoard *gameBoard)
-{
-    int pieceIndex = getPieceIndexFromPiece(gameBoard,piece);
-    if (pieceIndex >= 0)
-    {
-        setPieceAt(row,col,gameBoard,pieceIndex);
+int executeSetPieceAt(char row, char col, Piece *piece, GameBoard *gameBoard) {
+    int pieceIndex = getPieceIndexFromPiece(gameBoard, piece);
+    if (pieceIndex >= 0) {
+        setPieceAt(row, col, gameBoard, pieceIndex);
         return SUCCESS;
-    }
-    else
+    } else
         return FAIL;
 }
-
 
 
 /*
@@ -78,32 +62,34 @@ int executeSetPieceAt(char row, char col, Piece * piece, GameBoard *gameBoard)
  *
  * MAKE SURE LEGALMOVES is 0 initialized!
  */
-int getLegalMovesForPieceAt(char row, char col, GameBoard *gameBoard,LegalMoves *legalMoves)
-{
-    if(isValidRowCol(row,col) == FAIL)
-    {
+int getLegalMovesForPieceAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves) {
+    if (isValidRowCol(row, col) == FAIL) {
         return FAIL;
     }
 
     Piece piece;
-    if (getPieceAt(row,col,gameBoard,&piece) == FAIL)
-    {
+    if (getPieceAt(row, col, gameBoard, &piece) == FAIL) {
         return FAIL;
     }
 
-    switch (piece.type)
-    {
-        case Pawn: getLegalMovesForPawnAt(row,col,gameBoard,legalMoves);
+    switch (piece.type) {
+        case Pawn:
+            getLegalMovesForPawnAt(row, col, gameBoard, legalMoves);
             break;
-        case Bishop: getLegalMovesForBishopAt(row,col,gameBoard,legalMoves);
+        case Bishop:
+            getLegalMovesForBishopAt(row, col, gameBoard, legalMoves);
             break;
-        case Rook: getLegalMovesForRookAt(row,col,gameBoard,legalMoves);
+        case Rook:
+            getLegalMovesForRookAt(row, col, gameBoard, legalMoves);
             break;
-        case Knight: getLegalMovesForKnightAt(row, col, gameBoard, legalMoves);
+        case Knight:
+            getLegalMovesForKnightAt(row, col, gameBoard, legalMoves);
             break;
-        case Queen: getLegalMovesForQueenAt(row,col,gameBoard,legalMoves);
+        case Queen:
+            getLegalMovesForQueenAt(row, col, gameBoard, legalMoves);
             break;
-        case King: getLegalMovesForKingAt(row,col,gameBoard,legalMoves);
+        case King:
+            getLegalMovesForKingAt(row, col, gameBoard, legalMoves);
             break;
         default:
             return FAIL; // this should never happen...
@@ -112,182 +98,152 @@ int getLegalMovesForPieceAt(char row, char col, GameBoard *gameBoard,LegalMoves 
 }
 
 
-void getLegalMovesForPawnAt(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves)
-{
+void getLegalMovesForPawnAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves) {
     int pieceAtDestinationIndex;
-    if(isPlayer1Index(getIndexOfPieceAt(row,col,gameBoard)) == SUCCESS)
-    {
+    if (isPlayer1Index(getIndexOfPieceAt(row, col, gameBoard)) == SUCCESS) {
         // moves forward:
-        if(getIndexOfPieceAt(row+1,col,gameBoard) == NO_PIECE)
-        {
+        if (getIndexOfPieceAt(row + 1, col, gameBoard) == NO_PIECE) {
             setMoveLegal(row + 1, col, legalMoves);
             // didn't move, can move twice
-            if (row == '2' && getIndexOfPieceAt(row+2,col,gameBoard) == NO_PIECE)
-            {
+            if (row == '2' && getIndexOfPieceAt(row + 2, col, gameBoard) == NO_PIECE) {
                 setMoveLegal(row + 2, col, legalMoves);
             }
         }
 
         // diagonals:
-        pieceAtDestinationIndex = getIndexOfPieceAt(row+1,col+1,gameBoard);
-        if (pieceAtDestinationIndex >= 0 && isPlayer1Index(pieceAtDestinationIndex) == FAIL)
-        {
+        pieceAtDestinationIndex = getIndexOfPieceAt(row + 1, col + 1, gameBoard);
+        if (pieceAtDestinationIndex >= 0 && isPlayer1Index(pieceAtDestinationIndex) == FAIL) {
             setMoveLegal(row + 1, col + 1, legalMoves);
         }
-        pieceAtDestinationIndex = getIndexOfPieceAt(row+1,col-1,gameBoard);
-        if (pieceAtDestinationIndex >= 0 && isPlayer1Index(pieceAtDestinationIndex) == FAIL)
-        {
+        pieceAtDestinationIndex = getIndexOfPieceAt(row + 1, col - 1, gameBoard);
+        if (pieceAtDestinationIndex >= 0 && isPlayer1Index(pieceAtDestinationIndex) == FAIL) {
             setMoveLegal(row + 1, col - 1, legalMoves);
         }
-    }
-    else
-    {
+    } else {
         // moves forward:
-        if(getIndexOfPieceAt(row-1,col,gameBoard) == NO_PIECE)
-        {
+        if (getIndexOfPieceAt(row - 1, col, gameBoard) == NO_PIECE) {
             setMoveLegal(row - 1, col, legalMoves);
             // didn't move, can move twice
-            if (row == '7' && getIndexOfPieceAt(row-2,col,gameBoard) == NO_PIECE)
-            {
+            if (row == '7' && getIndexOfPieceAt(row - 2, col, gameBoard) == NO_PIECE) {
                 setMoveLegal(row - 2, col, legalMoves);
             }
         }
 
         // diagonals:
-        pieceAtDestinationIndex = getIndexOfPieceAt(row-1,col+1,gameBoard);
-        if (pieceAtDestinationIndex >= 0 && isPlayer1Index(pieceAtDestinationIndex) == SUCCESS)
-        {
+        pieceAtDestinationIndex = getIndexOfPieceAt(row - 1, col + 1, gameBoard);
+        if (pieceAtDestinationIndex >= 0 && isPlayer1Index(pieceAtDestinationIndex) == SUCCESS) {
             setMoveLegal(row - 1, col + 1, legalMoves);
         }
-        pieceAtDestinationIndex = getIndexOfPieceAt(row-1,col-1,gameBoard);
-        if (pieceAtDestinationIndex >= 0 && isPlayer1Index(pieceAtDestinationIndex) == SUCCESS)
-        {
+        pieceAtDestinationIndex = getIndexOfPieceAt(row - 1, col - 1, gameBoard);
+        if (pieceAtDestinationIndex >= 0 && isPlayer1Index(pieceAtDestinationIndex) == SUCCESS) {
             setMoveLegal(row - 1, col - 1, legalMoves);
         }
     }
 }
-void getLegalMovesForBishopAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves)
-{
-    setLegalMovesDiagonals(row,col,gameBoard,legalMoves);
+
+void getLegalMovesForBishopAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves) {
+    setLegalMovesDiagonals(row, col, gameBoard, legalMoves);
 }
-void getLegalMovesForRookAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves)
-{
-    setLegalStraightMoves(row,col,gameBoard,legalMoves);
+
+void getLegalMovesForRookAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves) {
+    setLegalStraightMoves(row, col, gameBoard, legalMoves);
 }
-void getLegalMovesForQueenAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves)
-{
-    setLegalStraightMoves(row,col,gameBoard,legalMoves);
-    setLegalMovesDiagonals(row,col,gameBoard,legalMoves);
+
+void getLegalMovesForQueenAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves) {
+    setLegalStraightMoves(row, col, gameBoard, legalMoves);
+    setLegalMovesDiagonals(row, col, gameBoard, legalMoves);
 }
-void getLegalMovesForKnightAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves)
-{
-    int knightsIndex = getIndexOfPieceAt(row,col,gameBoard);
-    if(isValidRowCol(row+2,col+1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+2,col+1,gameBoard))==FAIL)
-    {
+
+void getLegalMovesForKnightAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves) {
+    int knightsIndex = getIndexOfPieceAt(row, col, gameBoard);
+    if (isValidRowCol(row + 2, col + 1) == SUCCESS &&
+        isSamePlayerPiece(knightsIndex, getIndexOfPieceAt(row + 2, col + 1, gameBoard)) == FAIL) {
         setMoveLegal(row + 2, col + 1, legalMoves);
     }
-    if(isValidRowCol(row+2,col-1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+2,col-1,gameBoard))==FAIL)
-    {
+    if (isValidRowCol(row + 2, col - 1) == SUCCESS &&
+        isSamePlayerPiece(knightsIndex, getIndexOfPieceAt(row + 2, col - 1, gameBoard)) == FAIL) {
         setMoveLegal(row + 2, col - 1, legalMoves);
     }
-    if(isValidRowCol(row-2,col+1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-2,col+1,gameBoard))==FAIL)
-    {
+    if (isValidRowCol(row - 2, col + 1) == SUCCESS &&
+        isSamePlayerPiece(knightsIndex, getIndexOfPieceAt(row - 2, col + 1, gameBoard)) == FAIL) {
         setMoveLegal(row - 2, col + 1, legalMoves);
     }
-    if(isValidRowCol(row-2,col-1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-2,col-1,gameBoard))==FAIL)
-    {
+    if (isValidRowCol(row - 2, col - 1) == SUCCESS &&
+        isSamePlayerPiece(knightsIndex, getIndexOfPieceAt(row - 2, col - 1, gameBoard)) == FAIL) {
         setMoveLegal(row - 2, col - 1, legalMoves);
     }
-    if(isValidRowCol(row+1,col+2) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col+2,gameBoard))==FAIL)
-    {
+    if (isValidRowCol(row + 1, col + 2) == SUCCESS &&
+        isSamePlayerPiece(knightsIndex, getIndexOfPieceAt(row + 1, col + 2, gameBoard)) == FAIL) {
         setMoveLegal(row + 1, col + 2, legalMoves);
     }
-    if(isValidRowCol(row+1,col-2) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col-2,gameBoard))==FAIL)
-    {
+    if (isValidRowCol(row + 1, col - 2) == SUCCESS &&
+        isSamePlayerPiece(knightsIndex, getIndexOfPieceAt(row + 1, col - 2, gameBoard)) == FAIL) {
         setMoveLegal(row + 1, col - 2, legalMoves);
     }
-    if(isValidRowCol(row-1,col-2) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col-2,gameBoard))==FAIL)
-    {
+    if (isValidRowCol(row - 1, col - 2) == SUCCESS &&
+        isSamePlayerPiece(knightsIndex, getIndexOfPieceAt(row - 1, col - 2, gameBoard)) == FAIL) {
         setMoveLegal(row - 1, col - 2, legalMoves);
     }
-    if(isValidRowCol(row-1,col+2) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col+2,gameBoard))==FAIL)
-    {
+    if (isValidRowCol(row - 1, col + 2) == SUCCESS &&
+        isSamePlayerPiece(knightsIndex, getIndexOfPieceAt(row - 1, col + 2, gameBoard)) == FAIL) {
         setMoveLegal(row - 1, col + 2, legalMoves);
     }
 }
-void getLegalMovesForKingAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves)
-{
-    int knightsIndex = getIndexOfPieceAt(row,col,gameBoard);
-    if(isValidRowCol(row+1,col) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col,gameBoard))==FAIL)
-    {
+
+void getLegalMovesForKingAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves) {
+    int knightsIndex = getIndexOfPieceAt(row, col, gameBoard);
+    if (isValidRowCol(row + 1, col) == SUCCESS &&
+        isSamePlayerPiece(knightsIndex, getIndexOfPieceAt(row + 1, col, gameBoard)) == FAIL) {
         setMoveLegal(row + 1, col, legalMoves);
     }
-    if(isValidRowCol(row-1,col) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col,gameBoard))==FAIL)
-    {
+    if (isValidRowCol(row - 1, col) == SUCCESS &&
+        isSamePlayerPiece(knightsIndex, getIndexOfPieceAt(row - 1, col, gameBoard)) == FAIL) {
         setMoveLegal(row - 1, col, legalMoves);
     }
-    if(isValidRowCol(row,col+1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row,col+1,gameBoard))==FAIL)
-    {
+    if (isValidRowCol(row, col + 1) == SUCCESS &&
+        isSamePlayerPiece(knightsIndex, getIndexOfPieceAt(row, col + 1, gameBoard)) == FAIL) {
         setMoveLegal(row, col + 1, legalMoves);
     }
-    if(isValidRowCol(row,col-1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row,col-1,gameBoard))==FAIL)
-    {
+    if (isValidRowCol(row, col - 1) == SUCCESS &&
+        isSamePlayerPiece(knightsIndex, getIndexOfPieceAt(row, col - 1, gameBoard)) == FAIL) {
         setMoveLegal(row, col - 1, legalMoves);
     }
-    if(isValidRowCol(row+1,col+1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col+1,gameBoard))==FAIL)
-    {
+    if (isValidRowCol(row + 1, col + 1) == SUCCESS &&
+        isSamePlayerPiece(knightsIndex, getIndexOfPieceAt(row + 1, col + 1, gameBoard)) == FAIL) {
         setMoveLegal(row + 1, col + 1, legalMoves);
     }
-    if(isValidRowCol(row+1,col-1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row+1,col-1,gameBoard))==FAIL)
-    {
+    if (isValidRowCol(row + 1, col - 1) == SUCCESS &&
+        isSamePlayerPiece(knightsIndex, getIndexOfPieceAt(row + 1, col - 1, gameBoard)) == FAIL) {
         setMoveLegal(row + 1, col - 1, legalMoves);
     }
-    if(isValidRowCol(row-1,col-1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col-1,gameBoard))==FAIL)
-    {
+    if (isValidRowCol(row - 1, col - 1) == SUCCESS &&
+        isSamePlayerPiece(knightsIndex, getIndexOfPieceAt(row - 1, col - 1, gameBoard)) == FAIL) {
         setMoveLegal(row - 1, col - 1, legalMoves);
     }
-    if(isValidRowCol(row-1,col+1) == SUCCESS && isSamePlayerPiece(knightsIndex,getIndexOfPieceAt(row-1,col+1,gameBoard))==FAIL)
-    {
+    if (isValidRowCol(row - 1, col + 1) == SUCCESS &&
+        isSamePlayerPiece(knightsIndex, getIndexOfPieceAt(row - 1, col + 1, gameBoard)) == FAIL) {
         setMoveLegal(row - 1, col + 1, legalMoves);
     }
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-void setLegalMovesDiagonals(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves)
-{
-    setRightUpDiagonal(row,col,gameBoard, legalMoves);
-    setLeftUpDiagonal(row,col,gameBoard, legalMoves);
-    setRightDownDiagonal(row,col,gameBoard, legalMoves);
-    setLeftDownDiagonal(row,col,gameBoard, legalMoves);
+void setLegalMovesDiagonals(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves) {
+    setRightUpDiagonal(row, col, gameBoard, legalMoves);
+    setLeftUpDiagonal(row, col, gameBoard, legalMoves);
+    setRightDownDiagonal(row, col, gameBoard, legalMoves);
+    setLeftDownDiagonal(row, col, gameBoard, legalMoves);
 }
 
-void setRightUpDiagonal(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves)
-{
+void setRightUpDiagonal(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves) {
     int k = 1;
-    int pieceIndex = getIndexOfPieceAt(row,col,gameBoard);
+    int pieceIndex = getIndexOfPieceAt(row, col, gameBoard);
     int tempPieceIndex;
-    while(isValidRowCol(row+k,col+k) == SUCCESS)
-    {
-        tempPieceIndex = getIndexOfPieceAt(row+k,col+k,gameBoard);
-        if (tempPieceIndex == NO_PIECE)
-        {
+    while (isValidRowCol(row + k, col + k) == SUCCESS) {
+        tempPieceIndex = getIndexOfPieceAt(row + k, col + k, gameBoard);
+        if (tempPieceIndex == NO_PIECE) {
             setMoveLegal(row + k, col + k, legalMoves);
-        }
-        else
-        {
-            if (isSamePlayerPiece(pieceIndex,tempPieceIndex) == FAIL)
-            {
+        } else {
+            if (isSamePlayerPiece(pieceIndex, tempPieceIndex) == FAIL) {
                 setMoveLegal(row + k, col + k, legalMoves);
             }
             break;
@@ -295,22 +251,17 @@ void setRightUpDiagonal(char row,char col,GameBoard *gameBoard, LegalMoves *lega
         ++k;
     }
 }
-void setLeftUpDiagonal(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves)
-{
+
+void setLeftUpDiagonal(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves) {
     int k = 1;
-    int pieceIndex = getIndexOfPieceAt(row,col,gameBoard);
+    int pieceIndex = getIndexOfPieceAt(row, col, gameBoard);
     int tempPieceIndex;
-    while(isValidRowCol(row+k,col-k) == SUCCESS)
-    {
-        tempPieceIndex = getIndexOfPieceAt(row+k,col-k,gameBoard);
-        if (tempPieceIndex == NO_PIECE)
-        {
+    while (isValidRowCol(row + k, col - k) == SUCCESS) {
+        tempPieceIndex = getIndexOfPieceAt(row + k, col - k, gameBoard);
+        if (tempPieceIndex == NO_PIECE) {
             setMoveLegal(row + k, col - k, legalMoves);
-        }
-        else
-        {
-            if (isSamePlayerPiece(pieceIndex,tempPieceIndex) == FAIL)
-            {
+        } else {
+            if (isSamePlayerPiece(pieceIndex, tempPieceIndex) == FAIL) {
                 setMoveLegal(row + k, col - k, legalMoves);
             }
             break;
@@ -318,22 +269,17 @@ void setLeftUpDiagonal(char row,char col,GameBoard *gameBoard, LegalMoves *legal
         ++k;
     }
 }
-void setRightDownDiagonal(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves)
-{
+
+void setRightDownDiagonal(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves) {
     int k = 1;
-    int pieceIndex = getIndexOfPieceAt(row,col,gameBoard);
+    int pieceIndex = getIndexOfPieceAt(row, col, gameBoard);
     int tempPieceIndex;
-    while(isValidRowCol(row-k,col+k) == SUCCESS)
-    {
-        tempPieceIndex = getIndexOfPieceAt(row-k,col+k,gameBoard);
-        if (tempPieceIndex == NO_PIECE)
-        {
+    while (isValidRowCol(row - k, col + k) == SUCCESS) {
+        tempPieceIndex = getIndexOfPieceAt(row - k, col + k, gameBoard);
+        if (tempPieceIndex == NO_PIECE) {
             setMoveLegal(row - k, col + k, legalMoves);
-        }
-        else
-        {
-            if (isSamePlayerPiece(pieceIndex,tempPieceIndex) == FAIL)
-            {
+        } else {
+            if (isSamePlayerPiece(pieceIndex, tempPieceIndex) == FAIL) {
                 setMoveLegal(row - k, col + k, legalMoves);
             }
             break;
@@ -341,22 +287,17 @@ void setRightDownDiagonal(char row,char col,GameBoard *gameBoard, LegalMoves *le
         ++k;
     }
 }
-void setLeftDownDiagonal(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves)
-{
+
+void setLeftDownDiagonal(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves) {
     int k = 1;
-    int pieceIndex = getIndexOfPieceAt(row,col,gameBoard);
+    int pieceIndex = getIndexOfPieceAt(row, col, gameBoard);
     int tempPieceIndex;
-    while(isValidRowCol(row-k,col-k) == SUCCESS)
-    {
-        tempPieceIndex = getIndexOfPieceAt(row-k,col-k,gameBoard);
-        if (tempPieceIndex == NO_PIECE)
-        {
+    while (isValidRowCol(row - k, col - k) == SUCCESS) {
+        tempPieceIndex = getIndexOfPieceAt(row - k, col - k, gameBoard);
+        if (tempPieceIndex == NO_PIECE) {
             setMoveLegal(row - k, col - k, legalMoves);
-        }
-        else
-        {
-            if (isSamePlayerPiece(pieceIndex,tempPieceIndex) == FAIL)
-            {
+        } else {
+            if (isSamePlayerPiece(pieceIndex, tempPieceIndex) == FAIL) {
                 setMoveLegal(row - k, col - k, legalMoves);
             }
             break;
@@ -368,29 +309,23 @@ void setLeftDownDiagonal(char row,char col,GameBoard *gameBoard, LegalMoves *leg
 /*
  * used in Queen and rook
  */
-void setLegalStraightMoves(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves)
-{
-    setLegalStraightMovesRight(row, col, gameBoard,legalMoves);
-    setLegalStraightMovesLeft(row, col, gameBoard,legalMoves);
-    setLegalStraightMovesUp(row, col, gameBoard,legalMoves);
-    setLegalStraightMovesDown(row, col, gameBoard,legalMoves);
+void setLegalStraightMoves(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves) {
+    setLegalStraightMovesRight(row, col, gameBoard, legalMoves);
+    setLegalStraightMovesLeft(row, col, gameBoard, legalMoves);
+    setLegalStraightMovesUp(row, col, gameBoard, legalMoves);
+    setLegalStraightMovesDown(row, col, gameBoard, legalMoves);
 }
-void setLegalStraightMovesRight(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves)
-{
+
+void setLegalStraightMovesRight(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves) {
     int k = 1;
-    int pieceIndex = getIndexOfPieceAt(row,col,gameBoard);
+    int pieceIndex = getIndexOfPieceAt(row, col, gameBoard);
     int tempPieceIndex;
-    while(isValidRowCol(row,col+k) == SUCCESS)
-    {
-        tempPieceIndex = getIndexOfPieceAt(row,col+k,gameBoard);
-        if (tempPieceIndex == NO_PIECE)
-        {
+    while (isValidRowCol(row, col + k) == SUCCESS) {
+        tempPieceIndex = getIndexOfPieceAt(row, col + k, gameBoard);
+        if (tempPieceIndex == NO_PIECE) {
             setMoveLegal(row, col + k, legalMoves);
-        }
-        else
-        {
-            if (isSamePlayerPiece(pieceIndex,tempPieceIndex) == FAIL)
-            {
+        } else {
+            if (isSamePlayerPiece(pieceIndex, tempPieceIndex) == FAIL) {
                 setMoveLegal(row, col + k, legalMoves);
             }
             break;
@@ -398,22 +333,17 @@ void setLegalStraightMovesRight(char row,char col,GameBoard *gameBoard, LegalMov
         ++k;
     }
 }
-void setLegalStraightMovesLeft(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves)
-{
+
+void setLegalStraightMovesLeft(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves) {
     int k = 1;
-    int pieceIndex = getIndexOfPieceAt(row,col,gameBoard);
+    int pieceIndex = getIndexOfPieceAt(row, col, gameBoard);
     int tempPieceIndex;
-    while(isValidRowCol(row,col-k) == SUCCESS)
-    {
-        tempPieceIndex = getIndexOfPieceAt(row,col-k,gameBoard);
-        if (tempPieceIndex == NO_PIECE)
-        {
+    while (isValidRowCol(row, col - k) == SUCCESS) {
+        tempPieceIndex = getIndexOfPieceAt(row, col - k, gameBoard);
+        if (tempPieceIndex == NO_PIECE) {
             setMoveLegal(row, col - k, legalMoves);
-        }
-        else
-        {
-            if (isSamePlayerPiece(pieceIndex,tempPieceIndex) == FAIL)
-            {
+        } else {
+            if (isSamePlayerPiece(pieceIndex, tempPieceIndex) == FAIL) {
                 setMoveLegal(row, col - k, legalMoves);
             }
             break;
@@ -422,22 +352,16 @@ void setLegalStraightMovesLeft(char row,char col,GameBoard *gameBoard, LegalMove
     }
 }
 
-void setLegalStraightMovesUp(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves)
-{
+void setLegalStraightMovesUp(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves) {
     int k = 1;
-    int pieceIndex = getIndexOfPieceAt(row,col,gameBoard);
+    int pieceIndex = getIndexOfPieceAt(row, col, gameBoard);
     int tempPieceIndex;
-    while(isValidRowCol(row+k,col) == SUCCESS)
-    {
-        tempPieceIndex = getIndexOfPieceAt(row+k,col,gameBoard);
-        if (tempPieceIndex == NO_PIECE)
-        {
+    while (isValidRowCol(row + k, col) == SUCCESS) {
+        tempPieceIndex = getIndexOfPieceAt(row + k, col, gameBoard);
+        if (tempPieceIndex == NO_PIECE) {
             setMoveLegal(row + k, col, legalMoves);
-        }
-        else
-        {
-            if (isSamePlayerPiece(pieceIndex,tempPieceIndex) == FAIL)
-            {
+        } else {
+            if (isSamePlayerPiece(pieceIndex, tempPieceIndex) == FAIL) {
                 setMoveLegal(row + k, col, legalMoves);
             }
             break;
@@ -445,22 +369,17 @@ void setLegalStraightMovesUp(char row,char col,GameBoard *gameBoard, LegalMoves 
         ++k;
     }
 }
-void setLegalStraightMovesDown(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves)
-{
+
+void setLegalStraightMovesDown(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves) {
     int k = 1;
-    int pieceIndex = getIndexOfPieceAt(row,col,gameBoard);
+    int pieceIndex = getIndexOfPieceAt(row, col, gameBoard);
     int tempPieceIndex;
-    while(isValidRowCol(row-k,col) == SUCCESS)
-    {
-        tempPieceIndex = getIndexOfPieceAt(row-k,col,gameBoard);
-        if (tempPieceIndex == NO_PIECE )
-        {
+    while (isValidRowCol(row - k, col) == SUCCESS) {
+        tempPieceIndex = getIndexOfPieceAt(row - k, col, gameBoard);
+        if (tempPieceIndex == NO_PIECE) {
             setMoveLegal(row - k, col, legalMoves);
-        }
-        else
-        {
-            if (isSamePlayerPiece(pieceIndex,tempPieceIndex) == FAIL)
-            {
+        } else {
+            if (isSamePlayerPiece(pieceIndex, tempPieceIndex) == FAIL) {
                 setMoveLegal(row - k, col, legalMoves);
             }
             break;
@@ -470,26 +389,18 @@ void setLegalStraightMovesDown(char row,char col,GameBoard *gameBoard, LegalMove
 }
 
 
-
-void setMoveLegal(char row, char col, LegalMoves *legalMoves)
-{
-    legalMoves->legalMovesArray[rowColToLocationIndex(row,col)] = LEGAL_MOVE;
+void setMoveLegal(char row, char col, LegalMoves *legalMoves) {
+    legalMoves->legalMovesArray[rowColToLocationIndex(row, col)] = LEGAL_MOVE;
 }
 
 
-void printLegalMoves(LegalMoves *legalMoves)
-{
-    for (char row = '8'; row >='1' ; --row)
-    {
+void printLegalMoves(LegalMoves *legalMoves) {
+    for (char row = '8'; row >= '1'; --row) {
         printf("%c| ", row);
-        for (char col = 'A'; col <= 'H'; ++col)
-        {
-            if(legalMoves->legalMovesArray[rowColToLocationIndex(row,col)] == ILLEGAL_MOVE)
-            {
+        for (char col = 'A'; col <= 'H'; ++col) {
+            if (legalMoves->legalMovesArray[rowColToLocationIndex(row, col)] == ILLEGAL_MOVE) {
                 printf("_ ");
-            }
-            else
-            {
+            } else {
                 printf("X ");
             }
         }
@@ -502,17 +413,14 @@ void printLegalMoves(LegalMoves *legalMoves)
 /*
  * for testing..
  */
-void printLegalMovesForAllPieces(GameBoard *gameBoard)
-{
-    for (char row = '8'; row >='1' ; --row)
-    {
-        for (char col = 'A'; col <= 'H'; ++col)
-        {
+void printLegalMovesForAllPieces(GameBoard *gameBoard) {
+    for (char row = '8'; row >= '1'; --row) {
+        for (char col = 'A'; col <= 'H'; ++col) {
             printf("The moves for piece at %c%c are: \n", row, col);
             LegalMoves legalMoves = {0};
-            getLegalMovesForPieceAt(row,col,gameBoard,&legalMoves);
+            getLegalMovesForPieceAt(row, col, gameBoard, &legalMoves);
             printLegalMoves(&legalMoves);
-            printBoard(gameBoard,White);
+            printBoard(gameBoard, White);
             printf("\n---------------\n");
         }
     }
@@ -526,28 +434,27 @@ void printLegalMovesForAllPieces(GameBoard *gameBoard)
  *
  * returns the ExecuteGetMovesResponse initialized
  */
-ExecuteGetMovesResponse executeUserGetMovesCommand(char pieceRow, char pieceCol, GameBoard *gameBoard, Player currentPlayer)
-{
+ExecuteGetMovesResponse
+executeUserGetMovesCommand(char pieceRow, char pieceCol, GameBoard *gameBoard, Player currentPlayer) {
     ExecuteGetMovesResponse response = {0};
 
     response.type = getResponseTypeForGetMoves(pieceRow, pieceCol, gameBoard, currentPlayer);
-    if(!(response.type == InvalidPosition || response.type == NotYourPiece))
-    {
+    if (!(response.type == InvalidPosition || response.type == NotYourPiece)) {
         getLegalMovesForPieceAt(pieceRow, pieceCol, gameBoard, &response.allMoves);
 
         // ********************
         // removePiece for checking threatened places
         Piece movingPiece;
-        getPieceAt(pieceRow,pieceCol,gameBoard, &movingPiece);
+        getPieceAt(pieceRow, pieceCol, gameBoard, &movingPiece);
         removePieceAt(pieceRow, pieceCol, gameBoard);
         // check now:
         getPositionsThreatenedByOpponent(gameBoard, currentPlayer, &response.threatenedByOpponentMoves);
         // put Piece Back
-        setPieceAt(pieceRow,pieceCol,gameBoard, getPieceIndexFromPiece(gameBoard, &movingPiece));
+        setPieceAt(pieceRow, pieceCol, gameBoard, getPieceIndexFromPiece(gameBoard, &movingPiece));
 
         //
         getMovesThatEatOpponent(gameBoard, &response.allMoves,
-                                 currentPlayer, &response.opponentAtLocationMoves);
+                                currentPlayer, &response.opponentAtLocationMoves);
 
         // TODO !!!!!
         response.castleType = NoCastlingMovePossible;
@@ -556,17 +463,13 @@ ExecuteGetMovesResponse executeUserGetMovesCommand(char pieceRow, char pieceCol,
 }
 
 void getMovesThatEatOpponent(GameBoard *gameBoard, LegalMoves *allMoves,
-                              Player currentPlayer, LegalMoves *opponentAtLocationMoves)
-{
+                             Player currentPlayer, LegalMoves *opponentAtLocationMoves) {
 //    (*opponentAtLocationMoves).legalMovesArray = {0};
-    for(int i=0; i < BOARD_SIZE; i++)
-    {
-        if(allMoves->legalMovesArray[i] == LEGAL_MOVE)
-        {
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        if (allMoves->legalMovesArray[i] == LEGAL_MOVE) {
             Piece piece;
             int res = getPieceFromLocationIndex(gameBoard, i, &piece);
-            if(res == SUCCESS && piece.player != currentPlayer)
-            {
+            if (res == SUCCESS && piece.player != currentPlayer) {
                 opponentAtLocationMoves->legalMovesArray[i] = LEGAL_MOVE;
             }
         }
@@ -574,24 +477,21 @@ void getMovesThatEatOpponent(GameBoard *gameBoard, LegalMoves *allMoves,
 }
 
 void getPositionsThreatenedByOpponent(GameBoard *gameBoard, Player currentPlayer,
-                                       LegalMoves *threatenedByOpponentMoves)
-{
+                                      LegalMoves *threatenedByOpponentMoves) {
 //    (*threatenedByOpponentMoves) = {0};
 
-    int firstPieceIndex = (currentPlayer==Player1)?FIRST_PLAYER_2_PIECE_INDEX:FIRST_PLAYER_1_PIECE_INDEX;
-    int lastPieceIndex = (currentPlayer==Player1)?LAST_PLAYER_2_PIECE_INDEX:LAST_PLAYER_1_PIECE_INDEX;
+    int firstPieceIndex = (currentPlayer == Player1) ? FIRST_PLAYER_2_PIECE_INDEX : FIRST_PLAYER_1_PIECE_INDEX;
+    int lastPieceIndex = (currentPlayer == Player1) ? LAST_PLAYER_2_PIECE_INDEX : LAST_PLAYER_1_PIECE_INDEX;
 
-    for(int i=firstPieceIndex; i <= lastPieceIndex; i++)
-    {
+    for (int i = firstPieceIndex; i <= lastPieceIndex; i++) {
         LegalMoves currentOpponentPieceMoves = {0};
         int opponentPieceLocationIndex = getLocationIndexForPieceIndex(gameBoard, i);
         char opponentPieceRow = getRowFromLocationIndex(opponentPieceLocationIndex);
         char opponentPieceCol = getColFromLocationIndex(opponentPieceLocationIndex);
 
         getLegalMovesForPieceAt(opponentPieceRow, opponentPieceCol, gameBoard, &currentOpponentPieceMoves);
-        for(int j = 0; j < BOARD_SIZE; j++)
-        {
-            if(currentOpponentPieceMoves.legalMovesArray[j] == LEGAL_MOVE)
+        for (int j = 0; j < BOARD_SIZE; j++) {
+            if (currentOpponentPieceMoves.legalMovesArray[j] == LEGAL_MOVE)
                 threatenedByOpponentMoves->legalMovesArray[j] = LEGAL_MOVE;
         }
     }
@@ -601,22 +501,16 @@ void getPositionsThreatenedByOpponent(GameBoard *gameBoard, Player currentPlayer
  * returns: InvalidPositon, NotYourPiece or OK
  * according to relevant logic..
  */
-ResponseType getResponseTypeForGetMoves(char pieceRow, char pieceCol, GameBoard *gameBoard, Player currentPlayer)
-{
-    if(isValidRowCol(pieceRow, pieceCol) == FAIL)
-    {
+ResponseType getResponseTypeForGetMoves(char pieceRow, char pieceCol, GameBoard *gameBoard, Player currentPlayer) {
+    if (isValidRowCol(pieceRow, pieceCol) == FAIL) {
         return InvalidPosition;
-    }
-    else
-    {
+    } else {
         Piece pieceAtLocation = {0};
         // trying to move no piece, or enemy piece
         if (getPieceAt(pieceRow, pieceCol, gameBoard, &pieceAtLocation) == FAIL ||
             pieceAtLocation.player != currentPlayer) {
             return NotYourPiece;
-        }
-        else
-        {
+        } else {
             return OK;
         }
     }

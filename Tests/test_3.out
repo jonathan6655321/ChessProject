@@ -1,0 +1,243 @@
+Specify game setting or type 'start' to begin a game with the current setting:
+Game mode is set to 2 players
+8| R N B Q K B N R |
+7| M M M M M M M M |
+6| _ _ _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| _ _ _ _ _ _ _ _ |
+2| m m m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+white player - enter your move:
+8| R N B Q K B N R |
+7| M M M M M M M M |
+6| _ _ _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| m _ _ _ _ _ _ _ |
+2| _ m m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+black player - enter your move:
+8| R N B Q K B N R |
+7| _ M M M M M M M |
+6| M _ _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| m _ _ _ _ _ _ _ |
+2| _ m m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+white player - enter your move:
+8| R N B Q K B N R |
+7| _ M M M M M M M |
+6| M _ _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| m _ _ _ _ _ _ _ |
+3| _ _ _ _ _ _ _ _ |
+2| _ m m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+black player - enter your move:
+Undo move for player white : <3,A> -> <4,A>
+Undo move for player black : <7,A> -> <6,A>
+8| R N B Q K B N R |
+7| M M M M M M M M |
+6| _ _ _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| m _ _ _ _ _ _ _ |
+2| _ m m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+black player - enter your move:
+8| R N B Q K B N R |
+7| M _ M M M M M M |
+6| _ _ _ _ _ _ _ _ |
+5| _ M _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| m _ _ _ _ _ _ _ |
+2| _ m m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+white player - enter your move:
+8| R N B Q K B N R |
+7| M _ M M M M M M |
+6| _ _ _ _ _ _ _ _ |
+5| _ M _ _ _ _ _ _ |
+4| m _ _ _ _ _ _ _ |
+3| _ _ _ _ _ _ _ _ |
+2| _ m m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+black player - enter your move:
+Illegal move
+black player - enter your move:
+8| R N B Q K B N R |
+7| M _ M M M M M M |
+6| _ _ _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| M _ _ _ _ _ _ _ |
+3| _ _ _ _ _ _ _ _ |
+2| _ m m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+white player - enter your move:
+Undo move for player black : <5,B> -> <4,A>
+Undo move for player white : <3,A> -> <4,A>
+8| R N B Q K B N R |
+7| M _ M M M M M M |
+6| _ _ _ _ _ _ _ _ |
+5| _ M _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| m _ _ _ _ _ _ _ |
+2| _ m m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+white player - enter your move:
+Undo move for player black : <7,B> -> <5,B>
+Undo move for player white : <2,A> -> <3,A>
+8| R N B Q K B N R |
+7| M M M M M M M M |
+6| _ _ _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| _ _ _ _ _ _ _ _ |
+2| m m m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+white player - enter your move:
+Empty history, move cannot be undone
+white player - enter your move:
+8| R N B Q K B N R |
+7| M M M M M M M M |
+6| _ _ _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| m _ _ _ _ _ _ _ |
+2| _ m m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+black player - enter your move:
+8| R N B Q K B N R |
+7| _ M M M M M M M |
+6| M _ _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| m _ _ _ _ _ _ _ |
+2| _ m m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+white player - enter your move:
+8| R N B Q K B N R |
+7| _ M M M M M M M |
+6| M _ _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| m m _ _ _ _ _ _ |
+2| _ _ m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+black player - enter your move:
+8| R N B Q K B N R |
+7| _ _ M M M M M M |
+6| M M _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| m m _ _ _ _ _ _ |
+2| _ _ m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+white player - enter your move:
+8| R N B Q K B N R |
+7| _ _ M M M M M M |
+6| M M _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| m m m _ _ _ _ _ |
+2| _ _ _ m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+black player - enter your move:
+8| R N B Q K B N R |
+7| _ _ _ M M M M M |
+6| M M M _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| m m m _ _ _ _ _ |
+2| _ _ _ m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+white player - enter your move:
+Invalid Command!
+white player - enter your move:
+8| R N B Q K B N R |
+7| _ _ _ M M M M M |
+6| M M M _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| m m m _ _ _ _ _ |
+2| _ b _ m m m m m |
+1| r n _ q k b n r |
+  -----------------
+   A B C D E F G H
+black player - enter your move:
+Undo move for player white : <1,C> -> <2,B>
+Undo move for player black : <7,C> -> <6,C>
+8| R N B Q K B N R |
+7| _ _ M M M M M M |
+6| M M _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| m m m _ _ _ _ _ |
+2| _ _ _ m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+black player - enter your move:
+Undo move for player white : <2,C> -> <3,C>
+Undo move for player black : <7,B> -> <6,B>
+8| R N B Q K B N R |
+7| _ M M M M M M M |
+6| M _ _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| m m _ _ _ _ _ _ |
+2| _ _ m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+black player - enter your move:
+Undo move for player white : <2,B> -> <3,B>
+Undo move for player black : <7,A> -> <6,A>
+8| R N B Q K B N R |
+7| M M M M M M M M |
+6| _ _ _ _ _ _ _ _ |
+5| _ _ _ _ _ _ _ _ |
+4| _ _ _ _ _ _ _ _ |
+3| m _ _ _ _ _ _ _ |
+2| _ m m m m m m m |
+1| r n b q k b n r |
+  -----------------
+   A B C D E F G H
+black player - enter your move:
+Empty history, move cannot be undone
+black player - enter your move:
+Exiting...

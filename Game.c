@@ -125,8 +125,6 @@ HandleCommandMessage handleStartGame(Game *game) {
     }
     //TODO: if loaded don't init...
     initGame(&(game->board), game->player1Color);
-    //TODO: if loaded don't init history.
-    initHistoryArray(game);
 
     HandleCommandMessage message;
     message.messageType = successMessage;
@@ -138,12 +136,10 @@ HandleCommandMessage handleSetMove(Command command, Game *game) {
     char colFrom = command.argument[1];
     char rowTo = command.argument[2];
     char colTo = command.argument[3];
-    Piece pieceAtDestinationBefore;
-    Piece pieceAtDestinationAfter;
     HandleCommandMessage message;
+    Game gameBeforeMove = *game;
     ResponseType response = executeUserMoveCommand(rowFrom, colFrom, rowTo, colTo,
-                                                   &(game->board), game->currentPlayer, &pieceAtDestinationBefore,
-                                                   &pieceAtDestinationAfter);
+                                                   &(game->board), game->currentPlayer);
     switch (response) {
         //case where no move should be done:
         case InvalidPosition:
@@ -162,32 +158,30 @@ HandleCommandMessage handleSetMove(Command command, Game *game) {
             //cases where a move should be done:
         case AteOpponentsPiece_PawnPromote:
             message.messageType = pawnPromoteMessage;
-            game->historyNumberOfPieceToSet[game->historyIndex] = 2;
             break;
         case AteOpponentsPiece:
             message.messageType = setMoveMessage;
-            game->historyNumberOfPieceToSet[game->historyIndex] = 2;
             break;
         case MadeMove_Pawn_Promote:
             message.messageType = pawnPromoteMessage;
-            game->historyNumberOfPieceToSet[game->historyIndex] = 1;
             break;
         case MadeMove:
             message.messageType = setMoveMessage;
-            game->historyNumberOfPieceToSet[game->historyIndex] = 1;
             break;
     }
+    for (int j = 0; j < 4; ++j) {
+        game->lastMove[j] = command.argument[j];
+    }
     game->needToReprintBoard = 1;
-    message.argument[0] = pieceAtDestinationBefore.type;
-    message.argument[1] = pieceAtDestinationAfter.type;
-    game->historyIndex++;
-    if (game->historyIndex >= MAX_HISTORY_SIZE) game->historyIndex -= MAX_HISTORY_SIZE; //loop array;
-    game->historyPiecesAfter[game->historyIndex] = pieceAtDestinationAfter;
-    game->historyPiecesBefore[game->historyIndex] = pieceAtDestinationBefore;
-    game->historyPositions[game->historyIndex][0] = rowFrom;
-    game->historyPositions[game->historyIndex][1] = colFrom;
-    game->historyPositions[game->historyIndex][2] = rowTo;
-    game->historyPositions[game->historyIndex][3] = colTo;
+    game->gameHistory->historyIndex++;
+    if (game->gameHistory->historyIndex >= MAX_HISTORY_SIZE) {
+        game->gameHistory->historyIndex -= MAX_HISTORY_SIZE;
+    }
+    game->gameHistory->gameHistoryArray[game->gameHistory->historyIndex] = gameBeforeMove;
+    game->gameHistory->lenght++;
+    if (game->gameHistory->lenght > MAX_HISTORY_SIZE) {
+        game->gameHistory->lenght--;
+    }
     switchPlayer(game);
     return message;
 }
@@ -229,30 +223,20 @@ HandleCommandMessage handleUndoMove(Game *game) {
     HandleCommandMessage message;
     if (game->gameMode == PlayerVsPlayer && !(CAN_UNDO_IN_2_PLAYER_MODE)) {
         message.messageType = errorUndo2PlayerModeMessage;
-    } else if (game->historyNumberOfPieceToSet[game->historyIndex] == 0) {
+    } else if (game->gameHistory->lenght < 2) {
         message.messageType = errorUndoEmptyHistoryMessage;
     } else {
-        game->needToReprintBoard = 1;
-        char row, col;
-        Piece *piece;
         for (int i = 0; i < 2; i++) {
-            row = message.argument[4 * i + 2] = game->historyPositions[game->historyIndex][2];
-            col = message.argument[4 * i + 3] = game->historyPositions[game->historyIndex][3];
-            if (game->historyNumberOfPieceToSet[game->historyIndex] == 2) {
-                piece = &(game->historyPiecesBefore[game->historyIndex]);
-                executeSetPieceAt(row, col, piece, &(game->board));
-            } else {
-                //TODO: tell Somer to make a remove piece at that is interfaced - execute remove piece at.
-                removePieceAt(row, col, &(game->board));
+            for (int j = 0; j < 4; j++) {
+                message.argument[i * 4 + j] = game->lastMove[j];
             }
-            row = message.argument[4 * i + 0] = game->historyPositions[game->historyIndex][0];
-            col = message.argument[4 * i + 1] = game->historyPositions[game->historyIndex][1];
-            piece = &(game->historyPiecesAfter[game->historyIndex]);
-            executeSetPieceAt(row, col, piece, &(game->board));
-            game->historyNumberOfPieceToSet[game->historyIndex] = 0;
-            game->historyIndex--;
-            if (game->historyIndex < 0) game->historyIndex += MAX_HISTORY_SIZE;
+            *game = game->gameHistory->gameHistoryArray[game->gameHistory->historyIndex];
+            game->gameHistory->historyIndex--;
+            if (game->gameHistory->historyIndex < 0) game->gameHistory->historyIndex += MAX_HISTORY_SIZE;
+            game->gameHistory->lenght--;
         }
+        //TODO need to print board?
+        game->needToReprintBoard = 1;
         message.messageType = undoMessage;
     }
     return message;
@@ -296,13 +280,3 @@ Color getCurrentPlayerColor(Game *game) {
         }
     }
 }
-
-void initHistoryArray(Game *game) {
-    memset(game->historyPiecesBefore, 0, sizeof(game->historyPiecesBefore));
-    memset(game->historyPiecesAfter, 0, sizeof(game->historyPiecesAfter));
-    memset(game->historyPositions, 0, sizeof(game->historyPositions));
-    memset(game->historyNumberOfPieceToSet, 0, sizeof(game->historyNumberOfPieceToSet));
-    game->historyIndex = 0;
-}
-
-

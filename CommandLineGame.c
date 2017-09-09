@@ -7,13 +7,12 @@
 
 #include "CommandLineGame.h"
 #include "Moves.h"
-
-//create a empty game board
-static const Game EmptyGame;
+#include "Game.h"
 
 void commandLineGameLoop() {
     commandLineState state = settingCommandState;
     Game game;
+    GameHistory gameHistory;
     Command command;
     HandleCommandMessage commandMessage;
 
@@ -21,7 +20,12 @@ void commandLineGameLoop() {
     while (command.commandType != quitGame) {
         if (state == settingCommandState) {
             if (command.commandType == resetGame) {
+                // reset structs
                 game = EmptyGame;
+                gameHistory = EmptyGameHistory;
+                game.gameHistory = &gameHistory;
+
+                // set gave default value
                 setGameDefaultValue(&game);
                 printf("%s", SETTING_STATE_FIRST_MESSAGE);
             }

@@ -20,20 +20,29 @@ typedef enum {
     PlayerVsComputer = '1', PlayerVsPlayer = '2'
 } GameMode;
 
-
-typedef struct Game {
+typedef struct GameHistory GameHistory;
+typedef struct {
+    char lastMove[4];
     GameBoard board;
-    Piece historyPiecesBefore[MAX_HISTORY_SIZE];
-    Piece historyPiecesAfter[MAX_HISTORY_SIZE];
-    char historyPositions[MAX_HISTORY_SIZE][4];
-    char historyNumberOfPieceToSet[MAX_HISTORY_SIZE];
-    int historyIndex;
+    GameHistory *gameHistory;
     char difficulty;
     Color player1Color;
     GameMode gameMode;
     Player currentPlayer;
     int needToReprintBoard;
 } Game;
+
+
+struct GameHistory {
+    Game gameHistoryArray[MAX_HISTORY_SIZE];
+    int historyIndex;
+    int lenght;
+};
+
+//create a empty game board and empty game history
+static const Game EmptyGame;
+static const GameHistory EmptyGameHistory;
+
 
 typedef enum {
     //settings commands
@@ -272,12 +281,6 @@ Command getComputerMove(Game *game);
  */
 //TODO: documentaion of this method when done.
 CheckmateType getCheckmate(Game *game);
-
-/*!
- * initialize the game history arrays to 0.
- * @param game - the game the action is made on.
- */
-void initHistoryArray(Game *game);
 
 /*!
  * @param game - the game the action is made on.
