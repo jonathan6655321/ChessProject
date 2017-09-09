@@ -558,7 +558,7 @@ ExecuteGetMovesResponse executeUserGetMovesCommand(char pieceRow, char pieceCol,
 void getMovesThatEatOpponent(GameBoard *gameBoard, LegalMoves *allMoves,
                               Player currentPlayer, LegalMoves *opponentAtLocationMoves)
 {
-    (*opponentAtLocationMoves) = {0};
+//    (*opponentAtLocationMoves).legalMovesArray = {0};
     for(int i=0; i < BOARD_SIZE; i++)
     {
         if(allMoves->legalMovesArray[i] == LEGAL_MOVE)
@@ -576,7 +576,7 @@ void getMovesThatEatOpponent(GameBoard *gameBoard, LegalMoves *allMoves,
 void getPositionsThreatenedByOpponent(GameBoard *gameBoard, Player currentPlayer,
                                        LegalMoves *threatenedByOpponentMoves)
 {
-    (*threatenedByOpponentMoves) = {0};
+//    (*threatenedByOpponentMoves) = {0};
 
     int firstPieceIndex = (currentPlayer==Player1)?FIRST_PLAYER_2_PIECE_INDEX:FIRST_PLAYER_1_PIECE_INDEX;
     int lastPieceIndex = (currentPlayer==Player1)?LAST_PLAYER_2_PIECE_INDEX:LAST_PLAYER_1_PIECE_INDEX;
