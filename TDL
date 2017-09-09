@@ -62,3 +62,12 @@ TODO general:
     difficulty 5.
 
 check if
+
+
+
+
+getMoves workflow:
+1. get 101010 array of possible moves,
+2. for possible move, for all opponent pieces check if threatens location, return a new 10101010 array of threatened location
+3. for possible move check if opponent piece is at location and return a new 10101010 array of eat opponents
+4. retun enum of castling possibilities

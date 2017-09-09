@@ -13,7 +13,7 @@
  * if is your piece but illegal move request returns: illegalMove
  *
  */
-Response executeUserMoveCommand(char rowFrom, char colFrom, char rowTo, char colTo, GameBoard *gameBoard, Player currentPlayer,
+ResponseType executeUserMoveCommand(char rowFrom, char colFrom, char rowTo, char colTo, GameBoard *gameBoard, Player currentPlayer,
                            Piece *pieceDestinationBefore, Piece* pieceAtDestinationAfter)
 {
     if (isValidRowCol(rowFrom,colFrom) == FAIL || isValidRowCol(rowTo,colTo) == FAIL)

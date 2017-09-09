@@ -5,6 +5,7 @@ do
 	
 	#res=$(./vault my_repository.vlt add folder1/folder2/data_filter"$i".c)
 	res=$(diff test_"$i".res test_"$i".out)	
+	#echo result for test $i is: $res
 	if [ "$res" != "" ]; then
 		echo FAIL:  test number $i
 	else 

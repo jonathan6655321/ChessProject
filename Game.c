@@ -141,7 +141,7 @@ HandleCommandMessage handleSetMove(Command command, Game *game) {
     Piece pieceAtDestinationBefore;
     Piece pieceAtDestinationAfter;
     HandleCommandMessage message;
-    Response response = executeUserMoveCommand(rowFrom, colFrom, rowTo, colTo,
+    ResponseType response = executeUserMoveCommand(rowFrom, colFrom, rowTo, colTo,
                                                &(game->board), game->currentPlayer, &pieceAtDestinationBefore,
                                                &pieceAtDestinationAfter);
     switch (response) {

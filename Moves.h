@@ -25,7 +25,7 @@ typedef struct LegalMoves
 }LegalMoves;
 
 
-typedef enum Response {
+typedef enum {
     InvalidPosition,
     NotYourPiece,
     IllegalMove,
@@ -34,7 +34,8 @@ typedef enum Response {
     PawnPromotionNeeded,
     AteOpponentsPiece_PawnPromote,
     MadeMove_Pawn_Promote
-}Response;
+} ResponseType;
+
 
 
 /*
@@ -44,13 +45,30 @@ typedef enum Response {
  * if is your piece but illegal move request returns: illegalMove
  *
  */
-Response executeUserMoveCommand(char rowFrom, char colFrom, char rowTo, char colTo, GameBoard *gameBoard, Player currentPlayer,
+ResponseType executeUserMoveCommand(char rowFrom, char colFrom, char rowTo, char colTo, GameBoard *gameBoard, Player currentPlayer,
                                 Piece *pieceDestinationBefore, Piece* pieceAtDestinationAfter);
 
 /*
  * gets row, col and piece from user. and sets the piece in this location
  */
 int executeSetPieceAt(char row, char col, Piece * piece, GameBoard *gameBoard);
+
+
+typedef enum {
+    LongCastle,
+    ShortCastle,
+    BothCastle
+} CastleType;
+
+typedef struct{
+
+    ResponseType type;
+    LegalMoves allMoves;
+    LegalMoves threatenedByOpponentMoves;
+    LegalMoves opponentAtLocationMoves;
+    CastleType castleType;
+} ExecuteGetMovesResponse;
+
 
 /*
  * gets x,y and currentPlayer
