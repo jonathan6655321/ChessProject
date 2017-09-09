@@ -203,7 +203,7 @@ HandleCommandMessage handleGetMoves(Command command, Game *game) {
     HandleCommandMessage message;
     char row = command.argument[0];
     char col = command.argument[1];
-   //TODO: message.getMovesResponse = executeUserGetMovesCommand(row, col, &(game->board), game->currentPlayer);
+    message.getMovesResponse = executeUserGetMovesCommand(row, col, &(game->board), game->currentPlayer);
     switch (message.getMovesResponse.type) {
         case InvalidPosition:
             message.messageType = errorGetMovesInvalidPositionMessage;
