@@ -13,6 +13,13 @@ void initPiece(Piece *piece, PieceType type, Player player)
     piece->type = type;
 }
 
+/*
+ * returns the other player
+ */
+Player getOtherPlayer(Player player)
+{
+    return (player == Player1)?Player2:Player1;
+}
 
 
 

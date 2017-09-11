@@ -8,16 +8,25 @@
 #include "Pieces.h"
 #define PLAYER_1_QUEEN_INDEX 3
 #define PLAYER_1_KING_INDEX 4
-//#define PLAYER_1_BISHOP_1 2
-//#define PLAYER_1_BISHOP_2 5
-//#define PLAYER_1_ROOK_1 2
-//#define PLAYER_1_ROOK_2 2
-//#define PLAYER_1_KNIGHT_1 2
-//#define PLAYER_1_BISHOP_1 2
+#define PLAYER_1_ROOK_1 0
+#define PLAYER_1_ROOK_2 7
+#define PLAYER_1_KNIGHT_1 1
+#define PLAYER_1_KNIGHT_2 6
+#define PLAYER_1_BISHOP_1 2
+#define PLAYER_1_BISHOP_2 5
+#define PLAYER_1_FIRST_PAWN 8
+#define PLAYER_1_LAST_PAWN 15
 
 #define PLAYER_2_QUEEN_INDEX 27
 #define PLAYER_2_KING_INDEX 28
-
+#define PLAYER_2_ROOK_1 24
+#define PLAYER_2_ROOK_2 31
+#define PLAYER_2_KNIGHT_1 25
+#define PLAYER_2_KNIGHT_2 30
+#define PLAYER_2_BISHOP_1 26
+#define PLAYER_2_BISHOP_2 29
+#define PLAYER_2_FIRST_PAWN 16
+#define PLAYER_2_LAST_PAWN 23
 
 /*
  * receives an index from 0-31 and inits piece to hold the player and type of this index
@@ -427,4 +436,136 @@ char getRowFromLocationIndex(int i)
 char getColFromLocationIndex(int i)
 {
     return 'A' + (i % NUM_COLS);
+}
+
+
+/*
+ * gets player and returns the relevant index.
+ */
+int getFirstPieceIndexForPlayer(Player player)
+{
+    return (player==Player1)?FIRST_PLAYER_1_PIECE_INDEX:FIRST_PLAYER_2_PIECE_INDEX;
+}
+int getLastPieceIndexForPlayer(Player player)
+{
+    return (player==Player1)?LAST_PLAYER_1_PIECE_INDEX:LAST_PLAYER_2_PIECE_INDEX;
+}
+
+/*
+ * these help with scoring function
+ * return  the number of pieces by type for certain player
+ */
+int numPawns(GameBoard *gameBoard, Player player)
+{
+    int count=0;
+    if(player == Player1)
+    {
+        for(int i=PLAYER_1_FIRST_PAWN; i<=PLAYER_1_LAST_PAWN; i++)
+        {
+            if(gameBoard->mapPieceIndexToLocationOnBoard[i] != NOT_IN_GAME)
+                count++;
+        }
+        return count;
+    }
+    else
+    {
+        for(int i=PLAYER_2_FIRST_PAWN; i<=PLAYER_2_LAST_PAWN; i++)
+        {
+            if(gameBoard->mapPieceIndexToLocationOnBoard[i] != NOT_IN_GAME)
+                count++;
+        }
+        return count;
+    }
+}
+int numKnights(GameBoard *gameBoard, Player player)
+{
+    int count=0;
+    if(player == Player1)
+    {
+        if(gameBoard->mapPieceIndexToLocationOnBoard[PLAYER_1_KNIGHT_1] != NOT_IN_GAME)
+            count++;
+        if(gameBoard->mapPieceIndexToLocationOnBoard[PLAYER_1_KNIGHT_2] != NOT_IN_GAME)
+            count++;
+        return count;
+    }
+    else
+    {
+        if(gameBoard->mapPieceIndexToLocationOnBoard[PLAYER_2_KNIGHT_1] != NOT_IN_GAME)
+            count++;
+        if(gameBoard->mapPieceIndexToLocationOnBoard[PLAYER_2_KNIGHT_2] != NOT_IN_GAME)
+            count++;
+        return count;
+    }
+}
+int numBishops(GameBoard *gameBoard, Player player)
+{
+        int count=0;
+        if(player == Player1)
+        {
+            if(gameBoard->mapPieceIndexToLocationOnBoard[PLAYER_1_BISHOP_1] != NOT_IN_GAME)
+                count++;
+            if(gameBoard->mapPieceIndexToLocationOnBoard[PLAYER_1_BISHOP_2] != NOT_IN_GAME)
+                count++;
+            return count;
+        }
+        else
+        {
+            if(gameBoard->mapPieceIndexToLocationOnBoard[PLAYER_2_BISHOP_1] != NOT_IN_GAME)
+                count++;
+            if(gameBoard->mapPieceIndexToLocationOnBoard[PLAYER_2_BISHOP_2] != NOT_IN_GAME)
+                count++;
+            return count;
+        }
+}
+int numRooks(GameBoard *gameBoard, Player player)
+{
+        int count=0;
+        if(player == Player1)
+        {
+            if(gameBoard->mapPieceIndexToLocationOnBoard[PLAYER_1_ROOK_1] != NOT_IN_GAME)
+                count++;
+            if(gameBoard->mapPieceIndexToLocationOnBoard[PLAYER_1_ROOK_2] != NOT_IN_GAME)
+                count++;
+            return count;
+        }
+        else
+        {
+            if(gameBoard->mapPieceIndexToLocationOnBoard[PLAYER_2_ROOK_1] != NOT_IN_GAME)
+                count++;
+            if(gameBoard->mapPieceIndexToLocationOnBoard[PLAYER_2_ROOK_2] != NOT_IN_GAME)
+                count++;
+            return count;
+        }
+}
+int numQueens(GameBoard *gameBoard, Player player)
+{
+        int count=0;
+        if(player == Player1)
+        {
+            if(gameBoard->mapPieceIndexToLocationOnBoard[PLAYER_1_QUEEN_INDEX] != NOT_IN_GAME)
+                count++;
+            return count;
+        }
+        else
+        {
+            if(gameBoard->mapPieceIndexToLocationOnBoard[PLAYER_2_QUEEN_INDEX] != NOT_IN_GAME)
+                count++;
+            return count;
+        }
+}
+int numKings(GameBoard *gameBoard, Player player)
+{
+        int count=0;
+        if(player == Player1)
+        {
+            if(gameBoard->mapPieceIndexToLocationOnBoard[PLAYER_1_KING_INDEX] != NOT_IN_GAME)
+                count++;
+            return count;
+        }
+        else
+        {
+            if(gameBoard->mapPieceIndexToLocationOnBoard[PLAYER_2_KING_INDEX] != NOT_IN_GAME)
+                count++;
+            return count;
+        }
 }

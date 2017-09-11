@@ -38,6 +38,11 @@ typedef struct Piece {
 // sets all paramaters
 void initPiece(Piece *piece, PieceType type, Player player);
 
+/*
+ * returns the other player
+ */
+Player getOtherPlayer(Player player);
+
 
 
 

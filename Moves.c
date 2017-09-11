@@ -633,3 +633,23 @@ ResponseType getResponseTypeForGetMoves(char pieceRow, char pieceCol, GameBoard 
         }
     }
 }
+
+
+/*
+ * wrapper for getLegalMovesForPieceAt
+ */
+int getLegalMovesForPieceByIndex(int pieceIndex,  GameBoard *gameBoard, LegalMoves *legalMoves)
+{
+    if(pieceIndex < FIRST_PLAYER_1_PIECE_INDEX || pieceIndex > LAST_PLAYER_2_PIECE_INDEX)
+    {
+        return FAIL;
+    }
+    else
+    {
+        int locationIndex = getLocationIndexForPieceIndex(gameBoard, pieceIndex);
+        char row = getRowFromLocationIndex(locationIndex);
+        char col = getColFromLocationIndex(locationIndex);
+
+        return getLegalMovesForPieceAt(row, col, gameBoard, legalMoves);
+    }
+}

@@ -135,4 +135,22 @@ char getRowFromLocationIndex(int i);
  */
 char getColFromLocationIndex(int i);
 
+/*
+ * gets player and returns the relevant index.
+ */
+int getFirstPieceIndexForPlayer(Player player);
+int getLastPieceIndexForPlayer(Player player);
+
+/*
+ * these help with scoring function
+ * return  the number of pieces by type for certain player
+ */
+int numPawns(GameBoard *gameBoard, Player player);
+int numKnights(GameBoard *gameBoard, Player player);
+int numBishops(GameBoard *gameBoard, Player player);
+int numRooks(GameBoard *gameBoard, Player player);
+int numQueens(GameBoard *gameBoard, Player player);
+int numKings(GameBoard *gameBoard, Player player);
+
+
 #endif //CHESSPROJECT_GAMEBOARD_H

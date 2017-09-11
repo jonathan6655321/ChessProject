@@ -72,6 +72,9 @@ typedef struct{
 } ExecuteGetMovesResponse;
 
 
+
+
+
 /*
  * gets x,y and currentPlayer
  * if invalid x,y returns: invalidPosition
@@ -167,5 +170,12 @@ void printLegalMoves(LegalMoves *legalMoves);
  * for testing..
  */
 void printLegalMovesForAllPieces(GameBoard *gameBoard);
+
+
+/*
+ * wrapper for getLegalMovesForPieceAt
+ */
+int getLegalMovesForPieceByIndex(int pieceIndex, GameBoard *gameBoard, LegalMoves *legalMoves);
+
 #endif //CHESSPROJECT_MOVES_H
 
