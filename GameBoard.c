@@ -6,27 +6,7 @@
 #include <stdlib.h>
 #include "GameBoard.h"
 #include "Pieces.h"
-#define PLAYER_1_QUEEN_INDEX 3
-#define PLAYER_1_KING_INDEX 4
-#define PLAYER_1_ROOK_1 0
-#define PLAYER_1_ROOK_2 7
-#define PLAYER_1_KNIGHT_1 1
-#define PLAYER_1_KNIGHT_2 6
-#define PLAYER_1_BISHOP_1 2
-#define PLAYER_1_BISHOP_2 5
-#define PLAYER_1_FIRST_PAWN 8
-#define PLAYER_1_LAST_PAWN 15
 
-#define PLAYER_2_QUEEN_INDEX 27
-#define PLAYER_2_KING_INDEX 28
-#define PLAYER_2_ROOK_1 24
-#define PLAYER_2_ROOK_2 31
-#define PLAYER_2_KNIGHT_1 25
-#define PLAYER_2_KNIGHT_2 30
-#define PLAYER_2_BISHOP_1 26
-#define PLAYER_2_BISHOP_2 29
-#define PLAYER_2_FIRST_PAWN 16
-#define PLAYER_2_LAST_PAWN 23
 
 /*
  * receives an index from 0-31 and inits piece to hold the player and type of this index
@@ -337,6 +317,9 @@ int movePiece(char rowFrom, char colFrom, char rowTo, char colTo, GameBoard *gam
     {
         return FAIL;
     }
+    if(pieceAtDestinationIndex >= 0) // TODO should this be here?
+        removePieceAt(rowTo, colTo, gameBoard);
+
     removePieceAt(rowFrom, colFrom, gameBoard);
     setPieceAt(rowTo, colTo, gameBoard, movingPieceIndex);
 
@@ -568,4 +551,12 @@ int numKings(GameBoard *gameBoard, Player player)
                 count++;
             return count;
         }
+}
+
+int isValidLocationIndex(int i)
+{
+    if(i<0 || i>BOARD_SIZE)
+        return 0;
+    else
+        return 1;
 }

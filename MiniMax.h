@@ -21,7 +21,6 @@
 typedef struct{
     int pieceIndex;
     int toLocationIndex;
-    int boardValueAfterMove;
 } MiniMaxMove;
 
 /*
@@ -29,7 +28,8 @@ typedef struct{
  * returns the location index (0-63) of the position to move the piece at
  * with alpha beta pruning
  */
-MiniMaxMove minimax(GameBoard *gameState, int depth, int alpha, int beta, Player currentPlayer, int (*scoreFunction)(GameBoard *));
+int minimax(GameBoard *gameState, int depth, int alpha, int beta, Player currentPlayer,
+            int (*scoreFunction)(GameBoard *), MiniMaxMove *bestMove);
 
 /*
  * simple max function

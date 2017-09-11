@@ -65,19 +65,7 @@ check if
 
 
 
-
-getMoves workflow:
-1. get 101010 array of possible moves,
-2.
-REMOVE PIECE FROM BOARD
-    for all opponents pieces, get possible moves, OR with the "threatened pieces array"
- ADD PIECE AGAIN
-3. for possible move check if opponent piece is at location and return a new 10101010 array of eat opponents
-4. retun enum of castling possibilities
-
-
-// PAWN threatens don't work,,
-actually move the piece and then check
-
-
 // TDL handle king is threatened case in program
+
+
+WTF: scoring when player 1 is black

@@ -19,6 +19,28 @@
 #define NO_PIECE -2
 #define NOT_IN_GAME -1
 
+#define PLAYER_1_QUEEN_INDEX 3
+#define PLAYER_1_KING_INDEX 4
+#define PLAYER_1_ROOK_1 0
+#define PLAYER_1_ROOK_2 7
+#define PLAYER_1_KNIGHT_1 1
+#define PLAYER_1_KNIGHT_2 6
+#define PLAYER_1_BISHOP_1 2
+#define PLAYER_1_BISHOP_2 5
+#define PLAYER_1_FIRST_PAWN 8
+#define PLAYER_1_LAST_PAWN 15
+
+#define PLAYER_2_QUEEN_INDEX 27
+#define PLAYER_2_KING_INDEX 28
+#define PLAYER_2_ROOK_1 24
+#define PLAYER_2_ROOK_2 31
+#define PLAYER_2_KNIGHT_1 25
+#define PLAYER_2_KNIGHT_2 30
+#define PLAYER_2_BISHOP_1 26
+#define PLAYER_2_BISHOP_2 29
+#define PLAYER_2_FIRST_PAWN 16
+#define PLAYER_2_LAST_PAWN 23
+
 typedef struct GameBoard {
     /*
      * each location holds the index of the piece in it.
@@ -152,5 +174,6 @@ int numRooks(GameBoard *gameBoard, Player player);
 int numQueens(GameBoard *gameBoard, Player player);
 int numKings(GameBoard *gameBoard, Player player);
 
+int isValidLocationIndex(int i);
 
 #endif //CHESSPROJECT_GAMEBOARD_H
