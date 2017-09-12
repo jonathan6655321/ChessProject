@@ -1,0 +1,6 @@
+- load game from xml file works
+V write game to file deletes previous file
+
+- better scoring function for difficulty 5
+
+- cannot move piece if threatens king! BIG CHANGE!!

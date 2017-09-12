@@ -17,7 +17,8 @@ typedef enum PieceType  {
 	Rook, // "tsariah"
 	Knight, // "sus"
 	Queen,
-	King
+	King,
+	None
 } PieceType;
 
 /*

@@ -560,3 +560,65 @@ int isValidLocationIndex(int i)
     else
         return 1;
 }
+
+/*
+ * assumes gameboard is valid, aka NOT_IN_GAME and NOT_A_PIECE in appropriate places
+ * gets lowercase (white) or upper case (black) char
+ * returns an index of the piece which fits this char
+ * priority goes to NOT_IN_GAME pieceIndex
+ */
+int getPieceIndexFromPieceChar(GameBoard *gameBoard, char pieceChar, Color player1Color)
+{
+    Piece piece = {0};
+    piece.type = getTypeFromChar(pieceChar);
+    if(piece.type == None)
+        return -1;
+    Color pieceColor = (pieceChar == toupper(pieceChar))?Black:White;
+    piece.player = (pieceColor == player1Color)?Player1:Player2;
+    return getPieceIndexFromPiece(gameBoard, &piece);
+}
+
+PieceType getTypeFromChar(char pieceChar)
+{
+    switch(pieceChar)
+    {
+        case 'm':
+        case 'M':
+            return Pawn;
+        case 'r':
+        case 'R':
+            return Rook;
+        case 'b':
+        case 'B':
+            return Bishop;
+        case 'n':
+        case 'N':
+            return Knight;
+        case 'k':
+        case 'K':
+            return King;
+        case 'q':
+        case 'Q':
+            return Queen;
+        default:
+            return None;
+    }
+}
+/*
+ * used for parsing
+ */
+void initEmptyGame(GameBoard *gameBoard)
+{   int pieceIndex = 0;
+    for (char row='1'; row <='8'; row++)
+    {
+        for(char col='A'; col <= 'H'; col ++)
+        {
+            if (row == '1' || row == '2' || row == '7' || row == '8')
+            {
+                gameBoard->mapPieceIndexToLocationOnBoard[pieceIndex] = NOT_IN_GAME;
+                pieceIndex++;
+            }
+            gameBoard->mapLocationOnBoardToPieceIndex[rowColToLocationIndex(row,col)] = NO_PIECE;
+        }
+    }
+}

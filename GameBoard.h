@@ -10,6 +10,10 @@
 #define NUM_ROWS 8
 #define NUM_COLS NUM_ROWS
 #define BOARD_SIZE NUM_COLS*NUM_ROWS
+#define FIRST_ROW_CHAR '1'
+#define LAST_ROW_CHAR '8'
+#define FIRST_COL_CHAR 'A'
+#define LAST_COL_CHAR 'H'
 
 #define NUM_STARTING_PIECES 32
 #define FIRST_PLAYER_1_PIECE_INDEX 0
@@ -175,5 +179,20 @@ int numQueens(GameBoard *gameBoard, Player player);
 int numKings(GameBoard *gameBoard, Player player);
 
 int isValidLocationIndex(int i);
+
+/*
+ * assumes gameboard is valid, aka NOT_IN_GAME and NOT_A_PIECE in appropriate places
+ * gets lowercase (white) or upper case (black) char
+ * returns an index of the piece which fits this char
+ * priority goes to NOT_IN_GAME pieceIndex
+ */
+int getPieceIndexFromPieceChar(GameBoard *gameBoard, char pieceChar, Color player1Color);
+
+/*
+ * simply this:
+ */
+PieceType getTypeFromChar(char pieceChar);
+
+void initEmptyGame(GameBoard *gameBoard);
 
 #endif //CHESSPROJECT_GAMEBOARD_H
