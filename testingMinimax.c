@@ -12,6 +12,8 @@ int main( int argc, char **argv )
     initGame(&gameBoard, White);
     printBoard(&gameBoard,White);
 
+//    printf("the mobility score is: %d", getMobilityScoreByPlayer(&gameBoard, Player1));
+
     MiniMaxMove move1;
     MiniMaxMove move2;
 //
@@ -33,7 +35,7 @@ int main( int argc, char **argv )
         printf("TURN %d", i);
         int fromLoc;
         printf("\n********** PLAYER 1 MOVES: **************\n");
-        minimax(&gameBoard, 5, INT_MIN, INT_MAX, Player1, amazingScoreFunction, &move1);
+        minimax(&gameBoard, 4, INT_MIN, INT_MAX, Player1, scoreFunction, &move1);
         fromLoc = getLocationIndexForPieceIndex(&gameBoard, move1.pieceIndex);
         movePiece(getRowFromLocationIndex(fromLoc), getColFromLocationIndex(fromLoc),
                   getRowFromLocationIndex(move1.toLocationIndex), getColFromLocationIndex(move1.toLocationIndex), &gameBoard);
@@ -47,7 +49,7 @@ int main( int argc, char **argv )
         }
 
         printf("\n********** PLAYER 2 MOVES: **************\n");
-        minimax(&gameBoard, 5, INT_MIN, INT_MAX, Player2, scoreFunction, &move2);
+        minimax(&gameBoard, 4, INT_MIN, INT_MAX, Player2, amazingScoreFunction, &move2);
         fromLoc = getLocationIndexForPieceIndex(&gameBoard, move2.pieceIndex);
         movePiece(getRowFromLocationIndex(fromLoc), getColFromLocationIndex(fromLoc),
                   getRowFromLocationIndex(move2.toLocationIndex), getColFromLocationIndex(move2.toLocationIndex), &gameBoard);

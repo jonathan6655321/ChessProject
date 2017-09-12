@@ -203,7 +203,7 @@ int amazingScoreFunction(GameBoard *gameBoard)
 {
     int score = scoreFunction(gameBoard);
     score += centerControlScore(gameBoard);
-
+    score += mobilityScore(gameBoard);
     return score;
 }
 
@@ -239,4 +239,54 @@ int centerControlScore(GameBoard *gameBoard)
         }
     }
     return score;
+}
+
+int mobilityScore(GameBoard *gameBoard)
+{
+    int score = 0;
+    score += getMobilityScoreByPlayer(gameBoard, Player1);
+    score -= getMobilityScoreByPlayer(gameBoard, Player2);
+
+    // normalize:
+    score /= 10;
+
+    return score;
+}
+
+int getMobilityScoreByPlayer(GameBoard *gameBoard, Player player)
+{
+    int score = 0;
+    int firstPiece = getFirstPieceIndexForPlayer(player);
+    int lastPiece = getLastPieceIndexForPlayer(player);
+    for(int pieceIndex = firstPiece;
+        pieceIndex <= lastPiece;
+        pieceIndex++)
+    {
+        if((pieceIndex >= PLAYER_1_FIRST_PAWN && pieceIndex <= PLAYER_1_LAST_PAWN)
+                || (pieceIndex >= PLAYER_2_FIRST_PAWN && pieceIndex <= PLAYER_2_LAST_PAWN))
+            continue;
+
+        int pieceLocationIndex = getLocationIndexForPieceIndex(gameBoard, pieceIndex);
+        if(!isValidLocationIndex(pieceLocationIndex))
+            continue;
+        LegalMoves pieceCanMoveTo = {0};
+        char row = getRowFromLocationIndex(pieceLocationIndex);
+        char col = getColFromLocationIndex(pieceLocationIndex);
+        getLegalMovesForPieceAt(row, col, gameBoard, &pieceCanMoveTo);
+
+        score+= countMoves(&pieceCanMoveTo);
+    }
+
+    return score;
+}
+
+int countMoves(LegalMoves *pieceCanMoveTo)
+{
+    int cnt=0;
+    for(int i=0; i<BOARD_SIZE; i++)
+    {
+        if(pieceCanMoveTo->legalMovesArray[i] > 0)
+            cnt++;
+    }
+    return cnt;
 }

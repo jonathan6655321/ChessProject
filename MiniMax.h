@@ -50,7 +50,7 @@ int min(int a, int b);
 int scoreFunction(GameBoard *gameBoard);
 int amazingScoreFunction(GameBoard *gameBoard);
 int centerControlScore(GameBoard *gameBoard);
-
-
-
+int mobilityScore(GameBoard *gameBoard);
+int getMobilityScoreByPlayer(GameBoard *gameBoard, Player player);
+int countMoves(LegalMoves *pieceCanMoveTo);
 #endif //CHESSPROJECT_MINIMAX_H
