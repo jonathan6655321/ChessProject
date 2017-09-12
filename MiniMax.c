@@ -198,3 +198,45 @@ int scoreFunction(GameBoard *gameBoard)
 
     return score;
 }
+
+int amazingScoreFunction(GameBoard *gameBoard)
+{
+    int score = scoreFunction(gameBoard);
+    score += centerControlScore(gameBoard);
+
+    return score;
+}
+
+/*
+ *
+ */
+int centerControlScore(GameBoard *gameBoard)
+{
+    int score = 0;
+    int inInnerCenter = 0;
+    for(char row = '3'; row <= '6'; row ++)
+    {
+        for(char col = 'C'; col<= 'F'; col++)
+        {
+            inInnerCenter = 0;
+            if(row >= '4' && row <= '5' && col >= 'D' && col <= 'E')
+            {
+                inInnerCenter = 1;
+            }
+            int pieceIndex = getIndexOfPieceAt(row, col, gameBoard);
+
+            if(pieceIndex!= NO_PIECE)
+            {
+                if(getPlayerFromIndex(pieceIndex) == Player1)
+                {
+                    score += inInnerCenter*INNER_CENTER_VAL + CENTER_VAL;
+                }
+                else
+                {
+                    score -= inInnerCenter*INNER_CENTER_VAL + CENTER_VAL;
+                }
+            }
+        }
+    }
+    return score;
+}
