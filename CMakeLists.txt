@@ -28,6 +28,6 @@ set(SOURCE_FILES
         Parser.h
         Pieces.c
         Pieces.h
-        CommandLineCommands.h MiniMaxAlgorithm.h MiniMax.h MiniMax.c)
+        CommandLineCommands.h MiniMaxAlgorithm.h MiniMax.h MiniMax.c testingMinimax.c XmlUtils.h XmlUtils.c testingXmlUtils.c)
 
 add_executable(ChessProject ${SOURCE_FILES})

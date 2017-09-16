@@ -67,7 +67,7 @@ char getPieceChar(Piece * piece, Color player1Color)
         case King: c = 'k';
             break;
         default:
-            return 'X'; // this should never happen...
+            return '_'; // this should never happen...
     }
     Player piecePlayer = piece->player;
     if ((piecePlayer == Player1 && player1Color == Black) || (piecePlayer == Player2 && player1Color == White))

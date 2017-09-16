@@ -1,0 +1,8 @@
+V load game from xml file works
+V write game to file deletes previous file
+
+V better scoring function for difficulty 5
+
+- make sure changing color doesn't make the kings queens
+
+- cannot move piece if threatens king! BIG CHANGE!!

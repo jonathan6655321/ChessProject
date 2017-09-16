@@ -10,6 +10,10 @@
 #define NUM_ROWS 8
 #define NUM_COLS NUM_ROWS
 #define BOARD_SIZE NUM_COLS*NUM_ROWS
+#define FIRST_ROW_CHAR '1'
+#define LAST_ROW_CHAR '8'
+#define FIRST_COL_CHAR 'A'
+#define LAST_COL_CHAR 'H'
 
 #define NUM_STARTING_PIECES 32
 #define FIRST_PLAYER_1_PIECE_INDEX 0
@@ -18,6 +22,28 @@
 #define LAST_PLAYER_2_PIECE_INDEX 31
 #define NO_PIECE -2
 #define NOT_IN_GAME -1
+
+#define PLAYER_1_QUEEN_INDEX 3
+#define PLAYER_1_KING_INDEX 4
+#define PLAYER_1_ROOK_1 0
+#define PLAYER_1_ROOK_2 7
+#define PLAYER_1_KNIGHT_1 1
+#define PLAYER_1_KNIGHT_2 6
+#define PLAYER_1_BISHOP_1 2
+#define PLAYER_1_BISHOP_2 5
+#define PLAYER_1_FIRST_PAWN 8
+#define PLAYER_1_LAST_PAWN 15
+
+#define PLAYER_2_QUEEN_INDEX 27
+#define PLAYER_2_KING_INDEX 28
+#define PLAYER_2_ROOK_1 24
+#define PLAYER_2_ROOK_2 31
+#define PLAYER_2_KNIGHT_1 25
+#define PLAYER_2_KNIGHT_2 30
+#define PLAYER_2_BISHOP_1 26
+#define PLAYER_2_BISHOP_2 29
+#define PLAYER_2_FIRST_PAWN 16
+#define PLAYER_2_LAST_PAWN 23
 
 typedef struct GameBoard {
     /*
@@ -152,5 +178,21 @@ int numRooks(GameBoard *gameBoard, Player player);
 int numQueens(GameBoard *gameBoard, Player player);
 int numKings(GameBoard *gameBoard, Player player);
 
+int isValidLocationIndex(int i);
+
+/*
+ * assumes gameboard is valid, aka NOT_IN_GAME and NOT_A_PIECE in appropriate places
+ * gets lowercase (white) or upper case (black) char
+ * returns an index of the piece which fits this char
+ * priority goes to NOT_IN_GAME pieceIndex
+ */
+int getPieceIndexFromPieceChar(GameBoard *gameBoard, char pieceChar, Color player1Color);
+
+/*
+ * simply this:
+ */
+PieceType getTypeFromChar(char pieceChar);
+
+void initEmptyGame(GameBoard *gameBoard);
 
 #endif //CHESSPROJECT_GAMEBOARD_H
