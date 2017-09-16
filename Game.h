@@ -71,7 +71,7 @@ typedef enum {
     invalidCommand
 } CommandType;
 
-typedef struct Command {
+typedef struct {
     CommandType commandType;
     char stringArgument[MAX_COMMAND_LENGTH];
     char argument[5];
@@ -205,6 +205,7 @@ HandleCommandMessage handleStartGame(Game *game);
  *      errorSetMovePositionsMessage, if position given as command argument is illegal.
  *      errorSetMoveNotYourPieceMessage, if position given as command argument does not contain current player piece.
  *      errorIllegalMoveMessage, if the position the player try to move to is illegal for this piece.
+ *		 pawnPromoteNeededMessage, if the action requires pawn promotion.
  *      setMoveMessage, if successfully executed move. if so the message contains the following argument:
  *          argument 0: the piece type that was at this position before the move.
  *          argument 1: the piece type that was at this position after the move.

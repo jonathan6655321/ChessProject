@@ -20,6 +20,9 @@
 .idea/**/gradle.xml
 .idea/**/libraries
 
+# Eclipse:
+.metadata/**
+
 # CMake
 cmake-build-debug/
 
