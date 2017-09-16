@@ -1,40 +1,3 @@
-#ifndef CHESSGAMEBOARD_H
-#define CHESSGAMEBOARD_H
-#include <SDL.h>
-#include <stdio.h>
-#include "Events.h"
-#include "SDLHelperFunctions.h"
-#include "../Game.h"
-TODO: #include <SDL_video.h>
-TODO: #include "SPTicTacToeWindow.h"
-
-typedef struct {
-	int 					lastPieceChoosen;
-	int 					availableMovesOfLastPiece[];
-	
-	SDL_Texture* 	textures[NUMBER_OF_GAME_BOARD_TEXTURES]; // type of pieces + empty pieces  * white&black&blue&darkerBlue
-	Game 				game;
-	GameHistory 	gameHistory;
-} GameBoardControl;
-
-GameBoardControl* GameBoardControlCreate	(SDL_Renderer* renderer, char gameMode, char player1Color, char gameDifficulty);
-GameBoardControl* GameBoardControlLoad	(SDL_Renderer* renderer, char loadSlotSelected);
-
-void GameBoardControlDraw		(GameBoardControl* src, SDL_Renderer* renderer, int[] rentangle);
-void GameBoardControlDestroy	(GameBoardControl* src);
-
-EventStruct GameBoardControlHandleMoveEvent						(GameBoardControl* src, int boardLocationClick);
-EventStruct GameBoardControlHandleNewPieceChoosenEvent	(GameBoardControl* src, int boardLocationClick);
-EventStruct GameBoardControlHandleUndoMove						(GameBoardControl* src);
-EventStruct GameBoardControlHandleSaveGame						(GameBoardControl* src);
-EventStruct GameBoardControlHandleRestartGame					(GameBoardControl* src);
-EventStruct GameBoardControlHandleQuitGame						(GameBoardControl* src);
-EventStruct GameBoardControlHandleEvent								(GameBoardControl* src, SDL_Event* event, int[] rentangle) ;
-
-#endif
-
-#include "GameBoardControl.h"
-
 GameBoardControl* GameBoardControlDefaultCreator(){
 	GameBoardControl* newGameBoardControl = (GameBoardControl*) calloc(sizeof(GameBoardControl), sizeof(char));
 	
@@ -92,12 +55,24 @@ void SetGameDifficulty(GameBoardControl* src, char gameDifficulty){
 }
 
 int IsComputerTurnGameBoardControl(GameBoardControl* src){
-	//TODO
-	return 0;
+	return (getCurrentPlayerColor(&(src->game)) != src->game.player1Color && src->game.gameMode == PlayerVsComputer);
+}
+
+void HandleFinishGameGameBoardControl(GameBoardControl* src){
+	
+}
+
+void HandleCheckPrintsIfNeeded(GameBoardControl* src){
+	
+}
+
+int IsGameCompletedGameBoardControl(GameBoardControl* src){
+	
 }
 
 void HandleComputerMoveGameBoardControl(GameBoardControl* src){
-	//TODO;
+	Command  command = getComputerMove(&(src->game));
+	handleCommand(command, &(src->game));
 }
 
 void GameBoardControlSetUpNewGame(GameBoardControl* src, char gameMode, char player1Color, char gameDifficulty){
@@ -122,6 +97,26 @@ GameBoardControl* GameBoardControlCreate(SDL_Renderer* renderer ,char gameMode, 
 	}
 	
 	GameBoardControlSetUpNewGame(src, gameMode, player1Color, gameDifficulty);	
+	
+	return newGameWindow;
+}
+
+int GameBoardControlLoadGame(GameBoardControl* src, char loadSlotSelected){
+	//TODO! need to handle errors here
+	return 0;
+}
+
+GameBoardControl* GameBoardControlLoad	(SDL_Renderer* renderer, char loadSlotSelected){
+	GameBoardControl* newGameBoardControl = GameBoardControlDefaultCreator();
+	
+	if (newGameBoardControl == NULL ) {
+		return NULL ;
+	}
+	
+	if(GameBoardControlLoadGame(src, loadSlotSelected)){
+		GameBoardControlDestroy(newGameBoardControl);
+		return NULL;
+	}
 	
 	return newGameWindow;
 }
@@ -187,7 +182,8 @@ void MakeMoveGameBoardControl(GameBoardControl* src, char rowFrom, char colFrom,
 }
 
 int ChechIfMoveIsCastleMoveGameBoardControl(GameBoardControl* src, char rowFrom, char colFrom, char rowTo, char colTo){
-	
+	//TODO 
+	return 0;
 }
 
 void MakeCastleMoveGameBoardControl(GameBoardControl* src, char rowFrom, char colFrom, char rowTo, char colTo){
@@ -211,19 +207,66 @@ EventStruct GameBoardControlHandleMoveEvent	(GameBoardControl* src, int row, int
 		MakeMoveGameBoardControl(src, rowFrom, colFrom, rowTo, colTo);
 	}
 	
+	if(IsGameCompletedGameBoardControl(src)){
+		HandleFinishGameGameBoardControl(src);
+		eventStruct.eventType = QuitEvent;
+		return eventStruct;
+	}
+	
 	GameBoardControl->currentPieceSelectedRow = -1;
 	GameBoardControl->currentPieceSelectedCol = -1;
 	if(IsComputerTurnGameBoardControl(src)){
 		HandleComputerMoveGameBoardControl(src);
+		if(IsGameCompletedGameBoardControl(src)) {
+			HandleFinishGameGameBoardControl(src);
+			eventStruct.eventType = QuitEvent;
+		}else{
+			HandleCheckPrintsIfNeeded(src);
+		}
 	}
+	return eventStruct;
 }
 
-EventStruct GameBoardControlHandleNewPieceChoosenEvent	(GameBoardControl* src, int row, int col){
+int PieceInRowColIsCurrentPlayerPiece(GameBoardControl* src, int row, int col){
+	
+}
+
+void UpdateCurrentAvailableMoves(GameBoardControl* src){
+	Command command;
+	command.commandType = getMoves;
+	command.argument[0] = (char) ('1' + src->currentPieceSelectedRow);
+	command.argument[1] = (char) ('A' + src->currentPieceSelectedCol);
+	HandleCommandMessage message = handleGetMoves(Command command, Game *game);
+	src->availableMovesOfSelectedPiece = message.getMovesResponse;
+}
+
+EventStruct GameBoardControlHandleNewPieceChoosenEvent (GameBoardControl* src, int row, int col){
 	EventStruct eventStruct = {EmptyEvent,0};
 	if(IsComputerTurnGameBoardControl(src)){
 		return eventStruct;
 	}
-	
+	if(PieceInRowColIsCurrentPlayerPiece(src, row, col)){
+		src->currentPieceSelectedRow = row;
+		src->currentPieceSelectedCol = col;
+		UpdateCurrentAvailableMoves(src);
+	}
+	return eventStruct;
+}
+
+void PrintUndoMoveErrorsGameBoardControl(HandleCommandMessage message){
+	char* errorString = NULL;
+	if(message.messageType == errorUndo2PlayerModeMessage){
+		//TODO
+	}else if(message.messageType == errorUndoEmptyHistoryMessage){
+		//TODO
+	}else{
+		errorString = "UnknownErrorOccured";
+	}
+	//TODO make message box with the error
+}
+
+int UndoMoveErrorOccuredGameBoardControl(HandleCommandMessage message){
+	return (message.messageType == errorUndo2PlayerModeMessage || message.messageType == errorUndoEmptyHistoryMessage);
 }
 
 EventStruct GameBoardControlHandleUndoMove	(GameBoardControl* src){
@@ -232,20 +275,35 @@ EventStruct GameBoardControlHandleUndoMove	(GameBoardControl* src){
 		return eventStruct;
 	}
 	Command command;
-	command.commandType = setMove;
-	command.argument[0] = rowFrom;
-	command.argument[1] = rowFrom;
-	command.argument[2] = rowFrom;
-	command.argument[3] = rowFrom;
-	command.argument[4] = 0;
+	command.commandType = undoMove;
 	HandleCommandMessage message = handleCommand(command, &(src->game));
+	if(UndoMoveErrorOccuredGameBoardControl(message)){
+		PrintUndoMoveErrorsGameBoardControl(message);
+	}else{
+		newGameBoardControl->gameStateIsSaved = 0;
+	}
+	return eventStruct;
+}
 
-	newGameBoardControl->gameStateIsSaved = 0;
+void PrintSaveErrorGameBoardControl(HandleCommandMessage message){
+	
+}
+
+int SaveGameErrorOccuredGameBoardControl(HandleCommandMessage message){
+	return (message.messageType == errorSaveMessage);
 }
 
 EventStruct GameBoardControlHandleSaveGame (GameBoardControl* src){
 	EventStruct eventStruct = {EmptyEvent,0};
-	newGameBoardControl->gameStateIsSaved = 1;
+	Command command;
+	command.commandType = saveGame;
+	HandleCommandMessage message = handleCommand(command, &(src->game));
+	if(SaveGameErrorOccuredGameBoardControl(message){
+		PrintSaveErrorIfNeededGameBoardControl(message);
+	}else{
+		newGameBoardControl->gameStateIsSaved = 1;
+	}
+	return eventStruct;
 }
 
 int CheckIfUserWantToSaveGameIfNeeded_OrCancelAction(GameBoardControl* src){

@@ -11,7 +11,7 @@ TODO: #include "SPTicTacToeWindow.h"
 typedef struct {
 	int 										currentPieceSelectedRow;
 	int 										currentPieceSelectedCol;
-	ExecuteGetMovesResponse 	availableMovesOfLastPiece;
+	ExecuteGetMovesResponse 	availableMovesOfSelectedPiece;
 	int 										gameStateIsSaved;
 	
 	SDL_Texture* 	textures[NUMBER_OF_GAME_BOARD_TEXTURES]; // type of pieces + empty pieces  * white&black&blue&darkerBlue
