@@ -5,7 +5,7 @@
 TODO #include "SPTicTacToeGameWin.h"
 TODO #include "SPTicTacToeMainWin.h"
 
-typedef enum{
+typedef enum {
 	MainWindowState,
 	GameWindowState,
 	NewGameWindowState,
@@ -31,6 +31,6 @@ void GuiManagerHideCurrentWindow(GuiManager* src);
 
 void GuiManagerShowCurrentWindow(GuiManager* src);
 
-EventStruct GuiManagerHandleEvent(GuiManager* src, SDL_Event* event) ;
+EventStruct GuiManagerHandleEvent(GuiManager* src, SDL_Event* event);
 
 #endif

@@ -9,15 +9,16 @@ int main(int argc, char** argv) {
 		printf("ERROR: unable to init SDL: %s\n", SDL_GetError());
 		return 1;
 	}
-	
+
 	// Create the main instance
 	GuiManager* guiManager = GuiManagerCreate();
-	if (guiManager == NULL ) {
+	if (guiManager == NULL) {
 		SDL_Quit();
 		return 0;
 	}
-	
+
 	// While event is not QuitEvent, keep handling event and drawing the game.
+	SDL_Event event;
 	while (1) {
 		SDL_WaitEvent(&event);
 		if (GuiManagerHandleEvent(guiManager, &event).eventType == QuitEvent) {
@@ -25,7 +26,7 @@ int main(int argc, char** argv) {
 		}
 		GuiManagerDraw(guiManager);
 	}
-	
+
 	// End gui manager and quit game.
 	GuiManagerDestroy(guiManager);
 	SDL_Quit();
