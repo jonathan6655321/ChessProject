@@ -1,5 +1,5 @@
 #!/bin/bash
-for i in `seq 1 3`
+for i in `seq 4 4`
 do	
 	res=$(./../cmake-build-debug/ChessProject.exe < test_"$i".in > test_"$i".res)
 	

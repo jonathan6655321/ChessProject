@@ -2,7 +2,6 @@
 // Created by Jonathan on 9/11/2017.
 ////
 //
-<<<<<<< HEAD
 //
 //#include "MiniMax.h"
 //

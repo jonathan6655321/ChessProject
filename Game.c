@@ -253,10 +253,10 @@ Command getComputerMove(Game *game) {
     MiniMaxMove miniMaxMove;
 
     if (game->difficulty == '5') {
-        minimax(&(game->board), 5, INT_MIN, INT_MAX, game->currentPlayer, amazingScoreFunction, &miniMaxMove);
+        minimax(&(game->board), 5, INT_MIN, INT_MAX, game->currentPlayer, amazingScoreFunction, &miniMaxMove, 1);
     } else {
         minimax(&(game->board), game->difficulty - '0', INT_MIN, INT_MAX, game->currentPlayer, amazingScoreFunction,
-                &miniMaxMove); //TODO do we need the fast scoring funciton\ trivial?
+                &miniMaxMove, 1); //TODO do we need the fast scoring funciton\ trivial?
 
     }
 
