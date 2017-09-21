@@ -9,7 +9,11 @@ int PointInsideRectangle(int x, int y, int* Rectangle){
 }
 
 SDL_Rect CreateSDLRectFromIntArray(int* Rectangle){
-	SDL_Rect ret = { .x = Rectangle[0], .y = Rectangle[2], .h = Rectangle[1]-Rectangle[0], .w = Rectangle[3]-Rectangle[2] };
+	SDL_Rect ret;
+	ret.x = Rectangle[0];
+	ret.y = Rectangle[2];
+	ret.w = Rectangle[1]-Rectangle[0];
+	ret.h = Rectangle[3]-Rectangle[2];
 	return ret;
 }
 

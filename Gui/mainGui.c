@@ -1,10 +1,7 @@
-#include <SDL.h>
-#include <SDL_video.h>
-#include <stdio.h>
-#include "GuiManager.h"
+#include "mainGui.h"
 
 
-int main(int argc, char** argv) {
+int MainGuiLoop(){
 	//Init the SDL pakage.
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) { //SDL2 INIT
 		printf("ERROR: unable to init SDL: %s\n", SDL_GetError());

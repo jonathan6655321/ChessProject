@@ -10,14 +10,14 @@
 //	TODO : #include "../SPTicTacToe.h"
 
 
-	   int gameBoardGameWindowRectangle[4] = { 50,650,100,700 };
-	   int saveGameGameWindowRectangle[4] = { 700, 			800,		 	100, 			150 };
-	   int loadGameGameWindowRectangle[4] = { 700, 			800, 			200, 				250 };
-	   int undoButtonGameWindowRectangle[4] = { 700, 					800, 					300, 						350 };
-	   int goToMainWindowButtonGameWindowRectangle[4] = { 700, 800, 	400, 	450 };
-	   int restartButtonGameWindowRectangle[4] = { 700, 				800, 					500, 					550 };
-	   int quitGameGameWindowRectangle[4] = { 700, 						800, 						600, 						650 };
-	   int backgroundGameWindowRectangle[4] = { 0,850, 					0, 						800 };
+	   static int gameBoardGameWindowRectangle[4] = { 50,650,100,700 };
+	   static int saveGameGameWindowRectangle[4] = { 700, 			800,		 	100, 			150 };
+	   static int loadGameGameWindowRectangle[4] = { 700, 			800, 			200, 				250 };
+	   static int undoButtonGameWindowRectangle[4] = { 700, 					800, 					300, 						350 };
+	   static int goToMainWindowButtonGameWindowRectangle[4] = { 700, 800, 	400, 	450 };
+	   static int restartButtonGameWindowRectangle[4] = { 700, 				800, 					500, 					550 };
+	   static int quitGameGameWindowRectangle[4] = { 700, 						800, 						600, 						650 };
+	   static int backgroundGameWindowRectangle[4] = { 0,850, 					0, 						800 };
 
 
 	  typedef enum {

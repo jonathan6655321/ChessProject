@@ -1,5 +1,9 @@
-#include "mainGui.h"
+#ifndef MAINGUI_H_
+#define MAINGUI_H_
+#include "GuiManager.h"
+#include "Events.h"
 
 
-int main(int argc, char** argv);
+int MainGuiLoop();
 
+#endif

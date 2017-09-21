@@ -2,7 +2,7 @@
 #define SDLHELPERFUNCTION_H_
 #include <SDL.h>
 
-int PointInsideRectangle(int, int, int*);
+int PointInsideRectangle(int, int, int[]);
 
 SDL_Rect CreateSDLRectFromIntArray(int*);
 
