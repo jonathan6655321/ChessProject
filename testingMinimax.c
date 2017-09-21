@@ -26,21 +26,23 @@ int main(int argc, char **argv) {
 //    printf("done");
 
     int i = 0;
-//    while (1)
+    while (1){
 //
-    for (int i = 0; i < 31; i++) {
-//        i++;
+//    for (int i = 0; i < 31; i++) {
+        i++;
         printf("TURN %d\n", i);
-        if (hasLegalMoves(Player1, &gameBoard) == FAIL)
+        if (hasLegalMoves(Player1, &gameBoard) == FAIL) {
             printf("Player %d has NO MOVES", Player1+1);
-        else
+        }
+        else {
             printf("Player %d has MOVES", Player1+1);
+        }
 
         printf("\nIs player 1 king threatened? %d", isKingThreatened(Player1, &gameBoard));
         printf("\nIs player 2 king threatened? %d", isKingThreatened(Player2, &gameBoard));
         int fromLoc;
         printf("\n********** PLAYER 1 MOVES: **************\n");
-        minimax(&gameBoard, 3, INT_MIN, INT_MAX, Player1, scoreFunction, &move1);
+        minimax(&gameBoard, 4, INT_MIN, INT_MAX, Player1, scoreFunction, &move1, 1);
         fromLoc = getLocationIndexForPieceIndex(&gameBoard, move1.pieceIndex);
         movePiece(getRowFromLocationIndex(fromLoc), getColFromLocationIndex(fromLoc),
                   getRowFromLocationIndex(move1.toLocationIndex), getColFromLocationIndex(move1.toLocationIndex),
@@ -53,15 +55,17 @@ int main(int argc, char **argv) {
             return 0;
         }
 
-        if (hasLegalMoves(Player2, &gameBoard) == FAIL)
+        if (hasLegalMoves(Player2, &gameBoard) == FAIL) {
             printf("Player %d has NO MOVES", Player2+1);
-        else
+        }
+        else {
             printf("Player %d has MOVES", Player2+1);
+        }
 
         printf("\nIs player 1 king threatened? %d", isKingThreatened(Player1, &gameBoard));
         printf("\nIs player 2 king threatened? %d", isKingThreatened(Player2, &gameBoard));
         printf("\n********** PLAYER 2 MOVES: **************\n");
-        minimax(&gameBoard, 3, INT_MIN, INT_MAX, Player2, scoreFunction, &move2);
+        minimax(&gameBoard, 3, INT_MIN, INT_MAX, Player2, scoreFunction, &move2, 1);
         fromLoc = getLocationIndexForPieceIndex(&gameBoard, move2.pieceIndex);
         movePiece(getRowFromLocationIndex(fromLoc), getColFromLocationIndex(fromLoc),
                   getRowFromLocationIndex(move2.toLocationIndex), getColFromLocationIndex(move2.toLocationIndex),
