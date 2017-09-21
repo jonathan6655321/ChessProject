@@ -40,7 +40,7 @@ int minimax(GameBoard *gameState, int depth, int alpha, int beta, Player current
                 LegalMoves pieceCanMoveTo = {0};
                 char row = getRowFromLocationIndex(pieceLocationIndex);
                 char col = getColFromLocationIndex(pieceLocationIndex);
-                getLegalMovesForPieceAt(row, col, gameState, &pieceCanMoveTo);
+                getPossibleMovesForPieceAt(row, col, gameState, &pieceCanMoveTo);
 
 
                 GameBoard child;
@@ -104,7 +104,7 @@ int minimax(GameBoard *gameState, int depth, int alpha, int beta, Player current
                 LegalMoves pieceCanMoveTo = {0};
                 char row = getRowFromLocationIndex(pieceLocationIndex);
                 char col = getColFromLocationIndex(pieceLocationIndex);
-                getLegalMovesForPieceAt(row, col, gameState, &pieceCanMoveTo);
+                getPossibleMovesForPieceAt(row, col, gameState, &pieceCanMoveTo);
 
 
                 GameBoard child;
@@ -272,7 +272,7 @@ int getMobilityScoreByPlayer(GameBoard *gameBoard, Player player)
         LegalMoves pieceCanMoveTo = {0};
         char row = getRowFromLocationIndex(pieceLocationIndex);
         char col = getColFromLocationIndex(pieceLocationIndex);
-        getLegalMovesForPieceAt(row, col, gameBoard, &pieceCanMoveTo);
+        getPossibleMovesForPieceAt(row, col, gameBoard, &pieceCanMoveTo);
 
         score+= countMoves(&pieceCanMoveTo);
     }
