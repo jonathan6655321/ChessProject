@@ -2,7 +2,7 @@
 //// Created by Jonathan on 7/18/2017.
 ////
 #include <stdlib.h>
-#include "Gui/mainGui.h"
+#include "CommandLineGame.h"
 int main( int argc, char **argv )
 {
 
@@ -25,6 +25,6 @@ int main( int argc, char **argv )
 //
 //    printLegalMovesForAllPieces(&gameBoard);
 
-    MainGuiLoop();
+    commandLineGameLoop();
     return 0;
 }

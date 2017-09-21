@@ -42,7 +42,7 @@ void commandLineGameLoop() {
                 command = getComputerMove(&game);
             }
         } else if (state == gameEndedCommandState) {
-            // TODO
+            // should exit!
             return;
         }
         commandMessage = handleCommand(command, &game);
@@ -123,13 +123,6 @@ void handlePrintGetMoves(Game *game, Command command, HandleCommandMessage messa
             PRINT_SINGLE_GET_MOVE(row, col, isPossible, isThreatened, isCapturing, isCastle);
         }
     }
-    printf("#########allMoves###########");
-    printLegalMoves(&message.getMovesResponse.allMoves);
-    printf("#########opponentAtLocationMoves###########");
-    printLegalMoves(&message.getMovesResponse.opponentAtLocationMoves);
-    printf("#########threatenedByOpponentMoves###########");
-    printLegalMoves(&message.getMovesResponse.threatenedByOpponentMoves);
-    printf("####################");
 
     // Castle move:
     isCastle = 1;

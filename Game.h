@@ -11,6 +11,7 @@
 #include "consoleRendering.h"
 #include "Moves.h"
 #include "GameBoard.h"
+#include "MiniMax.h"
 #include "constants.h"
 
  //CONSTANTS:

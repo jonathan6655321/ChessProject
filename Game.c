@@ -142,7 +142,7 @@ HandleCommandMessage handleSetMove(Command command, Game *game) {
                                                    &(game->board), game->currentPlayer);
     switch (response) {
         //case where no move should be done:
-    	case InvalidPosition:
+        case InvalidPosition:
             message.messageType = errorSetMovePositionsMessage;
             return message;
         case NotYourPiece:
@@ -169,7 +169,7 @@ HandleCommandMessage handleSetMove(Command command, Game *game) {
             message.messageType = setMoveMessage;
             break;
         default:
-        	break;
+            break;
     }
     for (int j = 0; j < 4; ++j) {
         game->lastMove[j] = command.argument[j];
@@ -247,13 +247,65 @@ HandleCommandMessage handleUndoMove(Game *game) {
 
 Command getComputerMove(Game *game) {
     Command command;
-//TODO: implement createComputerMove.
+    command.commandType = setMove;
+    command.numberOfArgs = 4;
+    char rowFrom, colFrom, rowTo, colTo;
+    MiniMaxMove miniMaxMove;
+
+    if (game->difficulty == '5') {
+        minimax(&(game->board), 5, INT_MIN, INT_MAX, game->currentPlayer, amazingScoreFunction, &miniMaxMove);
+    } else {
+        minimax(&(game->board), game->difficulty - '0', INT_MIN, INT_MAX, game->currentPlayer, amazingScoreFunction,
+                &miniMaxMove); //TODO do we need the fast scoring funciton\ trivial?
+
+    }
+
+    rowFrom = getRowFromLocationIndex(getLocationIndexForPieceIndex(&(game->board), miniMaxMove.pieceIndex));
+    colFrom = getColFromLocationIndex(getLocationIndexForPieceIndex(&(game->board), miniMaxMove.pieceIndex));
+    rowTo = getRowFromLocationIndex(miniMaxMove.toLocationIndex);
+    colTo = getColFromLocationIndex(miniMaxMove.toLocationIndex);
+
+    command.argument[0] = rowFrom;
+    command.argument[1] = colFrom;
+    command.argument[2] = rowTo;
+    command.argument[3] = colTo;
     return command;
 }
 
 CheckmateType getCheckmate(Game *game) {
+    int thretened = (isKingThreatened(game->currentPlayer, &(game->board)) == SUCCESS);
+    int hasMoves = (hasLegalMoves(game->currentPlayer, &(game->board)) == SUCCESS);
+    int check = 0;
+    int checkMate = 0;
+    if (thretened) {
+        if (hasMoves) {
+            check = 1;
+        } else {
+            checkMate = 1;
+        }
+    } else {
+        if (hasMoves) {
+            return noCheck;
+        } else {
+            return tie;
+        }
+    }
+    if (getCurrentPlayerColor(game) == White) {
+        if (check) {
+            return whiteChecked;
+        }
+        if (checkMate) {
+            return whiteCheckmated;
+        }
+    } else {
+        if (check) {
+            return blackChecked;
+        }
+        if (checkMate) {
+            return blackCheckmated;
+        }
+    }
     return noCheck;
-//TODO: return checkmate from game board somer version.
 }
 
 void printGame(Game *game) {
