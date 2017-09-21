@@ -13,30 +13,31 @@
 #include "GameBoard.h"
 #include "constants.h"
 
-//CONSTANTS:
+ //CONSTANTS:
 
-//STRUCTS&ENUMS:
+ //STRUCTS&ENUMS:
 typedef enum {
-    PlayerVsComputer = '1', PlayerVsPlayer = '2'
+	PlayerVsComputer = '1', PlayerVsPlayer = '2'
 } GameMode;
 
 typedef struct GameHistory GameHistory;
+
 typedef struct {
-    char lastMove[4];
-    GameBoard board;
-    GameHistory *gameHistory;
-    char difficulty;
-    Color player1Color;
-    GameMode gameMode;
-    Player currentPlayer;
-    int needToReprintBoard;
+	char lastMove[4];
+	GameBoard board;
+	GameHistory *gameHistory;
+	char difficulty;
+	Color player1Color;
+	GameMode gameMode;
+	Player currentPlayer;
+	int needToReprintBoard;
 } Game;
 
 
 struct GameHistory {
-    Game gameHistoryArray[MAX_HISTORY_SIZE];
-    int historyIndex;
-    int lenght;
+	Game gameHistoryArray[MAX_HISTORY_SIZE];
+	int historyIndex;
+	int lenght;
 };
 
 //create a empty game board and empty game history
@@ -45,76 +46,76 @@ static const GameHistory EmptyGameHistory;
 
 
 typedef enum {
-    //settings commands
-            setGameMode,
-    setDifficulty,
-    setUserColor,
-    loadSettings,
-    loadDefaultSettings,
-    printSettings,
-    startGame,
-    //game commands
-            setMove,
-    castleMove,
-    getMoves,
-    saveGame,
-    undoMove,
-    resetGame,
-    //pawn promotion command
-            pawnPromoteToPawn,
-    pawnPromoteToKnight,
-    pawnPromoteToRook,
-    pawnPromoteToBishop,
-    pawnPromoteToQueen,
-    //general commands
-            quitGame,
-    invalidCommand
+	//settings commands
+	setGameMode,
+	setDifficulty,
+	setUserColor,
+	loadSettings,
+	loadDefaultSettings,
+	printSettings,
+	startGame,
+	//game commands
+	setMove,
+	castleMove,
+	getMoves,
+	saveGame,
+	undoMove,
+	resetGame,
+	//pawn promotion command
+	pawnPromoteToPawn,
+	pawnPromoteToKnight,
+	pawnPromoteToRook,
+	pawnPromoteToBishop,
+	pawnPromoteToQueen,
+	//general commands
+	quitGame,
+	invalidCommand
 } CommandType;
 
 typedef struct {
-    CommandType commandType;
-    char stringArgument[MAX_COMMAND_LENGTH];
-    char argument[5];
-    int numberOfArgs;
+	CommandType commandType;
+	char stringArgument[MAX_COMMAND_LENGTH];
+	char argument[5];
+	int numberOfArgs;
 } Command;
 
 typedef enum {
-    successMessage,
-    setGameModeMessage,
-    errorSetGameModeMessage,
-    errorSetDifficultyMessage,
-    errorExpertSetDifficultyMessage,
-    errorLoadMessage,
-    printSettingMessage,
-    errorSetMovePositionsMessage,
-    errorSetMoveNotYourPieceMessage,
-    errorIllegalMoveMessage,
-    setMoveMessage,
-    pawnPromoteNeededMessage,
-    pawnPromoteMessage,
-    errorCastleMoveNoRookMessage,
-    errorCastleMoveIllegalMoveMessage,
-    castleMoveMessage,
-    getMovesMessage,
-    errorGetMovesInvalidPositionMessage,
-    errorGetMovesNotYourPieceMessage,
-    errorSaveMessage,
-    errorUndo2PlayerModeMessage,
-    errorUndoEmptyHistoryMessage,
-    undoMessage,
-    resetMessage,
-    quitMessage,
-    invalidCommandMessage
+	successMessage,
+	setGameModeMessage,
+	errorSetGameModeMessage,
+	errorSetDifficultyMessage,
+	errorExpertSetDifficultyMessage,
+	errorLoadMessage,
+	printSettingMessage,
+	errorSetMovePositionsMessage,
+	errorSetMoveNotYourPieceMessage,
+	errorIllegalMoveMessage,
+	setMoveMessage,
+	pawnPromoteNeededMessage,
+	pawnPromoteMessage,
+	errorCastleMoveNoRookMessage,
+	errorCastleMoveIllegalMoveMessage,
+	castleMoveMessage,
+	getMovesMessage,
+	errorGetMovesInvalidPositionMessage,
+	errorGetMovesNotYourPieceMessage,
+	errorSaveMessage,
+	errorUndo2PlayerModeMessage,
+	errorUndoEmptyHistoryMessage,
+	undoMessage,
+	resetMessage,
+	quitMessage,
+	invalidCommandMessage
 } HandleCommandMessageType;
 
 typedef enum {
-    whiteChecked, whiteCheckmated, blackChecked, blackCheckmated, tie, noCheck
+	whiteChecked, whiteCheckmated, blackChecked, blackCheckmated, tie, noCheck
 } CheckmateType;
 
 typedef struct HandleCommandMessage {
-    HandleCommandMessageType messageType;
-    char argument[8];
-    ExecuteGetMovesResponse getMovesResponse;
+	HandleCommandMessageType messageType;
+	char argument[8];
+	ExecuteGetMovesResponse getMovesResponse;
 } HandleCommandMessage;
 
 //METHODS
@@ -132,7 +133,7 @@ HandleCommandMessage handleCommand(Command command, Game *game);
  * @param game - the game the action is made on.
  * @return
  *      setGameModeMessage, if success.
-        errorSetGameModeMessage, if game mode illegal.
+		errorSetGameModeMessage, if game mode illegal.
  */
 HandleCommandMessage handleSetGameMode(Command command, Game *game);
 
@@ -149,8 +150,8 @@ HandleCommandMessage handleSetDefault(Game *game);
  * @param game - the game the action is made on.
  * @return
  *      successMessage, if changed successfully.
-        errorSetDifficultyMessage, if illegal level.
-        errorExpertSetDifficultyMessage, if expert level(5) is unsupported.
+		errorSetDifficultyMessage, if illegal level.
+		errorExpertSetDifficultyMessage, if expert level(5) is unsupported.
  */
 HandleCommandMessage handleSetDifficulty(Command command, Game *game);
 
@@ -235,7 +236,7 @@ HandleCommandMessage handleCastleMove(Command command, Game *game);
  *      errorGetMovesInvalidPositionMessage, if the position given in the command is not on the board.
  *      errorGetMovesNotYourPieceMessage, if the position is valid but doesn't contain the user piece.
  */
-//TODO: add documentation after implementing Somer getMoves.
+ //TODO: add documentation after implementing Somer getMoves.
 HandleCommandMessage handleGetMoves(Command command, Game *game);
 
 /*!
@@ -274,7 +275,7 @@ Command getComputerMove(Game *game);
  * @param game - the game the action is made on.
  * @return
  */
-//TODO: documentaion of this method when done.
+ //TODO: documentaion of this method when done.
 CheckmateType getCheckmate(Game *game);
 
 /*!

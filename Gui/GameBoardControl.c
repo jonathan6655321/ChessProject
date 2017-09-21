@@ -1,23 +1,25 @@
+#include "GameBoardControl.h"
+
 GameBoardControl* GameBoardControlDefaultCreator(){
 	GameBoardControl* newGameBoardControl = (GameBoardControl*) calloc(sizeof(GameBoardControl), sizeof(char));
-	
-	if (newGameBoardControl == NULL ) {
+
+	if (newGameBoardControl == NULL) {
 		printf("malloc: Error\n");
-		return NULL ;
+		return NULL;
 	}
 
 	char buff[1024];
 	int success = 1;
-	for(int i = 0; i<NUMBER_OF_GAME_BOARD_TEXTURES; i++){
+	for (int i = 0; i < NUMBER_OF_GAME_BOARD_TEXTURES; i++) {
 		sprintf(str, GAME_BOARD_TEXTURE_PATH_FORMAT, i);
-		success &= LoadTexture(&(newGameBoardControl->textures[i]),  			newGameWindow->gameRenderer, 	buff);
+		success &= LoadTexture(&(newGameBoardControl->textures[i]), newGameWindow->gameRenderer, buff);
 	}
-	
+
 	if (!success) {
 		GameBoardControlDestroy(newGameBoardControl);
-		return NULL ;
+		return NULL;
 	}
-	
+
 	newGameBoardControl->game = EmptyGame;
 	newGameBoardControl->gameHistory = EmptyGameHistory;
 	newGameBoardControl->game.gameHistory = &(newGameBoardControl->gameHistory);
@@ -27,31 +29,31 @@ GameBoardControl* GameBoardControlDefaultCreator(){
 	return newGameWindow;
 }
 
-void SetGameMode(GameBoardControl* src, char gameMode){
+void SetGameMode(GameBoardControl* src, char gameMode) {
 	Command command;
 	command.commandType = setGameMode;
 	command.argument[0] = gameMode;
 	command.numberOfArgs = 1;
-	
-	handleCommand(command, &(src-game));
+
+	handleCommand(command, &(src - game));
 }
 
-void SetPlayerColor(GameBoardControl* src, char player1Color){
+void SetPlayerColor(GameBoardControl* src, char player1Color) {
 	Command command;
 	command.commandType = setUserColor;
 	command.argument[0] = player1Color;
 	command.numberOfArgs = 1;
-	
-	handleCommand(command, &(src-game));
+
+	handleCommand(command, &(src - game));
 }
 
-void SetGameDifficulty(GameBoardControl* src, char gameDifficulty){
+void SetGameDifficulty(GameBoardControl* src, char gameDifficulty) {
 	Command command;
 	command.commandType = setDifficulty;
 	command.argument[0] = gameDifficulty;
 	command.numberOfArgs = 1;
-	
-	handleCommand(command, &(src-game));
+
+	handleCommand(command, &(src - game));
 }
 
 int IsComputerTurnGameBoardControl(GameBoardControl* src){
@@ -75,29 +77,29 @@ void HandleComputerMoveGameBoardControl(GameBoardControl* src){
 	handleCommand(command, &(src->game));
 }
 
-void GameBoardControlSetUpNewGame(GameBoardControl* src, char gameMode, char player1Color, char gameDifficulty){
+void GameBoardControlSetUpNewGame(GameBoardControl* src, char gameMode, char player1Color, char gameDifficulty) {
 	src->game = EmptyGame;
 	src->gameHistory = EmptyGameHistory;
 	src->game.gameHistory = &(src->gameHistory);
-	
+
 	SetGameMode(src, gameMode);
 	SetPlayerColor(src, player1Color);
 	SetGameDifficulty(src, gameDifficulty);
 
-	if(IsComputerTurnGameBoardControl(src){
+	if (IsComputerTurnGameBoardControl(src) {
 		HandleComputerMoveGameBoardControl(src);
 	}
 }
 
-GameBoardControl* GameBoardControlCreate(SDL_Renderer* renderer ,char gameMode, char player1Color, char gameDifficulty){
+GameBoardControl* GameBoardControlCreate(SDL_Renderer* renderer, char gameMode, char player1Color, char gameDifficulty) {
 	GameBoardControl* newGameBoardControl = GameBoardControlDefaultCreator();
-	
-	if (newGameBoardControl == NULL ) {
-		return NULL ;
+
+	if (newGameBoardControl == NULL) {
+		return NULL;
 	}
-	
-	GameBoardControlSetUpNewGame(src, gameMode, player1Color, gameDifficulty);	
-	
+
+	GameBoardControlSetUpNewGame(src, gameMode, player1Color, gameDifficulty);
+
 	return newGameWindow;
 }
 
@@ -130,21 +132,80 @@ void GameBoardControlDestroy(GameBoardControl* src){
 	free(src);
 }
 
-int GetNeededTextureInSpecificPositionOnBoard(GameBoardControl* src, int row, int col){
-	//TODO
-	return 0;
+int GetColorInLocation(GameBoardControl* src, int row, int col) {
+	if (row == src->currentPieceSelectedRow && col == src->currentPieceSelectedCol) {
+		return 2;
+	}
+	char rowC = '1' + row;
+	char colC = 'A' + col;
+	int colorInThisLocation = (row + col) % 2;
+	int locationInBoardOfRowCol = rowColToLocationIndex(rowC, colC);
+	if (src->availableMovesOfLastPiece.allMoves.legalMovesArray[locationInBoardOfRowCol]) {
+		if (src->availableMovesOfLastPiece.threatenedByOpponentMoves.legalMovesArray[locationInBoardOfRowCol]) {
+			colorInThisLocation = 2;
+		}
+		else {
+			colorInThisLocation = 3;
+		}
+	}
+	return colorInThisLocation;
 }
 
-void GameBoardControlDraw (GameBoardControl* src, SDL_Renderer* renderer, int[] rentangle){
+int GetNeededTextureInSpecificPositionOnBoard(GameBoardControl* src, int row, int col) {
+	Piece piece;
+	char rowC = '1' + row;
+	char colC = 'A' + col;
+	int colorInThisLocation = GetColorInLocation(src, row, col);
+	int getPieceResult = getPieceAt(rowC, colC, &(src->game.board), &piece);
+	int pieceNumber = 0;
+	int pieceColor = 0;
+	if (getPieceResult != -1) {
+		switch (piece.type)
+		{
+		case Pawn:
+			pieceNumber = 1;
+			break;
+		case Bishop:
+			pieceNumber = 2;
+			break;
+		case Rook:
+			pieceNumber = 3;
+			break;
+		case Knight:
+			pieceNumber = 4;
+			break;
+		case Queen:
+			pieceNumber = 5;
+			break;
+		case King:
+			pieceNumber = 6;
+			break;
+		default:
+		}
+		if (piece.player == Player1) {
+			if (src->game.player1Color == Black) {
+				pieceColor = 1;
+			}
+		}
+		else {
+			if (src->game.player1Color == White) {
+				pieceColor = 1;
+			}
+		}
+	}
+	return pieceNumber * 8 + 4 * pieceColor + colorInThisLocation;
+}
+
+void GameBoardControlDraw(GameBoardControl* src, SDL_Renderer* renderer, int[] rentangle) {
 	SDL_Rect sdlRect;
 	int boardRect[4];
 	int neededTextureIndex;
-	for(int row = 0; row < 8; row++){
-		for(int col = 0; col < 8; col++){
-			boardRect[0] = rentangle[0] + (col* (rentangle[1]-rentangle[0]))/8;
-			boardRect[1] = (rentangle[1]-rentangle[0])/8;
-			boardRect[2] = rentangle[2] + (row* (rentangle[3]-rentangle[2]))/8;
-			boardRect[1] = (rentangle[3]-rentangle[2])/8;
+	for (int row = 0; row < 8; row++) {
+		for (int col = 0; col < 8; col++) {
+			boardRect[0] = rentangle[0] + (col* (rentangle[1] - rentangle[0])) / 8;
+			boardRect[1] = (rentangle[1] - rentangle[0]) / 8;
+			boardRect[2] = rentangle[2] + (row* (rentangle[3] - rentangle[2])) / 8;
+			boardRect[1] = (rentangle[3] - rentangle[2]) / 8;
 			sdlRect = CreateSDLRectFromIntArray(rect);
 			neededTextureIndex = GetNeededTextureInSpecificPositionOnBoard(src, row, col);
 			SDL_RenderCopy(renderer, src->texture[neededTextureIndex], NULL, &sdlRect);
@@ -152,11 +213,11 @@ void GameBoardControlDraw (GameBoardControl* src, SDL_Renderer* renderer, int[] 
 	}
 }
 
-char AskPlayerForPawnPromotionOption(){
-	
+char AskPlayerForPawnPromotionOption() {
+
 }
 
-void HandlePawnPromotion(GameBoardControl* src, char rowFrom, char colFrom, char rowTo, char colTo){
+void HandlePawnPromotion(GameBoardControl* src, char rowFrom, char colFrom, char rowTo, char colTo) {
 	Command command;
 	command.commandType = setMove;
 	command.argument[0] = rowFrom;
@@ -167,7 +228,7 @@ void HandlePawnPromotion(GameBoardControl* src, char rowFrom, char colFrom, char
 	handleCommand(command, &(src->game));
 }
 
-void MakeMoveGameBoardControl(GameBoardControl* src, char rowFrom, char colFrom, char rowTo, char colTo){
+void MakeMoveGameBoardControl(GameBoardControl* src, char rowFrom, char colFrom, char rowTo, char colTo) {
 	Command command;
 	command.commandType = setMove;
 	command.argument[0] = rowFrom;
@@ -176,7 +237,7 @@ void MakeMoveGameBoardControl(GameBoardControl* src, char rowFrom, char colFrom,
 	command.argument[3] = rowFrom;
 	command.argument[4] = 0;
 	HandleCommandMessage message = handleCommand(command, &(src->game));
-	if(message.messageType == pawnPromoteNeededMessage){
+	if (message.messageType == pawnPromoteNeededMessage) {
 		HandlePawnPromotion(src, rowFrom, colFrom, rowTo, colTo);
 	}
 }
@@ -186,27 +247,28 @@ int ChechIfMoveIsCastleMoveGameBoardControl(GameBoardControl* src, char rowFrom,
 	return 0;
 }
 
-void MakeCastleMoveGameBoardControl(GameBoardControl* src, char rowFrom, char colFrom, char rowTo, char colTo){
-		
+void MakeCastleMoveGameBoardControl(GameBoardControl* src, char rowFrom, char colFrom, char rowTo, char colTo) {
+	//TODO
 }
 
-EventStruct GameBoardControlHandleMoveEvent	(GameBoardControl* src, int row, int col){
-	EventStruct eventStruct = {EmptyEvent,0};
-	if(IsComputerTurnGameBoardControl(src)){
+EventStruct GameBoardControlHandleMoveEvent(GameBoardControl* src, int row, int col) {
+	EventStruct eventStruct = { EmptyEvent,0 };
+	if (IsComputerTurnGameBoardControl(src)) {
 		return eventStruct;
 	}
 	newGameBoardControl->gameStateIsSaved = 0;
-	char rowFrom = (char) ('1' + GameBoardControl->currentPieceSelectedRow);
-	char colFrom = (char)( 'A' + GameBoardControl->currentPieceSelectedCol);
-	char rowTo = (char) ('1' + row);
-	char colTo = (char) ('A' + col);
+	char rowFrom = (char)('1' + GameBoardControl->currentPieceSelectedRow);
+	char colFrom = (char)('A' + GameBoardControl->currentPieceSelectedCol);
+	char rowTo = (char)('1' + row);
+	char colTo = (char)('A' + col);
 
-	if(ChechIfMoveIsCastleMoveGameBoardControl(src, rowFrom, colFrom, rowTo, colTo)){
+	if (ChechIfMoveIsCastleMoveGameBoardControl(src, rowFrom, colFrom, rowTo, colTo)) {
 		MakeCastleMoveGameBoardControl(src, rowFrom, colFrom, rowTo, colTo);
-	}else{
+	}
+	else {
 		MakeMoveGameBoardControl(src, rowFrom, colFrom, rowTo, colTo);
 	}
-	
+
 	if(IsGameCompletedGameBoardControl(src)){
 		HandleFinishGameGameBoardControl(src);
 		eventStruct.eventType = QuitEvent;
@@ -215,7 +277,7 @@ EventStruct GameBoardControlHandleMoveEvent	(GameBoardControl* src, int row, int
 	
 	GameBoardControl->currentPieceSelectedRow = -1;
 	GameBoardControl->currentPieceSelectedCol = -1;
-	if(IsComputerTurnGameBoardControl(src)){
+	if (IsComputerTurnGameBoardControl(src)) {
 		HandleComputerMoveGameBoardControl(src);
 		if(IsGameCompletedGameBoardControl(src)) {
 			HandleFinishGameGameBoardControl(src);
@@ -269,8 +331,8 @@ int UndoMoveErrorOccuredGameBoardControl(HandleCommandMessage message){
 	return (message.messageType == errorUndo2PlayerModeMessage || message.messageType == errorUndoEmptyHistoryMessage);
 }
 
-EventStruct GameBoardControlHandleUndoMove	(GameBoardControl* src){
-	EventStruct eventStruct = {EmptyEvent,0};
+EventStruct GameBoardControlHandleUndoMove(GameBoardControl* src) {
+	EventStruct eventStruct = { EmptyEvent,0 };
 	if (IsComputerTurnGameBoardControl(src)) {
 		return eventStruct;
 	}
@@ -286,7 +348,7 @@ EventStruct GameBoardControlHandleUndoMove	(GameBoardControl* src){
 }
 
 void PrintSaveErrorGameBoardControl(HandleCommandMessage message){
-	
+	//TODO print error message
 }
 
 int SaveGameErrorOccuredGameBoardControl(HandleCommandMessage message){
@@ -306,57 +368,58 @@ EventStruct GameBoardControlHandleSaveGame (GameBoardControl* src){
 	return eventStruct;
 }
 
-int CheckIfUserWantToSaveGameIfNeeded_OrCancelAction(GameBoardControl* src){
-	if(src->gameStateIsSaved)
+int CheckIfUserWantToSaveGameIfNeeded_OrCancelAction(GameBoardControl* src) {
+	if (src->gameStateIsSaved)
 		return 1;
 	const SDL_MessageBoxButtonData buttons[] = {
-        { /* .flags, .buttonid, .text */        0, 0, "no" },
-        { SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "yes" },
-        { SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 2, "cancel" },
-    };
-    const SDL_MessageBoxColorScheme colorScheme = {
-        { /* .colors (.r, .g, .b) */
-            /* [SDL_MESSAGEBOX_COLOR_BACKGROUND] */
-            { 255,   0,   0 },
-            /* [SDL_MESSAGEBOX_COLOR_TEXT] */
-            {   0, 255,   0 },
-            /* [SDL_MESSAGEBOX_COLOR_BUTTON_BORDER] */
-            { 255, 255,   0 },
-            /* [SDL_MESSAGEBOX_COLOR_BUTTON_BACKGROUND] */
-            {   0,   0, 255 },
-            /* [SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED] */
-            { 255,   0, 255 }
-        }
-    };
-    const SDL_MessageBoxData messageboxdata = {
-        SDL_MESSAGEBOX_INFORMATION, /* .flags */
-        NULL, /* .window */
-        "You are going to lose you unsaved game!", /* .title */
-        "Do you want to save the current game?", /* .message */
-        SDL_arraysize(buttons), /* .numbuttons */
-        buttons, /* .buttons */
-        &colorScheme /* .colorScheme */
-    };
-    int buttonid;
-    if (SDL_ShowMessageBox(&messageboxdata, &buttonid) < 0) {
-        SDL_Log("error displaying message box - unsave game is lost");
-        return 1;
-    }
-    if (buttonid == -1 || buttonid == 2) {
-        //SDL_Log("no selection");
-        //SDL_Log("canel button");
+		{ /* .flags, .buttonid, .text */        0, 0, "no" },
+		{ SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "yes" },
+		{ SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 2, "cancel" },
+	};
+	const SDL_MessageBoxColorScheme colorScheme = {
+		{ /* .colors (.r, .g, .b) */
+			/* [SDL_MESSAGEBOX_COLOR_BACKGROUND] */
+			{ 255,   0,   0 },
+			/* [SDL_MESSAGEBOX_COLOR_TEXT] */
+			{   0, 255,   0 },
+			/* [SDL_MESSAGEBOX_COLOR_BUTTON_BORDER] */
+			{ 255, 255,   0 },
+			/* [SDL_MESSAGEBOX_COLOR_BUTTON_BACKGROUND] */
+			{   0,   0, 255 },
+			/* [SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED] */
+			{ 255,   0, 255 }
+		}
+	};
+	const SDL_MessageBoxData messageboxdata = {
+		SDL_MESSAGEBOX_INFORMATION, /* .flags */
+		NULL, /* .window */
+		"You are going to lose you unsaved game!", /* .title */
+		"Do you want to save the current game?", /* .message */
+		SDL_arraysize(buttons), /* .numbuttons */
+		buttons, /* .buttons */
+		&colorScheme /* .colorScheme */
+	};
+	int buttonid;
+	if (SDL_ShowMessageBox(&messageboxdata, &buttonid) < 0) {
+		SDL_Log("error displaying message box - unsave game is lost");
+		return 1;
+	}
+	if (buttonid == -1 || buttonid == 2) {
+		//SDL_Log("no selection");
+		//SDL_Log("canel button");
 		return 0;
-	} else if (buttonid == 1){
-       GameBoardControlHandleSaveGame(src);
-    }
-    return 1;
+	}
+	else if (buttonid == 1) {
+		GameBoardControlHandleSaveGame(src);
+	}
+	return 1;
 
 }
 
-EventStruct GameBoardControlHandleRestartGame	(GameBoardControl* src){
-	EventStruct eventStruct = {EmptyEvent,0};
+EventStruct GameBoardControlHandleRestartGame(GameBoardControl* src) {
+	EventStruct eventStruct = { EmptyEvent,0 };
 	char gameMode, player1Color, gameDifficulty;
-	if(CheckIfUserWantToSaveGameIfNeeded_OrCancelAction(src)){
+	if (CheckIfUserWantToSaveGameIfNeeded_OrCancelAction(src)) {
 		gameMode = src->game.gameMode;
 		player1Color = src->game.player1Color;
 		gameDifficulty = src->game.difficulty;
@@ -365,48 +428,57 @@ EventStruct GameBoardControlHandleRestartGame	(GameBoardControl* src){
 	return eventStruct;
 }
 
-EventStruct GameBoardControlHandleQuitGame (GameBoardControl* src){
-	EventStruct eventStruct = {EmptyEvent,0};
-	if(CheckIfUserWantToSaveGameIfNeeded_OrCancelAction(src)){
+EventStruct GameBoardControlHandleQuitGame(GameBoardControl* src) {
+	EventStruct eventStruct = { EmptyEvent,0 };
+	if (CheckIfUserWantToSaveGameIfNeeded_OrCancelAction(src)) {
 		eventStruct.eventType = QuitEvent;
 	}
-	return eventStruct;	
+	return eventStruct;
 }
 
-int ClickWasOnGameRow(SDL_Event* event, int[] rentangle){
+int ClickWasOnGameRow(SDL_Event* event, int[] rentangle) {
 	int y = event->button.y;
 	y -= rentangle[2];
-	return y / ((rentangle[3]-rentangle[2])/8);
+	return y / ((rentangle[3] - rentangle[2]) / 8);
 }
 
-int ClickWasOnGameCol(SDL_Event* event, int[] rentangle){
+int ClickWasOnGameCol(SDL_Event* event, int[] rentangle) {
 	int x = event->button.x;
 	x -= rentangle[0];
-	return x / ((rentangle[1]-rentangle[0])/8);
+	return x / ((rentangle[1] - rentangle[0]) / 8);
 }
 
-int IsValidMoveForCurrentSelectedPiece(GameBoardControl* src, int row, int col){
-	if(GameBoardControl->currentPieceSelectedRow == -1){
+int IsValidMoveForCurrentSelectedPiece(GameBoardControl* src, int row, int col) {
+	if (GameBoardControl->currentPieceSelectedRow == -1) {
+		return 0;
+	}
+	char rowC = '1' + row;
+	char colC = 'A' + col;
+	if (src->availableMovesOfLastPiece.allMoves.legalMovesArray[rowColToLocationIndex(rowC, colC)]) {
+		return 1;
+	}
+	else {
 		return 0;
 	}
 }
 
-EventStruct GameBoardControlHandleEvent (GameBoardControl* src, SDL_Event* event, int[] rentangle) {
-	EventStruct eventStruct = {EmptyEvent,0};
-	if (event == NULL){
+EventStruct GameBoardControlHandleEvent(GameBoardControl* src, SDL_Event* event, int[] rentangle) {
+	EventStruct eventStruct = { EmptyEvent,0 };
+	if (event == NULL) {
 		return eventStruct;
 	}
-	
-	if(IsComputerTurnGameBoardControl(src)){
+
+	if (IsComputerTurnGameBoardControl(src)) {
 		return eventStruct;
 	}
-	
+
 	int row = ClickWasOnGameRow(event, rentangle);
 	int col = ClickWasOnGameCol(event, rentangle);
-	
-	if(IsValidMoveForCurrentSelectedPiece(src, row, col){
+
+	if (IsValidMoveForCurrentSelectedPiece(src, row, col) {
 		return GameBoardControlHandleMoveEvent(src, row, col);
-	}else{
+	}
+	else {
 		return GameBoardControlHandleNewPieceChoosenEvent(src, row, col);
 	}
 }
