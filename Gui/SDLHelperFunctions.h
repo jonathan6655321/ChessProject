@@ -2,12 +2,12 @@
 #define SDLHELPERFUNCTION_H_
 #include <SDL.h>
 
-int PointInsideRentangle(int x, int y. int[] rentangle);
+int PointInsideRectangle(int, int, int*);
 
-SDL_Rect CreateSDLRectFromIntArray(int[] rentangle);
+SDL_Rect CreateSDLRectFromIntArray(int*);
 
-int EventIsExitEvent(SDL_Event event);
+int EventIsExitEvent(SDL_Event*);
 
-int LoadTexture(**SDL_Texture texture,  SDL_Renderer* renderer, char* filePath);
+int LoadTexture(SDL_Texture**,  SDL_Renderer*, char*);
 
 #endif

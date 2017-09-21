@@ -3,16 +3,13 @@
 #include <SDL.h>
 #include "Events.h"
 #include "SDLHelperFunctions.h"
+#include "BMPPathConstants.h"
 
-const int newGameButtonMainWindowMinX = 75, newGameButtonMainWindowMaxX = 250, newGameButtonMainWindowMinY = 100, newGameButtonMainWindowMaxY = 200;
-const int loadGameButtonMainWindowMinX = 75, loadGameButtonMainWindowMaxX = 250, loadGameButtonMainWindowMinY = 250, loadGameButtonMainWindowMaxY = 350;
-const int quitButtonMainWindowMinX = 75, quitButtonMainWindowMaxX = 250, quitButtonMainWindowMinY = 400, quitButtonMainWindowMaxY = 500;
-const int backgroundMainWindowMinX = 0, backgroundMainWindowMaxX = 400, backgroundMainWindowMinY = 0, backgroundMainWindowMaxY = 450;
 
-const int[] newGameMainWindowRentangle = { newGameButtonMainWindowMinX, newGameButtonMainWindowMaxX, newGameButtonMainWindowMinY, newGameButtonMainWindowMaxY };
-const int[] loadGameMainWindowRentangle = { loadGameButtonMainWindowMinX, loadGameButtonMainWindowMaxX, loadGameButtonMainWindowMinY, loadGameButtonMainWindowMaxY };
-const int[] quitGameMainWindowRentangle = { quitButtonMainWindowMinX, quitButtonMainWindowMaxX, quitButtonMainWindowMinY, quitButtonMainWindowMaxY };
-const int[] backgroundMainWindowRentangle = { backgroundMainWindowMinX, backgroundMainWindowMaxX, backgroundMainWindowMinY, backgroundMainWindowMaxY };
+int newGameMainWindowRectangle[4] = { 75, 250, 100, 200 };
+int loadGameMainWindowRectangle[4] = { 75, 250, 250, 350 };
+int quitGameMainWindowRectangle[4] = { 75, 250, 400, 500 };
+int backgroundMainWindowRectangle[4] = { 0, 400, 0, 450 };
 
 typedef enum {
 	NewGameMainWindowButtonElement,

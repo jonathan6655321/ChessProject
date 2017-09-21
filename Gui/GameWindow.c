@@ -1,19 +1,19 @@
 #include "GameWindow.h"
 
 GameWindowElement ClickWasOnGameWindow(int x, int y) {
-	if (PointInsideRentangle(x, y, gameBoardGameWindowRentangle))
+	if (PointInsideRectangle(x, y, gameBoardGameWindowRectangle))
 		return GameBoardGameWindowElement;
-	else if (PointInsideRentangle(x, y, saveGameGameWindowRentangle))
+	else if (PointInsideRectangle(x, y, saveGameGameWindowRectangle))
 		return SaveGameButtonGameWindowElement;
-	else if (PointInsideRentangle(x, y, loadGameGameWindowRentangle))
+	else if (PointInsideRectangle(x, y, loadGameGameWindowRectangle))
 		return LoadGameButtonGameWindowElement;
-	else if (PointInsideRentangle(x, y, undoButtonGameWindowRentangle))
+	else if (PointInsideRectangle(x, y, undoButtonGameWindowRectangle))
 		return UndoButtonGameWindowElement;
-	else if (PointInsideRentangle(x, y, goToMainWindowButtonGameWindowRentangle))
+	else if (PointInsideRectangle(x, y, goToMainWindowButtonGameWindowRectangle))
 		return GoToMainWindowButtonGameWindowElement;
-	else if (PointInsideRentangle(x, y, restartButtonGameWindowRentangle))
+	else if (PointInsideRectangle(x, y, restartButtonGameWindowRectangle))
 		return RestartGameButtonGameWindowElement;
-	else if (PointInsideRentangle(x, y, quitGameGameWindowRentangle))
+	else if (PointInsideRectangle(x, y, quitGameGameWindowRectangle))
 		return QuitButtonGameWindowElement;
 	else
 		return BackgroundGameWindowElement;
@@ -24,8 +24,8 @@ void CreateGameWindow(GameWindow* src) {
 	src->gameWindow = SDL_CreateWindow("Chess Game", 	// window title
 		SDL_WINDOWPOS_CENTERED,           						// initial x position
 		SDL_WINDOWPOS_CENTERED,    								// initial y position
-		backgroundGameWindowMaxX,									// width, in pixels
-		backgroundGameWindowMaxY,                               	// height, in pixels
+		backgroundGameWindowRectangle[1],									// width, in pixels
+		backgroundGameWindowRectangle[3],                               	// height, in pixels
 		SDL_WINDOW_OPENGL                  							// TODO: what is this
 	);
 }
@@ -38,7 +38,7 @@ GameWindow* GameWindowDefaultCreator() {
 		return NULL;
 	}
 
-	createGameWindow(newGameWindow);
+	CreateGameWindow(newGameWindow);
 	// Check that the window was successfully created
 	if (newGameWindow->gameWindow == NULL) {
 		GameWindowDestroy(newGameWindow);
@@ -130,13 +130,13 @@ void GameWindowDestroy(GameWindow* src) {
 }
 
 void GameWindowDraw(GameWindow* src) {
-	SDL_Rect saveGameR = CreateSDLRectFromIntArray(saveGameGameWindowRentangle);
-	SDL_Rect loadGameR = CreateSDLRectFromIntArray(loadGameGameWindowRentangle);
-	SDL_Rect undoR = CreateSDLRectFromIntArray(undoButtonGameWindowRentangle);
-	SDL_Rect goToMainWindowR = CreateSDLRectFromIntArray(goToMainWindowButtonGameWindowRentangle);
-	SDL_Rect restartR = CreateSDLRectFromIntArray(restartButtonGameWindowRentangle);
-	SDL_Rect quitR = CreateSDLRectFromIntArray(quitGameGameWindowRentangle);
-	SDL_Rect backgroundR = CreateSDLRectFromIntArray(backgroundGameWindowRentangle);
+	SDL_Rect saveGameR = CreateSDLRectFromIntArray(saveGameGameWindowRectangle);
+	SDL_Rect loadGameR = CreateSDLRectFromIntArray(loadGameGameWindowRectangle);
+	SDL_Rect undoR = CreateSDLRectFromIntArray(undoButtonGameWindowRectangle);
+	SDL_Rect goToMainWindowR = CreateSDLRectFromIntArray(goToMainWindowButtonGameWindowRectangle);
+	SDL_Rect restartR = CreateSDLRectFromIntArray(restartButtonGameWindowRectangle);
+	SDL_Rect quitR = CreateSDLRectFromIntArray(quitGameGameWindowRectangle);
+	SDL_Rect backgroundR = CreateSDLRectFromIntArray(backgroundGameWindowRectangle);
 
 	SDL_SetRenderDrawColor(src->gameRenderer, 255, 255, 255, 255);
 
@@ -149,7 +149,7 @@ void GameWindowDraw(GameWindow* src) {
 	SDL_RenderCopy(src->gameRenderer, src->restartTexture, NULL, &restartR);
 	SDL_RenderCopy(src->gameRenderer, src->quitTexture, NULL, &quitR);
 
-	GameBoardControlDraw(src->gameControl, src->gameRenderer, gameBoardGameWindowRentangle);
+	GameBoardControlDraw(src->gameControl, src->gameRenderer, gameBoardGameWindowRectangle);
 
 	SDL_RenderPresent(src->gameRenderer);
 }
@@ -174,10 +174,6 @@ EventType GetGameWindowEvent(SDL_Event* event) {
 		return GoToMainWindowButtonGameWindowClickEvent;
 	case RestartGameButtonGameWindowElement:
 		return RestartGameButtonGameWindowClickEvent;
-	case NewGameButtonElement:
-		return NewGameButtonMainWindowClickEvent;
-	case LoadGameButtonElement:
-		return LoadGameButtonMainWindowClickEvent;
 	case QuitButtonGameWindowElement:
 		return QuitButtonGameWindowClickEvent;
 	case GameBoardGameWindowElement:
@@ -188,7 +184,7 @@ EventType GetGameWindowEvent(SDL_Event* event) {
 }
 
 EventStruct GameWindowHandleEvent(GameWindow* src, SDL_Event* event) {
-	EventStruct eventStruct = { EmptyEvent,0 };
+	EventStruct eventStruct = { EmptyEvent,{0} };
 	if (event == NULL) {
 		return eventStruct;
 	}
@@ -196,7 +192,7 @@ EventStruct GameWindowHandleEvent(GameWindow* src, SDL_Event* event) {
 	eventStruct.eventType = GetGameWindowEvent(event);
 	switch (eventStruct.eventType) {
 	case BoardPositionButtonGameWindowClickEvent:
-		return GameBoardControlHandleEvent(src->gameControl, event, gameBoardGameWindowRentangle);
+		return GameBoardControlHandleEvent(src->gameControl, event, gameBoardGameWindowRectangle);
 	case UndoButtonGameWindowClickEvent:
 		return GameBoardControlHandleUndoMove(src->gameControl);
 	case SaveGameButtonGameWindowClickEvent:

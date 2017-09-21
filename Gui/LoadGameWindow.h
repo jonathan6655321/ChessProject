@@ -2,17 +2,15 @@
 #define LOADWINDOW_H_
 #include <SDL.h>
 #include "Events.h"
+#include "BMPPathConstants.h"
 #include "SDLHelperFunctions.h"
 
 //TODO^ edit this! just load untill no file found
 
 
 ///Change windows size whenadd buttons
-const int backButtonLoadWindowMinX = 75, backButtonLoadWindowMaxX = 250, backButtonLoadWindowMinY = 400, backButtonLoadWindowMaxY = 500;
-const int backgroundLoadWindowMinX = 0, backgroundLoadWindowMaxX = 400, backgroundLoadWindowMinY = 0, backgroundLoadWindowMaxY = 450;
-
-const int[] backButtonLoadWindowRentangle = { backButtonLoadWindowMinX, 			backButtonLoadWindowMaxX, 			backButtonLoadWindowMinY, 			backButtonLoadWindowMaxY };
-const int[] backgroundLoadWindowRentangle = { backgroundLoadWindowMinX, 			backgroundLoadWindowMaxX, 			backgroundLoadWindowMinY, 			backgroundLoadWindowMaxY };
+int backButtonLoadWindowRectangle[4] = { 75,250,400,500 };
+int backgroundLoadWindowRectangle[4] = { 0, 			400, 			0,450 };
 
 typedef enum {
 	LoadGameButtonLoadWindowElement,
