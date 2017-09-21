@@ -84,6 +84,8 @@ typedef struct{
  */
 ExecuteGetMovesResponse executeUserGetMovesCommand(char pieceRow, char pieceCol, GameBoard *gameBoard, Player currentPlayer);
 
+
+
 /*
  * returns SUCCESS if has
  * FAIL otherwise
@@ -126,7 +128,7 @@ ResponseType getResponseTypeForGetMoves(char pieceRow, char pieceCol, GameBoard 
 
 /*
  * sets legalMoves to hold legal moves for piece at row col
- * checks if move corresponds with chess rules, and does not endanger the king!
+ * NO CHECK FOR KING THREATENS (see getLegalMoves)
  *
  *
  * fails if no piece at row col
@@ -134,10 +136,17 @@ ResponseType getResponseTypeForGetMoves(char pieceRow, char pieceCol, GameBoard 
  *
  * MAKE SURE LEGALMOVES is 0 initialized!
  */
-int getLegalMovesForPieceAt(char row,char col,GameBoard *gameBoard,LegalMoves *legalMoves);
+int getPossibleMovesForPieceAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
+
 
 /*
- * used in getLegalMovesForPieceAt
+ * executes getPossibleMovesForPieceAt and removes moves that threaten king
+ */
+int getLegalMovesForPieceAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
+
+
+/*
+ * used in getPossibleMovesForPieceAt
  */
 void getLegalMovesForPawnAt(char row,char col,GameBoard *gameBoard, LegalMoves *legalMoves);
 void getLegalMovesForBishopAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
@@ -193,7 +202,7 @@ void printLegalMovesForAllPieces(GameBoard *gameBoard);
 
 
 /*
- * wrapper for getLegalMovesForPieceAt
+ * wrapper for getPossibleMovesForPieceAt
  */
 int getLegalMovesForPieceByIndex(int pieceIndex, GameBoard *gameBoard, LegalMoves *legalMoves);
 

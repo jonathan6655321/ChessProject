@@ -62,8 +62,10 @@ int executeSetPieceAt(char row, char col, Piece * piece, GameBoard *gameBoard)
 
 
 /*
- * sets legalMoves to hold legal moves for piece at row col
- * checks if move corresponds with chess rules, and does not endanger the king!
+ * sets legalMoves to hold possible moves for piece at row col
+ * checks if move corresponds with chess rules.
+ *
+ * DOES NOT CHECK if KING IS THREATENED
  *
  *
  * fails if no piece at row col
@@ -71,7 +73,7 @@ int executeSetPieceAt(char row, char col, Piece * piece, GameBoard *gameBoard)
  *
  * MAKE SURE LEGALMOVES is 0 initialized!
  */
-int getLegalMovesForPieceAt(char row, char col, GameBoard *gameBoard,LegalMoves *legalMoves)
+int getPossibleMovesForPieceAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves)
 {
     if(isValidRowCol(row,col) == FAIL)
     {
@@ -101,8 +103,16 @@ int getLegalMovesForPieceAt(char row, char col, GameBoard *gameBoard,LegalMoves 
         default:
             return FAIL; // this should never happen...
     }
+    return SUCCESS;
+}
 
-    // eliminate all moves who lead to players king to be threatened:
+/*
+ * gets legal moves: according to piece type, makes sure no king threatened after move
+ */
+int getLegalMovesForPieceAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves)
+{
+    if(getPossibleMovesForPieceAt(row, col, gameBoard, legalMoves) == FAIL)
+        return FAIL;
     removeMovesThatDangerKing(row, col, gameBoard, legalMoves);
     return SUCCESS;
 }
@@ -506,7 +516,7 @@ void printLegalMovesForAllPieces(GameBoard *gameBoard)
         {
             printf("The moves for piece at %c%c are: \n", row, col);
             LegalMoves legalMoves = {0};
-            getLegalMovesForPieceAt(row,col,gameBoard,&legalMoves);
+            getLegalMovesForPieceAt(row, col, gameBoard, &legalMoves);
             printLegalMoves(&legalMoves);
             printBoard(gameBoard,White);
             printf("\n---------------\n");
@@ -531,17 +541,7 @@ ExecuteGetMovesResponse executeUserGetMovesCommand(char pieceRow, char pieceCol,
     {
         getLegalMovesForPieceAt(pieceRow, pieceCol, gameBoard, &response.allMoves);
 
-        // ********************
-        // removePiece for checking threatened places
-//        Piece movingPiece;
-//        getPieceAt(pieceRow,pieceCol,gameBoard, &movingPiece);
-//        removePieceAt(pieceRow, pieceCol, gameBoard);
-        // check now:
         getPositionsThreatenedByOpponent(pieceRow, pieceCol, gameBoard, currentPlayer, &response.allMoves, &response.threatenedByOpponentMoves);
-        // put Piece Back
-//        setPieceAt(pieceRow,pieceCol,gameBoard, getPieceIndexFromPiece(gameBoard, &movingPiece));
-
-        //
         getMovesThatEatOpponent(gameBoard, &response.allMoves,
                                  currentPlayer, &response.opponentAtLocationMoves);
 
@@ -641,6 +641,26 @@ ResponseType getResponseTypeForGetMoves(char pieceRow, char pieceCol, GameBoard 
     }
 }
 
+/*
+ * wrapper for getPossibleMovesForPieceAt
+ *
+ *
+ */
+int getPossibleMovesForPieceByIndex(int pieceIndex,  GameBoard *gameBoard, LegalMoves *legalMoves)
+{
+    if(pieceIndex < FIRST_PLAYER_1_PIECE_INDEX || pieceIndex > LAST_PLAYER_2_PIECE_INDEX)
+    {
+        return FAIL;
+    }
+    else
+    {
+        int locationIndex = getLocationIndexForPieceIndex(gameBoard, pieceIndex);
+        char row = getRowFromLocationIndex(locationIndex);
+        char col = getColFromLocationIndex(locationIndex);
+
+        return getPossibleMovesForPieceAt(row, col, gameBoard, legalMoves);
+    }
+}
 
 /*
  * wrapper for getLegalMovesForPieceAt
@@ -678,8 +698,9 @@ int isKingThreatened(Player kingOwner, GameBoard *gameBoard)
         pieceIndex++)
     {
         LegalMoves currentPieceMoves = {0};
-        getLegalMovesForPieceByIndex(pieceIndex, gameBoard, &currentPieceMoves);
-        arrayOr(&(allThreatenerPossibleMoves.legalMovesArray), &(currentPieceMoves.legalMovesArray), BOARD_SIZE);
+        if(getPossibleMovesForPieceByIndex(pieceIndex, gameBoard, &currentPieceMoves) == FAIL)
+            continue;
+        arrayOr(allThreatenerPossibleMoves.legalMovesArray, currentPieceMoves.legalMovesArray, BOARD_SIZE);
     }
 
     int kingLocationIndex = getLocationIndexForPieceIndex(gameBoard, getKingIndexByPlayer(kingOwner));
@@ -708,12 +729,12 @@ int getKingIndexByPlayer(Player kingOwner)
  */
 void removeMovesThatDangerKing(char row, char col, GameBoard *gameBoard, LegalMoves *pieceCanMoveTo)
 {
-    GameBoard gameAfterMove;
+    GameBoard gameAfterMove = {0};
     Player kingOwner = getPlayerFromIndex(getIndexOfPieceAt(row, col, gameBoard)); // same as piece owner
     // for every possible move
     for(int moveLocationIndex=0; moveLocationIndex<BOARD_SIZE; moveLocationIndex++)
     {
-        if((*pieceCanMoveTo).legalMovesArray[moveLocationIndex] != LEGAL_MOVE) {
+        if((*pieceCanMoveTo).legalMovesArray[moveLocationIndex] == ILLEGAL_MOVE) {
             continue;
         }
         else
@@ -724,8 +745,7 @@ void removeMovesThatDangerKing(char row, char col, GameBoard *gameBoard, LegalMo
             char colTo = getColFromLocationIndex(moveLocationIndex);
             movePiece(row, col, rowTo, colTo, &gameAfterMove);
 
-
-            if(isKingThreatened(kingOwner, &gameAfterMove))
+            if(isKingThreatened(kingOwner, &gameAfterMove) == SUCCESS)
                 pieceCanMoveTo->legalMovesArray[moveLocationIndex] = ILLEGAL_MOVE;
         }
     }
@@ -748,10 +768,10 @@ int hasLegalMoves(Player player, GameBoard *gameBoard)
     {
         LegalMoves currentPieceMoves = {0};
         getLegalMovesForPieceByIndex(pieceIndex, gameBoard, &currentPieceMoves);
-        arrayOr(&(allPossibleMoves.legalMovesArray), &(currentPieceMoves.legalMovesArray), BOARD_SIZE);
+        arrayOr(allPossibleMoves.legalMovesArray, currentPieceMoves.legalMovesArray, BOARD_SIZE);
     }
 
-     if(isZeroArray(&(allPossibleMoves.legalMovesArray), BOARD_SIZE))
+     if(isZeroArray(allPossibleMoves.legalMovesArray, BOARD_SIZE) == SUCCESS)
          return FAIL;
     else
          return SUCCESS;
