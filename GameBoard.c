@@ -204,8 +204,9 @@ int getPieceIndexFromPiece(GameBoard *gameBoard, Piece *piece)
             }
             break;
         default:
-            return -1; // this should never happen...
+        	break;
     }
+            return -1; // this should never happen...
 }
 
 /*

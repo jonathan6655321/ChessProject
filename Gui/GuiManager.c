@@ -7,8 +7,8 @@ GuiManager* GuiManagerCreate() {
 		return NULL;
 	}
 
-	src->mainWindow = MainWindowCreate();
-	if (src->mainWindow == NULL) {
+	newGuiManager->mainWindow = MainWindowCreate();
+	if (newGuiManager->mainWindow == NULL) {
 		free(newGuiManager);
 		return NULL;
 	}
@@ -86,7 +86,7 @@ void GuiManagerDraw(GuiManager* src) {
 }
 
 EventStruct GuiManagerShowNewGameWindow(GuiManager* src) {
-	EventStruct eventStruct = { EmptyEvent,0 };
+	EventStruct eventStruct = { EmptyEvent,{0} };
 	GuiManagerHideCurrentWindow(src);
 
 	if (src->newGameWindow != NULL)
@@ -105,7 +105,7 @@ EventStruct GuiManagerShowNewGameWindow(GuiManager* src) {
 }
 
 EventStruct GuiManagerShowLoadGameWindow(GuiManager* src) {
-	EventStruct eventStruct = { EmptyEvent,0 };
+	EventStruct eventStruct = { EmptyEvent,{0} };
 	GuiManagerHideCurrentWindow(src);
 
 	if (src->loadWindow != NULL)
@@ -124,7 +124,7 @@ EventStruct GuiManagerShowLoadGameWindow(GuiManager* src) {
 }
 
 EventStruct GuiManagerShowMainGameWindow(GuiManager* src) {
-	EventStruct eventStruct = { EmptyEvent,0 };
+	EventStruct eventStruct = { EmptyEvent,{0} };
 	GuiManagerHideCurrentWindow(src);
 
 	if (src->mainWindow != NULL)
@@ -144,12 +144,12 @@ EventStruct GuiManagerShowMainGameWindow(GuiManager* src) {
 
 EventStruct GuiManagerBackButtonHandler(GuiManager* src) {
 	GuiManagerHideCurrentWindow(src);
-	src->currentState = newGuiManager->lastState;
+	src->currentState = src->lastState;
 	GuiManagerShowCurrentWindow(src);
 }
 
 EventStruct GuiManagerStratGame(GuiManager* src, char gameMode, char player1Color, char gameDifficulty) {
-	EventStruct eventStruct = { EmptyEvent,0 };
+	EventStruct eventStruct = { EmptyEvent,{0} };
 	GuiManagerHideCurrentWindow(src);
 
 	if (src->gameWindow != NULL)
@@ -168,7 +168,7 @@ EventStruct GuiManagerStratGame(GuiManager* src, char gameMode, char player1Colo
 }
 
 EventStruct GuiManagerLoadGameFromFile(GuiManager* src, char loadSlotSelected) {
-	EventStruct eventStruct = { EmptyEvent,0 };
+	EventStruct eventStruct = { EmptyEvent,{0} };
 	GuiManagerHideCurrentWindow(src);
 
 	if (src->gameWindow != NULL)
@@ -187,7 +187,7 @@ EventStruct GuiManagerLoadGameFromFile(GuiManager* src, char loadSlotSelected) {
 }
 
 EventStruct GuiManagerInternalEventHandler(GuiManager* src, EventStruct event) {
-	EventStruct eventStruct = { EmptyEvent,0 };
+	EventStruct eventStruct = { EmptyEvent,{0} };
 	switch (event.eventType) {
 	case NewGameButtonMainWindowClickEvent:
 		return GuiManagerShowNewGameWindow(src);
@@ -200,7 +200,7 @@ EventStruct GuiManagerInternalEventHandler(GuiManager* src, EventStruct event) {
 	case BackButtonNewGameWindowClickEvent:
 		return GuiManagerBackButtonHandler(src);
 	case StartGameButtonNewGameWindowClickEvent:
-		return GuiManagerStratGame(src, event.eventArgument[0], event.eventArgument[1], event.eventArgument[2])
+		return GuiManagerStratGame(src, event.eventArgument[0], event.eventArgument[1], event.eventArgument[2]);
 	case GameLoadOptionLoadWindowClickEvent:
 		return GuiManagerLoadGameFromFile(src, event.eventArgument[0]);
 	case QuitEvent:
@@ -211,7 +211,7 @@ EventStruct GuiManagerInternalEventHandler(GuiManager* src, EventStruct event) {
 }
 
 EventStruct GuiManagerHandleEvent(GuiManager* src, SDL_Event* event) {
-	EventStruct eventStruct = { EmptyEvent,0 };
+	EventStruct eventStruct = { EmptyEvent,{0} };
 	if (event == NULL) {
 		return eventStruct;
 	}
@@ -243,44 +243,44 @@ EventStruct GuiManagerHandleEvent(GuiManager* src, SDL_Event* event) {
 
 //TODO: look at that if needed:
 
-GuiManagerEventType HandleGuiManagerDueToMainEvent(GuiManager* src,
-	EventType event) {
-	if (event == SP_MAIN_START) {
-		spMainWindowHide(src->mainWin);
-		src->gameWin = spGameWindowCreate();
-		if (src->gameWin == NULL) {
-			printf("Couldn't create game window\n");
-			return SP_MANAGER_QUTT;
-		}
-		src->activeWin = SP_GAME_WINDOW_ACTIVE;
-	}
-	if (event == SP_MAIN_EXIT) {
-		return SP_MANAGER_QUTT;
-	}
-	return SP_MANAGER_NONE;
-}
-
-// exeots src to not be null
-GuiManagerEventType HandleGuiManagerDueToGameEvent(SPGuiManager* src,
-	EventType event) {
-	if (event == SP_GAME_EVENT_NONE) {
-		return SP_MANAGER_NONE;
-	}
-	if (event == SP_GAME_EVENT_X_WON) {
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Game over", "X won",
-			NULL);
-	}
-	else if (event == SP_GAME_EVENT_O_WON) {
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Game over", "O won",
-			NULL);
-	}
-	else if (event == SP_GAME_EVENT_TIE) {
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Game over",
-			"it's a tie", NULL);
-	}
-	spGameWindowDestroy(src->gameWin);
-	src->gameWin = NULL;
-	src->activeWin = SP_MAIN_WINDOW_ACTIVE;
-	spMainWindowShow(src->mainWin);
-	return SP_MANAGER_NONE;
-}
+//GuiManagerEventType HandleGuiManagerDueToMainEvent(GuiManager* src,
+//	EventType event) {
+//	if (event == SP_MAIN_START) {
+//		spMainWindowHide(src->mainWin);
+//		src->gameWin = spGameWindowCreate();
+//		if (src->gameWin == NULL) {
+//			printf("Couldn't create game window\n");
+//			return SP_MANAGER_QUTT;
+//		}
+//		src->activeWin = SP_GAME_WINDOW_ACTIVE;
+//	}
+//	if (event == SP_MAIN_EXIT) {
+//		return SP_MANAGER_QUTT;
+//	}
+//	return SP_MANAGER_NONE;
+//}
+//
+//// exeots src to not be null
+//GuiManagerEventType HandleGuiManagerDueToGameEvent(SPGuiManager* src,
+//	EventType event) {
+//	if (event == SP_GAME_EVENT_NONE) {
+//		return SP_MANAGER_NONE;
+//	}
+//	if (event == SP_GAME_EVENT_X_WON) {
+//		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Game over", "X won",
+//			NULL);
+//	}
+//	else if (event == SP_GAME_EVENT_O_WON) {
+//		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Game over", "O won",
+//			NULL);
+//	}
+//	else if (event == SP_GAME_EVENT_TIE) {
+//		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Game over",
+//			"it's a tie", NULL);
+//	}
+//	spGameWindowDestroy(src->gameWin);
+//	src->gameWin = NULL;
+//	src->activeWin = SP_MAIN_WINDOW_ACTIVE;
+//	spMainWindowShow(src->mainWin);
+//	return SP_MANAGER_NONE;
+//}

@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "Events.h"
 #include "SDLHelperFunctions.h"
+#include "BMPPathConstants.h"
 #include "../Game.h"
 //TODO: #include <SDL_video.h>
 //	TODO : #include "SPTicTacToeWindow.h"
@@ -22,7 +23,7 @@
 	  GameBoardControl* GameBoardControlCreate(SDL_Renderer* renderer, char gameMode, char player1Color, char gameDifficulty);
 	  GameBoardControl* GameBoardControlLoad(SDL_Renderer* renderer, char loadSlotSelected);
 
-	  void GameBoardControlDraw(GameBoardControl* src, SDL_Renderer* renderer, int[] rentangle);
+	  void GameBoardControlDraw(GameBoardControl* src, SDL_Renderer* renderer, int* Rectangle);
 	  void GameBoardControlDestroy(GameBoardControl* src);
 
 	  EventStruct GameBoardControlHandleMoveEvent(GameBoardControl* src, int row, int col);
@@ -31,6 +32,6 @@
 	  EventStruct GameBoardControlHandleSaveGame(GameBoardControl* src);
 	  EventStruct GameBoardControlHandleRestartGame(GameBoardControl* src);
 	  EventStruct GameBoardControlHandleQuitGame(GameBoardControl* src);
-	  EventStruct GameBoardControlHandleEvent(GameBoardControl* src, SDL_Event* event, int[] rentangle);
+	  EventStruct GameBoardControlHandleEvent(GameBoardControl* src, SDL_Event* event, int* Rectangle);
 
 #endif

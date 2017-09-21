@@ -1,11 +1,11 @@
 #include "MainWindow.h"
 
 MainWindowElement ClickWasOnMainWindow(int x, int y) {
-	if (PointInsideRentangle(x, y, newGameMainWindowRentangle))
+	if (PointInsideRectangle(x, y, newGameMainWindowRectangle))
 		return NewGameMainWindowButtonElement;
-	else if (PointInsideRentangle(x, y, loadGameMainWindowRentangle))
+	else if (PointInsideRectangle(x, y, loadGameMainWindowRectangle))
 		return LoadGameMainWindowButtonElement;
-	else if (PointInsideRentangle(x, y, quitGameMainWindowRentangle))
+	else if (PointInsideRectangle(x, y, quitGameMainWindowRectangle))
 		return QuitMainWindowButtonElement;
 	else
 		return BackgroundMainWindowElement;
@@ -16,8 +16,8 @@ void CreateMainWindow(MainWindow* src) {
 	src->mainWindow = SDL_CreateWindow("Chess Game", // window title
 		SDL_WINDOWPOS_CENTERED,			// initial x position
 		SDL_WINDOWPOS_CENTERED,			// initial y position
-		backgroundMainWindowMaxX,		// width, in pixels
-		backgroundMainWindowMaxY,		// height, in pixels
+		backgroundMainWindowRectangle[1],		// width, in pixels
+		backgroundMainWindowRectangle[3],		// height, in pixels
 		SDL_WINDOW_OPENGL				// TODO: what is this
 	);
 }
@@ -30,10 +30,10 @@ MainWindow* MainWindowCreate() {
 		return NULL;
 	}
 
-	createMainWindow(newMainWindow);
+	CreateMainWindow(newMainWindow);
 	// Check that the window was successfully created
 	if (newMainWindow->mainWindow == NULL) {
-		spMainWindowDestroy(newMainWindow);
+		MainWindowDestroy(newMainWindow);
 		printf("Could not create window: %s\n", SDL_GetError());
 		return NULL;
 	}
@@ -77,17 +77,17 @@ void MainWindowDestroy(MainWindow* src) {
 }
 
 void MainWindowDraw(MainWindow* src) {
-	SDL_Rect newGameR = CreateSDLRectFromIntArray(newGameRentangle);
-	SDL_Rect loadGameR = CreateSDLRectFromIntArray(loadGameRentangle);
-	SDL_Rect quitGameR = CreateSDLRectFromIntArray(quitGameRentangle);
-	SDL_Rect backgroundR = CreateSDLRectFromIntArray(backgroundRentangle);
+	SDL_Rect newGameR = CreateSDLRectFromIntArray(newGameMainWindowRectangle);
+	SDL_Rect loadGameR = CreateSDLRectFromIntArray(loadGameMainWindowRectangle);
+	SDL_Rect quitGameR = CreateSDLRectFromIntArray(quitGameMainWindowRectangle);
+	SDL_Rect backgroundR = CreateSDLRectFromIntArray(backgroundMainWindowRectangle);
 	SDL_SetRenderDrawColor(src->mainRenderer, 255, 255, 255, 255);
 
 	SDL_RenderClear(src->mainRenderer);
 	SDL_RenderCopy(src->mainRenderer, src->backgroundTexture, NULL, &backgroundR);
 	SDL_RenderCopy(src->mainRenderer, src->newGameTexture, NULL, &newGameR);
 	SDL_RenderCopy(src->mainRenderer, src->loadGameTexture, NULL, &loadGameR);
-	SDL_RenderCopy(src->mainRenderer, src->quitTexture, NULL, &quitTextureR);
+	SDL_RenderCopy(src->mainRenderer, src->quitTexture, NULL, &quitGameR);
 	SDL_RenderPresent(src->mainRenderer);
 }
 
@@ -113,7 +113,7 @@ EventType GetMainWindowEvent(SDL_Event* event) {
 }
 
 EventStruct MainWindowHandleEvent(MainWindow* src, SDL_Event* event) {
-	EventStruct eventStruct = { EmptyEvent,0 };
+	EventStruct eventStruct = { EmptyEvent,{0} };
 	if (event == NULL) {
 		return eventStruct;
 	}

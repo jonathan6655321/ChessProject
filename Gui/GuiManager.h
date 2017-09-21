@@ -2,8 +2,13 @@
 #define GUIMANAGER_H_
 
 #include <SDL.h>
-TODO #include "SPTicTacToeGameWin.h"
-TODO #include "SPTicTacToeMainWin.h"
+#include "Events.h"
+#include "GameWindow.h"
+#include "MainWindow.h"
+#include "LoadGameWindow.h"
+#include "NewGameWindow.h"
+//TODO #include "SPTicTacToeGameWin.h"
+//TODO #include "SPTicTacToeMainWin.h"
 
 typedef enum {
 	MainWindowState,

@@ -142,7 +142,7 @@ HandleCommandMessage handleSetMove(Command command, Game *game) {
                                                    &(game->board), game->currentPlayer);
     switch (response) {
         //case where no move should be done:
-        case InvalidPosition:
+    	case InvalidPosition:
             message.messageType = errorSetMovePositionsMessage;
             return message;
         case NotYourPiece:
@@ -168,10 +168,13 @@ HandleCommandMessage handleSetMove(Command command, Game *game) {
         case MadeMove:
             message.messageType = setMoveMessage;
             break;
+        default:
+        	break;
     }
     for (int j = 0; j < 4; ++j) {
         game->lastMove[j] = command.argument[j];
     }
+
     game->needToReprintBoard = 1;
     game->gameHistory->historyIndex++;
     if (game->gameHistory->historyIndex >= MAX_HISTORY_SIZE) {

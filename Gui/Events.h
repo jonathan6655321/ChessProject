@@ -24,7 +24,7 @@ typedef enum {
 	
 	QuitEvent,
 	EmptyEvent
-} EventType
+} EventType;
 
 typedef struct {
 	EventType eventType;
