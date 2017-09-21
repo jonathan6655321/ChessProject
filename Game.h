@@ -112,6 +112,7 @@ typedef enum {
 	whiteChecked, whiteCheckmated, blackChecked, blackCheckmated, tie, noCheck
 } CheckmateType;
 
+
 typedef struct HandleCommandMessage {
 	HandleCommandMessageType messageType;
 	char argument[8];
