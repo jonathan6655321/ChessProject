@@ -84,6 +84,11 @@ typedef struct{
  */
 ExecuteGetMovesResponse executeUserGetMovesCommand(char pieceRow, char pieceCol, GameBoard *gameBoard, Player currentPlayer);
 
+/*
+ * returns SUCCESS if has
+ * FAIL otherwise
+ */
+int hasLegalMoves(Player player, GameBoard *gameBoard);
 
 /*!
  *
@@ -121,6 +126,9 @@ ResponseType getResponseTypeForGetMoves(char pieceRow, char pieceCol, GameBoard 
 
 /*
  * sets legalMoves to hold legal moves for piece at row col
+ * checks if move corresponds with chess rules, and does not endanger the king!
+ *
+ *
  * fails if no piece at row col
  * fails if row col invalid
  *
@@ -137,6 +145,18 @@ void getLegalMovesForRookAt(char row, char col, GameBoard *gameBoard, LegalMoves
 void getLegalMovesForKnightAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
 void getLegalMovesForQueenAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
 void getLegalMovesForKingAt(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
+
+/*
+ * checks which moves endanger the same players king (thus illegal)
+ * gets location of piece to move
+ * get all possible moves it can make
+ *
+ * assumes row col holds piece and pieceCanMoveTo holds that pieces possible moves
+ * alters legalMoves in place
+ */
+void removeMovesThatDangerKing(char row, char col, GameBoard *gameBoard, LegalMoves *legalMoves);
+
+
 
 /*
  * used in Queen and bishop
@@ -176,6 +196,17 @@ void printLegalMovesForAllPieces(GameBoard *gameBoard);
  * wrapper for getLegalMovesForPieceAt
  */
 int getLegalMovesForPieceByIndex(int pieceIndex, GameBoard *gameBoard, LegalMoves *legalMoves);
+
+
+/*
+ * gets player whose king we are checking
+ *
+ */
+int isKingThreatened(Player kingOwner, GameBoard *gameBoard);
+int getKingIndexByPlayer(Player kingOwner);
+
+
+
 
 #endif //CHESSPROJECT_MOVES_H
 
