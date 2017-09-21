@@ -11,10 +11,10 @@
  * returns the location index (0-63) of the position to move the piece at
  * with alpha beta pruning
  */
-int minimax(GameBoard *gameState, int depth, int alpha, int beta, Player currentPlayer,
-                    int (*scoreFunction)(GameBoard *), MiniMaxMove *bestMove)
+int minimax(GameBoard *gameState, int height, int alpha, int beta, Player currentPlayer,
+                    int (*scoreFunction)(GameBoard *), MiniMaxMove *bestMove, int isRoot)
 {
-    if(depth == 0)
+    if(height == 0)
     {
         bestMove->toLocationIndex = -1;
         bestMove->pieceIndex = -1;
@@ -40,7 +40,10 @@ int minimax(GameBoard *gameState, int depth, int alpha, int beta, Player current
                 LegalMoves pieceCanMoveTo = {0};
                 char row = getRowFromLocationIndex(pieceLocationIndex);
                 char col = getColFromLocationIndex(pieceLocationIndex);
-                getPossibleMovesForPieceAt(row, col, gameState, &pieceCanMoveTo);
+                if(isRoot)
+                    getLegalMovesForPieceAt(row, col, gameState, &pieceCanMoveTo);
+                else
+                    getPossibleMovesForPieceAt(row, col, gameState, &pieceCanMoveTo);
 
 
                 GameBoard child;
@@ -60,8 +63,8 @@ int minimax(GameBoard *gameState, int depth, int alpha, int beta, Player current
 
                         // continue with algo:
                         MiniMaxMove uselessMove = {0};
-                        int currentVal = minimax(&child, depth-1, alpha, beta,
-                                                           getOtherPlayer(currentPlayer), scoreFunction, &uselessMove);
+                        int currentVal = minimax(&child, height-1, alpha, beta,
+                                                           getOtherPlayer(currentPlayer), scoreFunction, &uselessMove, 0);
 
                         if(currentVal > maxValue)
                         {
@@ -104,7 +107,10 @@ int minimax(GameBoard *gameState, int depth, int alpha, int beta, Player current
                 LegalMoves pieceCanMoveTo = {0};
                 char row = getRowFromLocationIndex(pieceLocationIndex);
                 char col = getColFromLocationIndex(pieceLocationIndex);
-                getPossibleMovesForPieceAt(row, col, gameState, &pieceCanMoveTo);
+                if(isRoot)
+                    getLegalMovesForPieceAt(row, col, gameState, &pieceCanMoveTo);
+                else
+                    getPossibleMovesForPieceAt(row, col, gameState, &pieceCanMoveTo);
 
 
                 GameBoard child;
@@ -124,8 +130,8 @@ int minimax(GameBoard *gameState, int depth, int alpha, int beta, Player current
 
 
                         MiniMaxMove uselessMove = {0};
-                        int currentValue = minimax(&child, depth-1, alpha, beta,
-                                                       getOtherPlayer(currentPlayer), scoreFunction, &uselessMove);
+                        int currentValue = minimax(&child, height-1, alpha, beta,
+                                                       getOtherPlayer(currentPlayer), scoreFunction, &uselessMove, 0);
                         // continue with algo:
                         if(currentValue < minValue)
                         {
