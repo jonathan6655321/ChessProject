@@ -263,17 +263,11 @@ HandleCommandMessage handleUndoMove(Game *game);
 HandleCommandMessage handleSaveGame(Command command, Game *game);
 
 /*!
- *
+ * generate a computer move depending on the difficulty.
  * @param game - the game the action is made on.
  * @return
+ *      the command needed for invoking this move inside the game.
  */
-
- /*!
-  * generate a computer move depending on the difficulty.
-  * @param game - the game the action is made on.
-  * @return
-  *      the command needed for invoking this move inside the game.
-  */
 Command getComputerMove(Game *game);
 
 /*!
