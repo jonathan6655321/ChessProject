@@ -11,8 +11,8 @@
         #define SETTING_ARGUMENT_FORMAT_STRING "%c"
 
     //game format string
-        #define SET_MOVE_ARGUMENT_FORMAT_STRING "<%c,%c> to <%c,%c>"
-        #define GET_MOVES_ARGUMENT_FORMAT_STRING "<%c,%c>"
+        #define SET_MOVE_ARGUMENT_FORMAT_STRING "<%d,%c> to <%d,%c>"
+        #define GET_MOVES_ARGUMENT_FORMAT_STRING "<%d,%c>"
 
 
 //STRUCTS&ENUMS:

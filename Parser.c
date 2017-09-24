@@ -85,7 +85,8 @@ CommandType parseStringCommandType(char *stringCommand) {
 }
 
 void parseCommandsArguments(Command *command) {
-    switch (command->commandType) {
+    int x,x1;
+	switch (command->commandType) {
         case setGameMode:
         case setDifficulty:
         case setUserColor:
@@ -97,20 +98,25 @@ void parseCommandsArguments(Command *command) {
             break;
         case setMove:
             command->numberOfArgs = sscanf(command->stringArgument,
-                                           SET_MOVE_ARGUMENT_FORMAT_STRING, &command->argument[0],
-                                           &command->argument[1], &command->argument[2],
+                                           SET_MOVE_ARGUMENT_FORMAT_STRING, &x,
+                                           &command->argument[1], &x1,
                                            &command->argument[3]);
             if (command->numberOfArgs != 4) {
                 command->commandType = invalidCommand;
+            }else{
+            	command->argument[0] = '0' + x;
+            	command->argument[2] = '0' + x1;
             }
             break;
         case castleMove:
         case getMoves:
             command->numberOfArgs = sscanf(command->stringArgument,
-                                           GET_MOVES_ARGUMENT_FORMAT_STRING, &command->argument[0],
+                                           GET_MOVES_ARGUMENT_FORMAT_STRING, &x,
                                            &command->argument[1]);
             if (command->numberOfArgs != 2) {
                 command->commandType = invalidCommand;
+            }else{
+            	command->argument[0] = '0' + x;
             }
             break;
         default:

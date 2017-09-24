@@ -315,7 +315,7 @@ EventStruct NewGameWindowHandleEvent(NewGameWindow* src, SDL_Event* event) {
 		return eventStruct;
 	}
 
-	switch (ClickWasOnMainWindow(event->button.x, event->button.y)) {
+	switch (ClickWasOnNewGameWindow(event->button.x, event->button.y)) {
 	case StartNewGameNewGameWindowButtonElement:
 		eventStruct.eventType = StartGameButtonNewGameWindowClickEvent;
 		eventStruct.eventArgument[0] = src->gameMode;

@@ -3,6 +3,7 @@
 ////
 #include <stdlib.h>
 #include "CommandLineGame.h"
+#include "Gui/mainGui.h"
 int main( int argc, char **argv )
 {
 
@@ -24,7 +25,7 @@ int main( int argc, char **argv )
 //
 //
 //    printLegalMovesForAllPieces(&gameBoard);
-
-    commandLineGameLoop();
+//	commandLineGameLoop();
+    MainGuiLoop();
     return 0;
 }

@@ -99,7 +99,6 @@ GameWindow* GameWindowCreate(char gameMode, char player1Color, char gameDifficul
 		GameWindowDestroy(newGameWindow);
 		return NULL;
 	}
-
 	return newGameWindow;
 }
 
@@ -199,6 +198,8 @@ EventStruct GameWindowHandleEvent(GameWindow* src, SDL_Event* event) {
 		return GameBoardControlHandleSaveGame(src->gameControl);
 	case RestartGameButtonGameWindowClickEvent:
 		return GameBoardControlHandleRestartGame(src->gameControl);
+	case GoToMainWindowButtonGameWindowClickEvent:
+		return GameBoardControlHandleGoToMainWindow(src->gameControl);
 	case QuitButtonGameWindowClickEvent:
 		return GameBoardControlHandleQuitGame(src->gameControl);
 	default:

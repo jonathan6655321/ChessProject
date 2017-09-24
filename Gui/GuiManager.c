@@ -142,7 +142,7 @@ EventStruct GuiManagerShowMainGameWindow(GuiManager* src) {
 	return eventStruct;
 }
 
-EventStruct GuiManagerBackButtonHandler(GuiManager* src) {
+void GuiManagerBackButtonHandler(GuiManager* src) {
 	GuiManagerHideCurrentWindow(src);
 	src->currentState = src->lastState;
 	GuiManagerShowCurrentWindow(src);
@@ -198,13 +198,17 @@ EventStruct GuiManagerInternalEventHandler(GuiManager* src, EventStruct event) {
 		return GuiManagerShowMainGameWindow(src);
 	case BackButtonLoadWindowClickEvent:
 	case BackButtonNewGameWindowClickEvent:
-		return GuiManagerBackButtonHandler(src);
+		GuiManagerBackButtonHandler(src);
+		return eventStruct;
 	case StartGameButtonNewGameWindowClickEvent:
 		return GuiManagerStratGame(src, event.eventArgument[0], event.eventArgument[1], event.eventArgument[2]);
 	case GameLoadOptionLoadWindowClickEvent:
 		return GuiManagerLoadGameFromFile(src, event.eventArgument[0]);
+	case QuitButtonGameWindowClickEvent:
+	case QuitButtonMainWindowClickEvent:
 	case QuitEvent:
-		return event;
+		eventStruct.eventType = QuitEvent;
+		return eventStruct;
 	default:
 		return eventStruct;
 	}

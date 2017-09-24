@@ -5,17 +5,17 @@
 #include "BMPPathConstants.h"
 #include "SDLHelperFunctions.h"
 
- static int startNewGameButtonNewGameWindowRectangle[4] = { 250, 350, 300, 400 };
+ static int onePlayerGameModeButtonNewGameWindowRectangle[4] = { 50, 150, 10, 70 };
+ static int twoPlayerGameModeButtonNewGameWindowRectangle[4] = { 250, 350, 10, 70 };
  static int whiteUserColorButtonNewGameWindowRectangle[4] = { 50, 150, 110, 160 };
  static int blackUserColorButtonNewGameWindowRectangle[4] = { 250, 350, 110, 160 };
- static int onePlayerGameModeButtonNewGameWindowRectangle[4] = { 50, 150, 10, 70 };
- static int twoPlayerGameModeButtonNewGameWindowRectangle[4] = { 250, 350, 10, 7 };
  static int noobDifficultyModeNewGameWindowRectangle[4] = { 10, 70, 200, 250 };
  static int easyDifficultyModeNewGameWindowRectangle[4] = { 90, 150, 200, 250 };
  static int modarateDifficultyModeNewGameWindowRectangle[4] = { 170, 230, 200, 250 };
  static int hardDifficultyModeNewGameWindowRectangle[4] = { 250, 310, 200, 250 };
  static int expertDifficultyModeNewGameWindowRectangle[4] = { 330, 380, 200, 250 };
- static int backButtonNewGameWindowRectangle[4] = { 50, 150, 300, 400 };
+ static int backButtonNewGameWindowRectangle[4] = { 50, 150, 300, 350 };
+ static int startNewGameButtonNewGameWindowRectangle[4] = { 250, 350, 300, 350 };
  static int backgroundNewGameWindowRectangle[4] = { 0, 400, 0, 400 };
 
 typedef enum {

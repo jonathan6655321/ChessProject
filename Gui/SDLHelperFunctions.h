@@ -1,6 +1,7 @@
 #ifndef SDLHELPERFUNCTION_H_
 #define SDLHELPERFUNCTION_H_
 #include <SDL.h>
+#include <stdio.h>
 
 int PointInsideRectangle(int, int, int[]);
 
