@@ -545,7 +545,6 @@ ExecuteGetMovesResponse executeUserGetMovesCommand(char pieceRow, char pieceCol,
         getMovesThatEatOpponent(gameBoard, &response.allMoves,
                                  currentPlayer, &response.opponentAtLocationMoves);
 
-        // TODO !!!!!
         response.castleType = NoCastlingMovePossible;
     }
     return response;

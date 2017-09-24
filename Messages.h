@@ -68,8 +68,8 @@ if(isPossible){ \
 
 #define pieceNameM(x) (x)==Pawn ? PAWN_NAME_STRING : "error"
 #define pieceNameB(x) (x)==Bishop ? BISHOP_NAME_STRING : (pieceNameM(x))
-#define pieceNameN(x) (x)==Rook ? KNIGHT_NAME_STRING : (pieceNameB(x))
-#define pieceNameR(x) (x)==Knight ? ROOK_NAME_STRING : (pieceNameN(x))
+#define pieceNameN(x) (x)==Rook ? ROOK_NAME_STRING : (pieceNameB(x))
+#define pieceNameR(x) (x)==Knight ? KNIGHT_NAME_STRING : (pieceNameN(x))
 #define pieceNameQ(x) (x)==Queen ? QUEEN_NAME_STRING : (pieceNameR(x))
 #define getPieceTypeName(x)  ((x)==King ? KING_NAME_STRING : (pieceNameQ(x)))
 

@@ -7,8 +7,6 @@
 #include "MainWindow.h"
 #include "LoadGameWindow.h"
 #include "NewGameWindow.h"
-//TODO #include "SPTicTacToeGameWin.h"
-//TODO #include "SPTicTacToeMainWin.h"
 
 typedef enum {
 	MainWindowState,

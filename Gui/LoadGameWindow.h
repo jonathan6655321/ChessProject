@@ -5,9 +5,6 @@
 #include "PathsConstants.h"
 #include "SDLHelperFunctions.h"
 
-//TODO^ edit this! just load untill no file found
-
-
 typedef enum {
 	LoadGameButtonLoadWindowElement,
 	BackButtonButtonLoadWindowElement,
@@ -15,14 +12,14 @@ typedef enum {
 } LoadWindowElement;
 
 typedef struct {
-	SDL_Window* 	loadWindow;
+	SDL_Window* loadWindow;
 	SDL_Renderer* loadRenderer;
-	SDL_Texture* 	backgroundTexture;
+	SDL_Texture* backgroundTexture;
 
 	int numberOfOptions;
 
-	SDL_Texture* 	backButtonTexture;
-	SDL_Texture* 	loadGameTexture;
+	SDL_Texture* backButtonTexture;
+	SDL_Texture* loadGameTexture;
 } LoadWindow;
 
 LoadWindow* LoadWindowCreate();

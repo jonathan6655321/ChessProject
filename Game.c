@@ -127,7 +127,7 @@ HandleCommandMessage handlePrintSettings(Game *game) {
 }
 
 HandleCommandMessage handleStartGame(Game *game) {
-		game->needToReprintBoard = 1;
+	game->needToReprintBoard = 1;
 	if (!game->isLoaded) {
 		if (game->gameMode == PlayerVsPlayer) {
 			game->currentPlayer = Player1;
@@ -184,7 +184,7 @@ HandleCommandMessage handleSetMove(Command command, Game *game) {
 	for (int j = 0; j < 4; ++j) {
 		game->lastMove[j] = command.argument[j];
 	}
-
+	Piece piece;
 	game->needToReprintBoard = 1;
 	game->gameHistory->historyIndex++;
 	if (game->gameHistory->historyIndex >= MAX_HISTORY_SIZE) {
@@ -196,6 +196,8 @@ HandleCommandMessage handleSetMove(Command command, Game *game) {
 	if (game->gameHistory->lenght > MAX_HISTORY_SIZE) {
 		game->gameHistory->lenght--;
 	}
+	getPieceAt(command.argument[2], command.argument[3], &(game->board), &piece);
+	message.argument[0] = piece.type;
 	switchPlayer(game);
 	return message;
 }

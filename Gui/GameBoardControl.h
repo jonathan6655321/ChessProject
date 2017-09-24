@@ -6,8 +6,6 @@
 #include "SDLHelperFunctions.h"
 #include "PathsConstants.h"
 #include "../Game.h"
-//TODO: #include <SDL_video.h>
-//	TODO : #include "SPTicTacToeWindow.h"
 
 typedef struct {
 	int currentPieceSelectedRow;

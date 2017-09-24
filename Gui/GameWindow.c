@@ -29,17 +29,18 @@ GameWindowElement ClickWasOnGameWindow(int x, int y) {
 
 void CreateGameWindow(GameWindow* src) {
 	// Create an application window with the following settings:
-	src->gameWindow = SDL_CreateWindow("Chess Game", 	// window title
-		SDL_WINDOWPOS_CENTERED,           						// initial x position
-		SDL_WINDOWPOS_CENTERED,    								// initial y position
-		backgroundGameWindowRectangle[1],									// width, in pixels
-		backgroundGameWindowRectangle[3],                               	// height, in pixels
-		SDL_WINDOW_OPENGL                  							// TODO: what is this
-	);
+	src->gameWindow = SDL_CreateWindow("Chess Game", // window title
+			SDL_WINDOWPOS_CENTERED, // initial x position
+			SDL_WINDOWPOS_CENTERED, // initial y position
+			backgroundGameWindowRectangle[1], // width, in pixels
+			backgroundGameWindowRectangle[3], // height, in pixels
+			SDL_WINDOW_OPENGL
+			);
 }
 
 GameWindow* GameWindowDefaultCreator() {
-	GameWindow* newGameWindow = (GameWindow*)calloc(sizeof(GameWindow), sizeof(char));
+	GameWindow* newGameWindow = (GameWindow*) calloc(sizeof(GameWindow),
+			sizeof(char));
 
 	if (newGameWindow == NULL) {
 		printf("malloc: Error\n");
@@ -54,7 +55,8 @@ GameWindow* GameWindowDefaultCreator() {
 		return NULL;
 	}
 
-	newGameWindow->gameRenderer = SDL_CreateRenderer(newGameWindow->gameWindow, -1, SDL_RENDERER_ACCELERATED);
+	newGameWindow->gameRenderer = SDL_CreateRenderer(newGameWindow->gameWindow,
+			-1, SDL_RENDERER_ACCELERATED);
 	// Check that the window renerer was created
 	if (newGameWindow->gameRenderer == NULL) {
 		GameWindowDestroy(newGameWindow);
@@ -63,13 +65,25 @@ GameWindow* GameWindowDefaultCreator() {
 	}
 
 	int success = 1;
-	success &= LoadTexture(&(newGameWindow->backgroundTexture), newGameWindow->gameRenderer, BACKGROUND_GAME_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newGameWindow->saveGameTexture), newGameWindow->gameRenderer, SAVE_GAME_BUTTON_GAME_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newGameWindow->loadGameTexture), newGameWindow->gameRenderer, LOAD_GAME_BUTTON_GAME_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newGameWindow->undoTexture), newGameWindow->gameRenderer, UNDO_BUTTON_GAME_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newGameWindow->goToMainWindowTexture), newGameWindow->gameRenderer, GO_TO_MAIN_WINDOW_BUTTON_GAME_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newGameWindow->restartTexture), newGameWindow->gameRenderer, RESTART_GAME_BUTTON_GAME_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newGameWindow->quitTexture), newGameWindow->gameRenderer, QUIT_GAME_BUTTON_GAME_WINDOW_TEXTURE_PATH);
+	success &= LoadTexture(&(newGameWindow->backgroundTexture),
+			newGameWindow->gameRenderer, BACKGROUND_GAME_WINDOW_TEXTURE_PATH);
+	success &= LoadTexture(&(newGameWindow->saveGameTexture),
+			newGameWindow->gameRenderer,
+			SAVE_GAME_BUTTON_GAME_WINDOW_TEXTURE_PATH);
+	success &= LoadTexture(&(newGameWindow->loadGameTexture),
+			newGameWindow->gameRenderer,
+			LOAD_GAME_BUTTON_GAME_WINDOW_TEXTURE_PATH);
+	success &= LoadTexture(&(newGameWindow->undoTexture),
+			newGameWindow->gameRenderer, UNDO_BUTTON_GAME_WINDOW_TEXTURE_PATH);
+	success &= LoadTexture(&(newGameWindow->goToMainWindowTexture),
+			newGameWindow->gameRenderer,
+			GO_TO_MAIN_WINDOW_BUTTON_GAME_WINDOW_TEXTURE_PATH);
+	success &= LoadTexture(&(newGameWindow->restartTexture),
+			newGameWindow->gameRenderer,
+			RESTART_GAME_BUTTON_GAME_WINDOW_TEXTURE_PATH);
+	success &= LoadTexture(&(newGameWindow->quitTexture),
+			newGameWindow->gameRenderer,
+			QUIT_GAME_BUTTON_GAME_WINDOW_TEXTURE_PATH);
 
 	if (!success) {
 		GameWindowDestroy(newGameWindow);
@@ -86,7 +100,8 @@ GameWindow* GameWindowLoad(char loadSlotSelected) {
 		return NULL;
 	}
 
-	newGameWindow->gameControl = GameBoardControlLoad(newGameWindow->gameRenderer, loadSlotSelected);
+	newGameWindow->gameControl = GameBoardControlLoad(
+			newGameWindow->gameRenderer, loadSlotSelected);
 	if (newGameWindow->gameControl == NULL) {
 		GameWindowDestroy(newGameWindow);
 		return NULL;
@@ -95,14 +110,17 @@ GameWindow* GameWindowLoad(char loadSlotSelected) {
 	return newGameWindow;
 }
 
-GameWindow* GameWindowCreate(char gameMode, char player1Color, char gameDifficulty) {
+GameWindow* GameWindowCreate(char gameMode, char player1Color,
+		char gameDifficulty) {
 	GameWindow* newGameWindow = GameWindowDefaultCreator();
 
 	if (newGameWindow == NULL) {
 		return NULL;
 	}
 
-	newGameWindow->gameControl = GameBoardControlCreate(newGameWindow->gameRenderer, gameMode, player1Color, gameDifficulty);
+	newGameWindow->gameControl
+			= GameBoardControlCreate(newGameWindow->gameRenderer, gameMode,
+					player1Color, gameDifficulty);
 	if (newGameWindow->gameControl == NULL) {
 		GameWindowDestroy(newGameWindow);
 		return NULL;
@@ -140,23 +158,29 @@ void GameWindowDraw(GameWindow* src) {
 	SDL_Rect saveGameR = CreateSDLRectFromIntArray(saveGameGameWindowRectangle);
 	SDL_Rect loadGameR = CreateSDLRectFromIntArray(loadGameGameWindowRectangle);
 	SDL_Rect undoR = CreateSDLRectFromIntArray(undoButtonGameWindowRectangle);
-	SDL_Rect goToMainWindowR = CreateSDLRectFromIntArray(goToMainWindowButtonGameWindowRectangle);
-	SDL_Rect restartR = CreateSDLRectFromIntArray(restartButtonGameWindowRectangle);
+	SDL_Rect goToMainWindowR = CreateSDLRectFromIntArray(
+			goToMainWindowButtonGameWindowRectangle);
+	SDL_Rect restartR = CreateSDLRectFromIntArray(
+			restartButtonGameWindowRectangle);
 	SDL_Rect quitR = CreateSDLRectFromIntArray(quitGameGameWindowRectangle);
-	SDL_Rect backgroundR = CreateSDLRectFromIntArray(backgroundGameWindowRectangle);
+	SDL_Rect backgroundR = CreateSDLRectFromIntArray(
+			backgroundGameWindowRectangle);
 
 	SDL_SetRenderDrawColor(src->gameRenderer, 255, 255, 255, 255);
 
 	SDL_RenderClear(src->gameRenderer);
-	SDL_RenderCopy(src->gameRenderer, src->backgroundTexture, NULL, &backgroundR);
+	SDL_RenderCopy(src->gameRenderer, src->backgroundTexture, NULL,
+			&backgroundR);
 	SDL_RenderCopy(src->gameRenderer, src->saveGameTexture, NULL, &saveGameR);
 	SDL_RenderCopy(src->gameRenderer, src->loadGameTexture, NULL, &loadGameR);
 	SDL_RenderCopy(src->gameRenderer, src->undoTexture, NULL, &undoR);
-	SDL_RenderCopy(src->gameRenderer, src->goToMainWindowTexture, NULL, &goToMainWindowR);
+	SDL_RenderCopy(src->gameRenderer, src->goToMainWindowTexture, NULL,
+			&goToMainWindowR);
 	SDL_RenderCopy(src->gameRenderer, src->restartTexture, NULL, &restartR);
 	SDL_RenderCopy(src->gameRenderer, src->quitTexture, NULL, &quitR);
 
-	GameBoardControlDraw(src->gameControl, src->gameRenderer, gameBoardGameWindowRectangle);
+	GameBoardControlDraw(src->gameControl, src->gameRenderer,
+			gameBoardGameWindowRectangle);
 
 	SDL_RenderPresent(src->gameRenderer);
 }
@@ -191,7 +215,7 @@ EventType GetGameWindowEvent(SDL_Event* event) {
 }
 
 EventStruct GameWindowHandleEvent(GameWindow* src, SDL_Event* event) {
-	EventStruct eventStruct = { EmptyEvent,{0} };
+	EventStruct eventStruct = { EmptyEvent, { 0 } };
 	if (event == NULL) {
 		return eventStruct;
 	}
@@ -199,7 +223,8 @@ EventStruct GameWindowHandleEvent(GameWindow* src, SDL_Event* event) {
 	eventStruct.eventType = GetGameWindowEvent(event);
 	switch (eventStruct.eventType) {
 	case BoardPositionButtonGameWindowClickEvent:
-		return GameBoardControlHandleEvent(src->gameControl, event, gameBoardGameWindowRectangle);
+		return GameBoardControlHandleEvent(src->gameControl, event,
+				gameBoardGameWindowRectangle);
 	case UndoButtonGameWindowClickEvent:
 		return GameBoardControlHandleUndoMove(src->gameControl);
 	case SaveGameButtonGameWindowClickEvent:

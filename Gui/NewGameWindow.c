@@ -55,7 +55,7 @@ void CreateNewGameWindow(NewGameWindow* src) {
 			SDL_WINDOWPOS_CENTERED, // initial y position
 			backgroundNewGameWindowRectangle[1], // width, in pixels
 			backgroundNewGameWindowRectangle[3], // height, in pixels
-			SDL_WINDOW_OPENGL // TODO: what is this
+			SDL_WINDOW_OPENGL
 			);
 }
 

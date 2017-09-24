@@ -11,14 +11,14 @@
 #include <ctype.h>
 #include "constants.h"
 
-typedef enum PieceType  {
-	Pawn, // simple soldier
-	Bishop, // "rats"
-	Rook, // "tsariah"
-	Knight, // "sus"
-	Queen,
-	King,
-	None
+typedef enum PieceType {
+	Pawn = 'm', // simple soldier
+	Bishop = 'b', // "rats"
+	Rook = 'r', // "tsariah"
+	Knight = 'n', // "sus"
+	Queen = 'q',
+	King = 'k',
+	None = '_'
 } PieceType;
 
 /*
@@ -27,13 +27,12 @@ typedef enum PieceType  {
  * Player 1 always starts with pieces at rows 1,2
  */
 typedef enum Player {
-    Player1,
-    Player2
-}Player;
+	Player1, Player2
+} Player;
 
 typedef struct Piece {
-    PieceType type;
-    Player player;
+	PieceType type;
+	Player player;
 } Piece;
 
 // sets all paramaters
@@ -44,8 +43,5 @@ void initPiece(Piece *piece, PieceType type, Player player);
  */
 Player getOtherPlayer(Player player);
 
-
-
 #endif /* PIECES_H_ */
-
 

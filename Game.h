@@ -168,7 +168,6 @@ HandleCommandMessage handleSetDifficulty(Command command, Game *game);
  *      illegalMessage, if color is illegal or if game mode is PlayerVsPlayer.
  */
 HandleCommandMessage handleSetUserColor(Command command, Game *game);
-//TODO: check if we need to start game immediately after loading. if not then the start game action should be changed accordingly.
 /*!
  * Handle load game setting from file.
  * @param command - command from user/computer.
@@ -190,7 +189,6 @@ HandleCommandMessage handleLoadSettings(Command command, Game *game);
  */
 HandleCommandMessage handlePrintSettings(Game *game);
 
-//TODO: make the first more if player color 1 is black
 /*!
  * start the game!
  * also init the board and the history arrays.
@@ -236,7 +234,7 @@ HandleCommandMessage handleCastleMove(Command command, Game *game);
  *      argument[0-1] = <x,y> of piece.
  * @param game - the game the action is made on.
  * @return
- *      getMovesMessage, a success message containing the needed information TODO
+ *      getMovesMessage, a success message containing the needed information
  *      errorGetMovesInvalidPositionMessage, if the position given in the command is not on the board.
  *      errorGetMovesNotYourPieceMessage, if the position is valid but doesn't contain the user piece.
  */

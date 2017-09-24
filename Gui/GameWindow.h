@@ -5,10 +5,6 @@
 #include "GameBoardControl.h"
 #include "PathsConstants.h"
 #include "SDLHelperFunctions.h"
-//TODO: #include <SDL_video.h>
-//	TODO : #include "SPTicTacToeWindow.h"
-//	TODO : #include "../SPTicTacToe.h"
-
 
 
 typedef enum {

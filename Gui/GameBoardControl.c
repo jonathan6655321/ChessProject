@@ -64,11 +64,30 @@ int IsComputerTurnGameBoardControl(GameBoardControl* src) {
 }
 
 void HandleFinishGameGameBoardControl(GameBoardControl* src) {
-	//TODO;
+	CheckmateType checkmateType = getCheckmate(&(src->game));
+	if (checkmateType == whiteCheckmated) {
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "White Checkmated!",
+				"Black Player Wins!", NULL);
+
+	} else if (checkmateType == blackCheckmated) {
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Black Checkmated!",
+				"White Player Wins!", NULL);
+	}else if (checkmateType == tie){
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Tie!",
+				"The Game Is Tied!", NULL);
+	}
 }
 
 void HandleCheckPrintsIfNeeded(GameBoardControl* src) {
-	//TODO;
+	CheckmateType checkmateType = getCheckmate(&(src->game));
+	if (checkmateType == whiteChecked) {
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "White Checked!",
+				"White King Is Threatened.", NULL);
+
+	} else if (checkmateType == blackChecked) {
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Black Checked!",
+				"Black King Is Threatened.", NULL);
+	}
 }
 
 int IsGameCompletedGameBoardControl(GameBoardControl* src) {
@@ -146,7 +165,7 @@ int LoadGameErrorOccuredGameBoardControl(HandleCommandMessage message) {
 	return (message.messageType == errorLoadMessage);
 }
 
-void PrintLoadErrorGameBoardControl(HandleCommandMessage message){
+void PrintLoadErrorGameBoardControl(HandleCommandMessage message) {
 	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Can't Load Game",
 			"Failed to Load Game: Couldn't open file.", NULL);
 }
@@ -284,7 +303,7 @@ void GameBoardControlDraw(GameBoardControl* src, SDL_Renderer* renderer,
 }
 
 char AskPlayerForPawnPromotionOption() {
-	//TODO!
+	//TODO pawn promotion
 	return Queen;
 }
 
@@ -317,13 +336,13 @@ void MakeMoveGameBoardControl(GameBoardControl* src, char rowFrom,
 
 int ChechIfMoveIsCastleMoveGameBoardControl(GameBoardControl* src,
 		char rowFrom, char colFrom, char rowTo, char colTo) {
-	//TODO 
+	//TODO castle move
 	return 0;
 }
 
 void MakeCastleMoveGameBoardControl(GameBoardControl* src, char rowFrom,
 		char colFrom, char rowTo, char colTo) {
-	//TODO
+	//TODO castle move
 }
 
 EventStruct GameBoardControlHandleMoveEvent(GameBoardControl* src, int row,

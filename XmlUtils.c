@@ -245,12 +245,9 @@ void setPointer(char *tagName, char *tagContent, GameBoard *gameBoard,
 	}
 	if (strncmp(tagName, BOARD_ROW, ROW_TAG_LENGTH - 1) == 0) {
 		char row = tagName[ROW_TAG_LENGTH - 1];
-		//        printf("the row is: %c\n\n", row);
 		for (char col = FIRST_COL_CHAR; col <= LAST_COL_CHAR; col++) {
 			char pieceChar = tagContent[col - FIRST_COL_CHAR];
-			if (pieceChar != '_')
-				;
-			{
+			if (pieceChar != '_') {
 				int pieceIndex = getPieceIndexFromPieceChar(gameBoard,
 						pieceChar, *color);
 				setPieceAt(row, col, gameBoard, pieceIndex);

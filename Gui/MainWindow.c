@@ -4,7 +4,6 @@ static int loadGameMainWindowRectangle[4] = { 75, 250, 175, 275 };
 static int quitGameMainWindowRectangle[4] = { 75, 250, 300, 400 };
 static int backgroundMainWindowRectangle[4] = { 0, 400, 0, 450 };
 
-
 MainWindowElement ClickWasOnMainWindow(int x, int y) {
 	if (PointInsideRectangle(x, y, newGameMainWindowRectangle))
 		return NewGameMainWindowButtonElement;
@@ -19,16 +18,16 @@ MainWindowElement ClickWasOnMainWindow(int x, int y) {
 void CreateMainWindow(MainWindow* src) {
 	// Create an application window with the following settings:
 	src->mainWindow = SDL_CreateWindow("Chess Game", // window title
-		SDL_WINDOWPOS_CENTERED,			// initial x position
-		SDL_WINDOWPOS_CENTERED,			// initial y position
-		backgroundMainWindowRectangle[1],		// width, in pixels
-		backgroundMainWindowRectangle[3],		// height, in pixels
-		SDL_WINDOW_OPENGL				// TODO: what is this
-	);
+			SDL_WINDOWPOS_CENTERED, // initial x position
+			SDL_WINDOWPOS_CENTERED, // initial y position
+			backgroundMainWindowRectangle[1], // width, in pixels
+			backgroundMainWindowRectangle[3], // height, in pixels
+			SDL_WINDOW_OPENGL);
 }
 
 MainWindow* MainWindowCreate() {
-	MainWindow* newMainWindow = (MainWindow*)calloc(sizeof(MainWindow), sizeof(char));
+	MainWindow* newMainWindow = (MainWindow*) calloc(sizeof(MainWindow),
+			sizeof(char));
 
 	if (newMainWindow == NULL) {
 		printf("malloc: Error\n");
@@ -43,7 +42,8 @@ MainWindow* MainWindowCreate() {
 		return NULL;
 	}
 
-	newMainWindow->mainRenderer = SDL_CreateRenderer(newMainWindow->mainWindow, -1, SDL_RENDERER_ACCELERATED);
+	newMainWindow->mainRenderer = SDL_CreateRenderer(newMainWindow->mainWindow,
+			-1, SDL_RENDERER_ACCELERATED);
 	// Check that the window renerer was created
 	if (newMainWindow->mainRenderer == NULL) {
 		MainWindowDestroy(newMainWindow);
@@ -52,10 +52,17 @@ MainWindow* MainWindowCreate() {
 	}
 
 	int success = 1;
-	success &= LoadTexture(&(newMainWindow->newGameTexture), newMainWindow->mainRenderer, NEW_GAME_BUTTON_MAIN_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newMainWindow->loadGameTexture), newMainWindow->mainRenderer, LOAD_GAME_BUTTON_MAIN_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newMainWindow->quitTexture), newMainWindow->mainRenderer, QUIT_GAME_BUTTON_MAIN_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newMainWindow->backgroundTexture), newMainWindow->mainRenderer, BACKGROUND_MAIN_WINDOW_TEXTURE_PATH);
+	success &= LoadTexture(&(newMainWindow->newGameTexture),
+			newMainWindow->mainRenderer,
+			NEW_GAME_BUTTON_MAIN_WINDOW_TEXTURE_PATH);
+	success &= LoadTexture(&(newMainWindow->loadGameTexture),
+			newMainWindow->mainRenderer,
+			LOAD_GAME_BUTTON_MAIN_WINDOW_TEXTURE_PATH);
+	success &= LoadTexture(&(newMainWindow->quitTexture),
+			newMainWindow->mainRenderer,
+			QUIT_GAME_BUTTON_MAIN_WINDOW_TEXTURE_PATH);
+	success &= LoadTexture(&(newMainWindow->backgroundTexture),
+			newMainWindow->mainRenderer, BACKGROUND_MAIN_WINDOW_TEXTURE_PATH);
 
 	if (!success) {
 		MainWindowDestroy(newMainWindow);
@@ -85,11 +92,13 @@ void MainWindowDraw(MainWindow* src) {
 	SDL_Rect newGameR = CreateSDLRectFromIntArray(newGameMainWindowRectangle);
 	SDL_Rect loadGameR = CreateSDLRectFromIntArray(loadGameMainWindowRectangle);
 	SDL_Rect quitGameR = CreateSDLRectFromIntArray(quitGameMainWindowRectangle);
-	SDL_Rect backgroundR = CreateSDLRectFromIntArray(backgroundMainWindowRectangle);
+	SDL_Rect backgroundR = CreateSDLRectFromIntArray(
+			backgroundMainWindowRectangle);
 	SDL_SetRenderDrawColor(src->mainRenderer, 255, 255, 255, 255);
 
 	SDL_RenderClear(src->mainRenderer);
-	SDL_RenderCopy(src->mainRenderer, src->backgroundTexture, NULL, &backgroundR);
+	SDL_RenderCopy(src->mainRenderer, src->backgroundTexture, NULL,
+			&backgroundR);
 	SDL_RenderCopy(src->mainRenderer, src->newGameTexture, NULL, &newGameR);
 	SDL_RenderCopy(src->mainRenderer, src->loadGameTexture, NULL, &loadGameR);
 	SDL_RenderCopy(src->mainRenderer, src->quitTexture, NULL, &quitGameR);
@@ -118,7 +127,7 @@ EventType GetMainWindowEvent(SDL_Event* event) {
 }
 
 EventStruct MainWindowHandleEvent(MainWindow* src, SDL_Event* event) {
-	EventStruct eventStruct = { EmptyEvent,{0} };
+	EventStruct eventStruct = { EmptyEvent, { 0 } };
 	if (event == NULL) {
 		return eventStruct;
 	}
