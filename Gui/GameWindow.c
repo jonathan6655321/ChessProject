@@ -1,4 +1,12 @@
 #include "GameWindow.h"
+static int gameBoardGameWindowRectangle[4] = { 50, 650, 100, 700 };
+static int saveGameGameWindowRectangle[4] = { 700, 800, 100, 150 };
+static int loadGameGameWindowRectangle[4] = { 700, 800, 200, 250 };
+static int undoButtonGameWindowRectangle[4] = { 700, 800, 300, 350 };
+static int goToMainWindowButtonGameWindowRectangle[4] = { 700, 800, 400, 450 };
+static int restartButtonGameWindowRectangle[4] = { 700, 800, 500, 550 };
+static int quitGameGameWindowRectangle[4] = { 700, 800, 600, 650 };
+static int backgroundGameWindowRectangle[4] = { 0, 850, 0, 800 };
 
 GameWindowElement ClickWasOnGameWindow(int x, int y) {
 	if (PointInsideRectangle(x, y, gameBoardGameWindowRectangle))
@@ -206,59 +214,3 @@ EventStruct GameWindowHandleEvent(GameWindow* src, SDL_Event* event) {
 		return eventStruct;
 	}
 }
-
-//
-//
-//void spGameWindowDraw(SPGameWin* src) {
-//	if(src == NULL){
-//		return;
-//	}
-//	SDL_Rect rec = { .x = 0, .y = 0, .w = 600, .h = 600 };
-//	SDL_SetRenderDrawColor(src->renderer, 255, 255, 255, 255);
-//	SDL_RenderClear(src->renderer);
-//	SDL_RenderCopy(src->renderer, src->bgTexture, NULL, &rec);
-//
-//	int i = 0, j = 0;
-//	for (i = 0; i < SP_N_ROWS; i++) {
-//		for (j = 0; j < SP_N_COLUMNS; j++) {
-//			rec.x = j * 200;
-//			rec.y = i * 200;
-//			rec.h = 200;
-//			rec.w = 200;
-//			if (src->game->board[i][j] == SP_PLAYER_1_SYMBOL) {
-//				SDL_RenderCopy(src->renderer, src->xTexture, NULL, &rec);
-//			} else if (src->game->board[i][j] == SP_PLAYER_2_SYMBOL) {
-//				SDL_RenderCopy(src->renderer, src->oTexture, NULL, &rec);
-//			}
-//		}
-//	}
-//	SDL_RenderPresent(src->renderer);
-//}
-//
-//SP_GAME_EVENT spGameWindowHandleEvent(SPGameWin* src, SDL_Event* event) {
-//	if (event == NULL || src == NULL ) {
-//		return SP_GAME_EVENT_INVALID_ARGUMENT;
-//	}
-//	switch (event->type) {
-//	case SDL_MOUSEBUTTONUP:
-//		spTicTacToeSetMove(src->game, event->button.y / 200,
-//				event->button.x / 200);
-//		char winner = spTicTacToeCheckWinner(src->game);
-//		if (winner == SP_PLAYER_1_SYMBOL) {
-//			return SP_GAME_EVENT_X_WON;
-//		} else if (winner == SP_PLAYER_2_SYMBOL) {
-//			return SP_GAME_EVENT_O_WON;
-//		} else if (spTicTacToeIsGameOver(src->game)) {
-//			return SP_GAME_EVENT_TIE;
-//		}
-//		break;
-//	case SDL_WINDOWEVENT:
-//		if (event->window.event == SDL_WINDOWEVENT_CLOSE) {
-//			return SP_GAME_EVENT_QUIT;
-//		}
-//		break;
-//	default:
-//		return SP_GAME_EVENT_NONE;
-//	}
-//	return SP_GAME_EVENT_NONE;
-//}

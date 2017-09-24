@@ -170,6 +170,9 @@ Command getNextGameCommand() {
         default:
             command.commandType = invalidCommand;
     }
+    if(command.commandType == castleMove && !CAN_HANDLE_CASTLE_MOVE){
+        command.commandType = invalidCommand;
+    }
     return command;
 }
 

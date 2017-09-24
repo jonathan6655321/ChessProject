@@ -105,7 +105,7 @@ void GameBoardControlSetUpNewGame(GameBoardControl* src, char gameMode,
 	SetGameDifficulty(src, gameDifficulty);
 
 	GameBoardControlStartGame(src);
-
+	src->gameStateIsSaved = 1;
 	if (IsComputerTurnGameBoardControl(src)) {
 		HandleComputerMoveGameBoardControl(src);
 	}
@@ -142,8 +142,26 @@ GameBoardControl* GameBoardControlCreate(SDL_Renderer* renderer, char gameMode,
 	return newGameBoardControl;
 }
 
-int GameBoardControlLoadGame(GameBoardControl* src, char loadSlotSelected) {
-	//TODO! need to handle errors here
+int LoadGameErrorOccuredGameBoardControl(HandleCommandMessage message) {
+	return (message.messageType == errorLoadMessage);
+}
+
+void PrintLoadErrorGameBoardControl(HandleCommandMessage message){
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Can't Load Game",
+			"Failed to Load Game: Couldn't open file.", NULL);
+}
+
+int GameBoardControlLoadGame(GameBoardControl* src, int loadSlotSelected) {
+	Command command;
+	command.commandType = loadSettings;
+	sprintf(command.stringArgument, SAVE_LOAD_PATH_FORMAT, loadSlotSelected);
+	HandleCommandMessage message = handleCommand(command, &(src->game));
+	if (LoadGameErrorOccuredGameBoardControl(message)) {
+		PrintLoadErrorGameBoardControl(message);
+		return 1;
+	} else {
+		src->gameStateIsSaved = 1;
+	}
 
 	GameBoardControlStartGame(src);
 
@@ -155,7 +173,7 @@ int GameBoardControlLoadGame(GameBoardControl* src, char loadSlotSelected) {
 }
 
 GameBoardControl* GameBoardControlLoad(SDL_Renderer* renderer,
-		char loadSlotSelected) {
+		int loadSlotSelected) {
 	GameBoardControl* newGameBoardControl = GameBoardControlDefaultCreator(
 			renderer);
 
@@ -181,15 +199,14 @@ void GameBoardControlDestroy(GameBoardControl* src) {
 }
 
 int GetColorInLocation(GameBoardControl* src, int row, int col) {
-	if (row == src->currentPieceSelectedRow && col
-			== src->currentPieceSelectedCol) {
-		return 2;
-	}
 	char rowC = '1' + row;
 	char colC = 'A' + col;
 	int colorInThisLocation = (row + col) % 2;
 	int locationInBoardOfRowCol = rowColToLocationIndex(rowC, colC);
-	if (src->availableMovesOfSelectedPiece.allMoves.legalMovesArray[locationInBoardOfRowCol]) {
+	if ((src->currentPieceSelectedRow != -1
+			&& src->availableMovesOfSelectedPiece.allMoves.legalMovesArray[locationInBoardOfRowCol])
+			|| (row == src->currentPieceSelectedRow && col
+					== src->currentPieceSelectedCol)) {
 		if (src->availableMovesOfSelectedPiece.threatenedByOpponentMoves.legalMovesArray[locationInBoardOfRowCol]) {
 			colorInThisLocation = 2;
 		} else {
@@ -268,7 +285,7 @@ void GameBoardControlDraw(GameBoardControl* src, SDL_Renderer* renderer,
 
 char AskPlayerForPawnPromotionOption() {
 	//TODO!
-return Queen;
+	return Queen;
 }
 
 void HandlePawnPromotion(GameBoardControl* src, char rowFrom, char colFrom,
@@ -352,12 +369,12 @@ int PieceInRowColIsCurrentPlayerPiece(GameBoardControl* src, int row, int col) {
 	char rowC = '1' + row;
 	char colC = 'A' + col;
 	int indexOfRowCol = rowColToLocationIndex(rowC, colC);
-	if (src->game.board.mapLocationOnBoardToPieceIndex[indexOfRowCol] == -1) {
+	int pieceNumber =
+			src->game.board.mapLocationOnBoardToPieceIndex[indexOfRowCol];
+	if (pieceNumber < 0) {
 		return 0;
 	}
-	if (getPlayerFromIndex(
-			src->game.board.mapLocationOnBoardToPieceIndex[indexOfRowCol])
-			== src->game.currentPlayer) {
+	if (getPlayerFromIndex(pieceNumber) == src->game.currentPlayer) {
 		return 1;
 	} else {
 		return 0;
@@ -379,6 +396,8 @@ EventStruct GameBoardControlHandleNewPieceChoosenEvent(GameBoardControl* src,
 	if (IsComputerTurnGameBoardControl(src)) {
 		return eventStruct;
 	}
+	src->currentPieceSelectedRow = -1;
+	src->currentPieceSelectedCol = -1;
 	if (PieceInRowColIsCurrentPlayerPiece(src, row, col)) {
 		src->currentPieceSelectedRow = row;
 		src->currentPieceSelectedCol = col;
@@ -390,13 +409,14 @@ EventStruct GameBoardControlHandleNewPieceChoosenEvent(GameBoardControl* src,
 void PrintUndoMoveErrorsGameBoardControl(HandleCommandMessage message) {
 	char* errorString = NULL;
 	if (message.messageType == errorUndo2PlayerModeMessage) {
-		//TODO
+		errorString = "Can't Undo Moves In Two Player Mode.";
 	} else if (message.messageType == errorUndoEmptyHistoryMessage) {
-		//TODO
+		errorString = "Can't Undo Move: Empty History.";
 	} else {
-		errorString = "UnknownErrorOccured";
+		errorString = "Unknown Error Occurred!";
 	}
-	//TODO make message box with the error
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Can't Undo Moves",
+			errorString, NULL);
 }
 
 int UndoMoveErrorOccuredGameBoardControl(HandleCommandMessage message) {
@@ -421,17 +441,47 @@ EventStruct GameBoardControlHandleUndoMove(GameBoardControl* src) {
 }
 
 void PrintSaveErrorGameBoardControl(HandleCommandMessage message) {
-	//TODO print error message
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Can't Save Game",
+			"Error While Trying to saving the Game.", NULL);
 }
 
 int SaveGameErrorOccuredGameBoardControl(HandleCommandMessage message) {
 	return (message.messageType == errorSaveMessage);
 }
 
+void SiftAllSaves() {
+	FILE *fp1, *fp2;
+	char ch;
+	char filepath1[300], filepath2[300];
+
+	for (int i = NUMBER_OF_SAVE_LOAD_SLOT; i > 1; i--) {
+		sprintf(filepath1, SAVE_LOAD_PATH_FORMAT, i - 1);
+		sprintf(filepath2, SAVE_LOAD_PATH_FORMAT, i);
+		fp1 = fopen(filepath1, "r");
+		if (fp1 != NULL) {
+			fp2 = fopen(filepath2, "w");
+			if (fp2 != NULL) {
+				while (1) {
+					ch = fgetc(fp1);
+
+					if (ch == EOF)
+						break;
+					else
+						putc(ch, fp2);
+				}
+				fclose(fp2);
+			}
+			fclose(fp1);
+		}
+	}
+}
+
 EventStruct GameBoardControlHandleSaveGame(GameBoardControl* src) {
 	EventStruct eventStruct = { EmptyEvent, { 0 } };
+	SiftAllSaves();
 	Command command;
 	command.commandType = saveGame;
+	sprintf(command.stringArgument, SAVE_LOAD_PATH_FORMAT, 1);
 	HandleCommandMessage message = handleCommand(command, &(src->game));
 	if (SaveGameErrorOccuredGameBoardControl(message)) {
 		PrintSaveErrorGameBoardControl(message);
@@ -491,6 +541,7 @@ EventStruct GameBoardControlHandleRestartGame(GameBoardControl* src) {
 		gameDifficulty = src->game.difficulty;
 		GameBoardControlSetUpNewGame(src, gameMode, player1Color,
 				gameDifficulty);
+		src->game.isLoaded = 0;
 	}
 	return eventStruct;
 }
@@ -502,7 +553,6 @@ EventStruct GameBoardControlHandleGoToMainWindow(GameBoardControl* src) {
 	}
 	return eventStruct;
 }
-
 
 EventStruct GameBoardControlHandleQuitGame(GameBoardControl* src) {
 	EventStruct eventStruct = { EmptyEvent, { 0 } };

@@ -3,13 +3,8 @@
 #include <SDL.h>
 #include "Events.h"
 #include "SDLHelperFunctions.h"
-#include "BMPPathConstants.h"
+#include "PathsConstants.h"
 
-
-static int newGameMainWindowRectangle[4] = { 75, 250, 50, 150 };
-static int loadGameMainWindowRectangle[4] = { 75, 250, 175, 275 };
-static int quitGameMainWindowRectangle[4] = { 75, 250, 300, 400 };
-static int backgroundMainWindowRectangle[4] = { 0, 400, 0, 450 };
 
 typedef enum {
 	NewGameMainWindowButtonElement,

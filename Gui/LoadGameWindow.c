@@ -1,4 +1,7 @@
 #include "LoadGameWindow.h"
+static int backButtonLoadWindowRectangle[4] = { 75,250,400,500 };
+static int backgroundLoadWindowRectangle[4] = { 0, 			400, 			0,450 };
+
 
 
 LoadWindow* LoadWindowCreate(){

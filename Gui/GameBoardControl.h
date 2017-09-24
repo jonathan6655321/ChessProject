@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "Events.h"
 #include "SDLHelperFunctions.h"
-#include "BMPPathConstants.h"
+#include "PathsConstants.h"
 #include "../Game.h"
 //TODO: #include <SDL_video.h>
 //	TODO : #include "SPTicTacToeWindow.h"
@@ -23,7 +23,7 @@ typedef struct {
 GameBoardControl* GameBoardControlCreate(SDL_Renderer* renderer, char gameMode,
 		char player1Color, char gameDifficulty);
 GameBoardControl* GameBoardControlLoad(SDL_Renderer* renderer,
-		char loadSlotSelected);
+		int loadSlotSelected);
 
 void GameBoardControlDraw(GameBoardControl* src, SDL_Renderer* renderer,
 		int* Rectangle);

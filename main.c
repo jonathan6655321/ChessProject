@@ -4,28 +4,14 @@
 #include <stdlib.h>
 #include "CommandLineGame.h"
 #include "Gui/mainGui.h"
-int main( int argc, char **argv )
-{
+#include <string.h>
 
-//    GameBoard gameBoard;
-//    initGame(&gameBoard, White);
-//    printBoard(&gameBoard,White);
-//
-//    printf("\n\n");
-//    movePiece('1','A', '4','E', &gameBoard);
-//    printBoard(&gameBoard,White);
-//
-//    printf("\n\n");
-//    movePiece('8','B', '6','C', &gameBoard);
-//    printBoard(&gameBoard,White);
-//
-//    printf("\n\n");
-//    movePiece('8','C', '3','C', &gameBoard);
-//    printBoard(&gameBoard,White);
-//
-//
-//    printLegalMovesForAllPieces(&gameBoard);
-//	commandLineGameLoop();
-    MainGuiLoop();
-    return 0;
+int main(int argc, char **argv) {
+	if (argc == 2 && strcmp("-g", argv[1]) == 0) {
+		MainGuiLoop();
+	} else {
+		commandLineGameLoop();
+	}
+
+	return 0;
 }

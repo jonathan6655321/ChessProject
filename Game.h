@@ -13,6 +13,7 @@
 #include "GameBoard.h"
 #include "MiniMax.h"
 #include "constants.h"
+#include "XmlUtils.h"
 
  //CONSTANTS:
 
@@ -32,6 +33,7 @@ typedef struct {
 	GameMode gameMode;
 	Player currentPlayer;
 	int needToReprintBoard;
+	int isLoaded;
 } Game;
 
 

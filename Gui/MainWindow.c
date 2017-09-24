@@ -1,4 +1,9 @@
 #include "MainWindow.h"
+static int newGameMainWindowRectangle[4] = { 75, 250, 50, 150 };
+static int loadGameMainWindowRectangle[4] = { 75, 250, 175, 275 };
+static int quitGameMainWindowRectangle[4] = { 75, 250, 300, 400 };
+static int backgroundMainWindowRectangle[4] = { 0, 400, 0, 450 };
+
 
 MainWindowElement ClickWasOnMainWindow(int x, int y) {
 	if (PointInsideRectangle(x, y, newGameMainWindowRectangle))

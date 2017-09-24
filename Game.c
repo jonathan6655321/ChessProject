@@ -64,7 +64,6 @@ HandleCommandMessage handleSetDefault(Game *game) {
 	game->difficulty = DEFAULT_DIFFICULTY;
 	game->currentPlayer = DEFAULT_CURRENT_PLAYER;
 	game->player1Color = DEFAULT_USER_COLOR;
-
 	HandleCommandMessage message;
 	message.messageType = successMessage;
 	return message;
@@ -102,8 +101,19 @@ HandleCommandMessage handleSetUserColor(Command command, Game *game) {
 
 HandleCommandMessage handleLoadSettings(Command command, Game *game) {
 	HandleCommandMessage message;
-	message.messageType = errorLoadMessage;
-	//TODO: implement load from file.
+	message.messageType = successMessage;
+	int gameMode, difficulty;
+	int res = loadGameFromFile(&(game->board), &(game->currentPlayer),
+			&gameMode, &difficulty, &(game->player1Color),
+			command.stringArgument);
+	if (res != FAIL) {
+		game->needToReprintBoard = 1;
+		game->gameMode = '0' + gameMode;
+		game->difficulty = '0' + difficulty;
+		game->isLoaded = 1;
+	} else {
+		message.messageType = errorLoadMessage;
+	}
 	return message;
 }
 
@@ -117,16 +127,15 @@ HandleCommandMessage handlePrintSettings(Game *game) {
 }
 
 HandleCommandMessage handleStartGame(Game *game) {
-	game->needToReprintBoard = 1;
-	if (game->gameMode == PlayerVsPlayer) {
-		game->currentPlayer = Player1;
-		game->player1Color = White;
+		game->needToReprintBoard = 1;
+	if (!game->isLoaded) {
+		if (game->gameMode == PlayerVsPlayer) {
+			game->currentPlayer = Player1;
+			game->player1Color = White;
+		}
+		initGame(&(game->board), game->player1Color);
+		game->currentPlayer = (game->player1Color == White) ? Player1 : Player2;
 	}
-	//TODO: if loaded don't init...
-	initGame(&(game->board), game->player1Color);
-
-	game->currentPlayer = (game->player1Color == White) ? Player1 : Player2;
-
 	HandleCommandMessage message;
 	message.messageType = successMessage;
 	return message;
@@ -195,7 +204,6 @@ HandleCommandMessage handleCastleMove(Command command, Game *game) {
 	HandleCommandMessage message;
 	message.messageType = errorCastleMoveIllegalMoveMessage;
 	return message;
-	//TODO: handle castle move
 }
 
 HandleCommandMessage handleGetMoves(Command command, Game *game) {
@@ -220,8 +228,14 @@ HandleCommandMessage handleGetMoves(Command command, Game *game) {
 
 HandleCommandMessage handleSaveGame(Command command, Game *game) {
 	HandleCommandMessage message;
-	message.messageType = errorLoadMessage;
-	//TODO: implement save to file.
+	message.messageType = successMessage;
+	int gameMode = game->gameMode - '0', difficulty = game->difficulty - '0';
+	int res = saveGameToFile(&(game->board), game->currentPlayer, gameMode,
+			difficulty, game->player1Color, command.stringArgument);
+	if (res != FAIL) {
+	} else {
+		message.messageType = errorSaveMessage;
+	}
 	return message;
 }
 
