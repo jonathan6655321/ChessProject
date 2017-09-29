@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "Events.h"
 #include "SDLHelperFunctions.h"
-#include "PathsConstants.h"
+#include "Constants.h"
 #include "../Game.h"
 
 typedef struct {

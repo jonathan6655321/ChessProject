@@ -40,6 +40,9 @@
 #define BACK_NEW_GAME_WINDOW_TEXTURE_PATH "./Gui/images/NewGameWindow/back.bmp"
 
 #define NUMBER_OF_SAVE_LOAD_SLOT 5
+#define LOAD_SLOT_BUTTON_LOAD_WINDOW_TEXTURE_PATH_FORMAT "./Gui/images/LoadWindow/slot_%d.bmp"
+#define BACK_BUTTON_LOAD_WINDOW_TEXTURE_PATH "./Gui/images/LoadWindow/back.bmp"
+#define BACKGROUND_LOAD_WINDOW_TEXTURE_PATH "./Gui/images/LoadWindow/background.bmp"
 #define SAVE_LOAD_PATH_FORMAT "./save_slot_%d.spchess"
 
 

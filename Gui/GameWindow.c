@@ -34,8 +34,7 @@ void CreateGameWindow(GameWindow* src) {
 			SDL_WINDOWPOS_CENTERED, // initial y position
 			backgroundGameWindowRectangle[1], // width, in pixels
 			backgroundGameWindowRectangle[3], // height, in pixels
-			SDL_WINDOW_OPENGL
-			);
+			SDL_WINDOW_OPENGL);
 }
 
 GameWindow* GameWindowDefaultCreator() {

@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include "Events.h"
 #include "GameBoardControl.h"
-#include "PathsConstants.h"
+#include "Constants.h"
 #include "SDLHelperFunctions.h"
 
 

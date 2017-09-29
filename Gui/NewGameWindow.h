@@ -2,9 +2,8 @@
 #define NewGameWindow_H_
 #include <SDL.h>
 #include "Events.h"
-#include "PathsConstants.h"
+#include "Constants.h"
 #include "SDLHelperFunctions.h"
-
 
 typedef enum {
 	StartNewGameNewGameWindowButtonElement,

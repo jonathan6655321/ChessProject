@@ -272,7 +272,7 @@ Command getComputerMove(Game *game) {
 	command.numberOfArgs = 4;
 	char rowFrom, colFrom, rowTo, colTo;
 	MiniMaxMove miniMaxMove;
-
+	printf("%c", game->difficulty);
 	if (game->difficulty == '5') {
 		minimax(&(game->board), 5, INT_MIN, INT_MAX, game->currentPlayer,
 				amazingScoreFunction, &miniMaxMove, 1);
@@ -285,9 +285,10 @@ Command getComputerMove(Game *game) {
 	rowFrom = getRowFromLocationIndex(
 			getLocationIndexForPieceIndex(&(game->board),
 					miniMaxMove.pieceIndex));
-	colFrom = getColFromLocationIndex(
-			getLocationIndexForPieceIndex(&(game->board),
-					miniMaxMove.pieceIndex));
+	int x = getLocationIndexForPieceIndex(&(game->board),
+			miniMaxMove.pieceIndex);
+
+	colFrom = getColFromLocationIndex(x);
 	rowTo = getRowFromLocationIndex(miniMaxMove.toLocationIndex);
 	colTo = getColFromLocationIndex(miniMaxMove.toLocationIndex);
 

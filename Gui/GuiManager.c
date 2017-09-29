@@ -1,7 +1,7 @@
 #include "GuiManager.h"
 
 GuiManager* GuiManagerCreate() {
-	GuiManager* newGuiManager = (GuiManager*)malloc(sizeof(GuiManager));
+	GuiManager* newGuiManager = (GuiManager*) malloc(sizeof(GuiManager));
 	if (newGuiManager == NULL) {
 		printf("malloc: Error\n");
 		return NULL;
@@ -63,7 +63,7 @@ void GuiManagerDestroy(GuiManager* src) {
 		MainWindowDestroy(src->mainWindow);
 	if (src->loadWindow != NULL)
 		LoadWindowDestroy(src->loadWindow);
-	if (src->loadWindow != NULL)
+	if (src->newGameWindow != NULL)
 		NewGameWindowDestroy(src->newGameWindow);
 	free(src);
 }
@@ -86,7 +86,7 @@ void GuiManagerDraw(GuiManager* src) {
 }
 
 EventStruct GuiManagerShowNewGameWindow(GuiManager* src) {
-	EventStruct eventStruct = { EmptyEvent,{0} };
+	EventStruct eventStruct = { EmptyEvent, { 0 } };
 	GuiManagerHideCurrentWindow(src);
 
 	if (src->newGameWindow != NULL)
@@ -95,8 +95,7 @@ EventStruct GuiManagerShowNewGameWindow(GuiManager* src) {
 	src->newGameWindow = NewGameWindowCreate();
 	if (src->newGameWindow == NULL) {
 		eventStruct.eventType = QuitEvent;
-	}
-	else {
+	} else {
 		src->lastState = src->currentState;
 		src->currentState = NewGameWindowState;
 		GuiManagerShowCurrentWindow(src);
@@ -105,7 +104,7 @@ EventStruct GuiManagerShowNewGameWindow(GuiManager* src) {
 }
 
 EventStruct GuiManagerShowLoadGameWindow(GuiManager* src) {
-	EventStruct eventStruct = { EmptyEvent,{0} };
+	EventStruct eventStruct = { EmptyEvent, { 0 } };
 	GuiManagerHideCurrentWindow(src);
 
 	if (src->loadWindow != NULL)
@@ -114,8 +113,7 @@ EventStruct GuiManagerShowLoadGameWindow(GuiManager* src) {
 	src->loadWindow = LoadWindowCreate();
 	if (src->loadWindow == NULL) {
 		eventStruct.eventType = QuitEvent;
-	}
-	else {
+	} else {
 		src->lastState = src->currentState;
 		src->currentState = LoadWindowState;
 		GuiManagerShowCurrentWindow(src);
@@ -124,7 +122,7 @@ EventStruct GuiManagerShowLoadGameWindow(GuiManager* src) {
 }
 
 EventStruct GuiManagerShowMainGameWindow(GuiManager* src) {
-	EventStruct eventStruct = { EmptyEvent,{0} };
+	EventStruct eventStruct = { EmptyEvent, { 0 } };
 	GuiManagerHideCurrentWindow(src);
 
 	if (src->mainWindow != NULL)
@@ -133,8 +131,7 @@ EventStruct GuiManagerShowMainGameWindow(GuiManager* src) {
 	src->mainWindow = MainWindowCreate();
 	if (src->mainWindow == NULL) {
 		eventStruct.eventType = QuitEvent;
-	}
-	else {
+	} else {
 		src->lastState = src->currentState;
 		src->currentState = MainWindowState;
 		GuiManagerShowCurrentWindow(src);
@@ -148,8 +145,9 @@ void GuiManagerBackButtonHandler(GuiManager* src) {
 	GuiManagerShowCurrentWindow(src);
 }
 
-EventStruct GuiManagerStratGame(GuiManager* src, char gameMode, char player1Color, char gameDifficulty) {
-	EventStruct eventStruct = { EmptyEvent,{0} };
+EventStruct GuiManagerStratGame(GuiManager* src, char gameMode,
+		char gameDifficulty, char player1Color) {
+	EventStruct eventStruct = { EmptyEvent, { 0 } };
 	GuiManagerHideCurrentWindow(src);
 
 	if (src->gameWindow != NULL)
@@ -158,8 +156,7 @@ EventStruct GuiManagerStratGame(GuiManager* src, char gameMode, char player1Colo
 	src->gameWindow = GameWindowCreate(gameMode, player1Color, gameDifficulty);
 	if (src->gameWindow == NULL) {
 		eventStruct.eventType = QuitEvent;
-	}
-	else {
+	} else {
 		src->lastState = src->currentState;
 		src->currentState = GameWindowState;
 		GuiManagerShowCurrentWindow(src);
@@ -168,7 +165,7 @@ EventStruct GuiManagerStratGame(GuiManager* src, char gameMode, char player1Colo
 }
 
 EventStruct GuiManagerLoadGameFromFile(GuiManager* src, char loadSlotSelected) {
-	EventStruct eventStruct = { EmptyEvent,{0} };
+	EventStruct eventStruct = { EmptyEvent, { 0 } };
 	GuiManagerHideCurrentWindow(src);
 
 	if (src->gameWindow != NULL)
@@ -177,8 +174,7 @@ EventStruct GuiManagerLoadGameFromFile(GuiManager* src, char loadSlotSelected) {
 	src->gameWindow = GameWindowLoad(loadSlotSelected);
 	if (src->gameWindow == NULL) {
 		eventStruct.eventType = QuitEvent;
-	}
-	else {
+	} else {
 		src->lastState = src->currentState;
 		src->currentState = GameWindowState;
 		GuiManagerShowCurrentWindow(src);
@@ -187,7 +183,7 @@ EventStruct GuiManagerLoadGameFromFile(GuiManager* src, char loadSlotSelected) {
 }
 
 EventStruct GuiManagerInternalEventHandler(GuiManager* src, EventStruct event) {
-	EventStruct eventStruct = { EmptyEvent,{0} };
+	EventStruct eventStruct = { EmptyEvent, { 0 } };
 	switch (event.eventType) {
 	case NewGameButtonMainWindowClickEvent:
 		return GuiManagerShowNewGameWindow(src);
@@ -201,7 +197,8 @@ EventStruct GuiManagerInternalEventHandler(GuiManager* src, EventStruct event) {
 		GuiManagerBackButtonHandler(src);
 		return eventStruct;
 	case StartGameButtonNewGameWindowClickEvent:
-		return GuiManagerStratGame(src, event.eventArgument[0], event.eventArgument[1], event.eventArgument[2]);
+		return GuiManagerStratGame(src, event.eventArgument[0],
+				event.eventArgument[1], event.eventArgument[2]);
 	case GameLoadOptionLoadWindowClickEvent:
 		return GuiManagerLoadGameFromFile(src, event.eventArgument[0]);
 	case QuitButtonGameWindowClickEvent:
@@ -215,7 +212,7 @@ EventStruct GuiManagerInternalEventHandler(GuiManager* src, EventStruct event) {
 }
 
 EventStruct GuiManagerHandleEvent(GuiManager* src, SDL_Event* event) {
-	EventStruct eventStruct = { EmptyEvent,{0} };
+	EventStruct eventStruct = { EmptyEvent, { 0 } };
 	if (event == NULL) {
 		return eventStruct;
 	}

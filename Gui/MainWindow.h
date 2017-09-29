@@ -3,7 +3,7 @@
 #include <SDL.h>
 #include "Events.h"
 #include "SDLHelperFunctions.h"
-#include "PathsConstants.h"
+#include "Constants.h"
 
 
 typedef enum {

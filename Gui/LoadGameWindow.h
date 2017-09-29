@@ -1,15 +1,21 @@
 #ifndef LOADWINDOW_H_
 #define LOADWINDOW_H_
 #include <SDL.h>
+#include <stdio.h>
 #include "Events.h"
-#include "PathsConstants.h"
+#include "Constants.h"
 #include "SDLHelperFunctions.h"
 
 typedef enum {
 	LoadGameButtonLoadWindowElement,
-	BackButtonButtonLoadWindowElement,
+	BackButtonLoadWindowElement,
 	BackgroundLoadWindowElement
 } LoadWindowElement;
+
+typedef struct {
+	LoadWindowElement element;
+	int argument;
+} LoadWindowElementStruct;
 
 typedef struct {
 	SDL_Window* loadWindow;
@@ -18,8 +24,8 @@ typedef struct {
 
 	int numberOfOptions;
 
+	SDL_Texture* loadButtonTexture[NUMBER_OF_SAVE_LOAD_SLOT];
 	SDL_Texture* backButtonTexture;
-	SDL_Texture* loadGameTexture;
 } LoadWindow;
 
 LoadWindow* LoadWindowCreate();
@@ -29,8 +35,6 @@ void LoadWindowDestroy(LoadWindow* src);
 void LoadWindowHide(LoadWindow* src);
 void LoadWindowShow(LoadWindow* src);
 
-EventStruct LoadWindowHandleBackToEvent(LoadWindow* src);
-EventStruct LoadWindowHandleLoadGameEvent(LoadWindow* src);
 EventStruct LoadWindowHandleEvent(LoadWindow* src, SDL_Event* event);
 
 #endif

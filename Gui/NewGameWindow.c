@@ -1,16 +1,22 @@
 #include "NewGameWindow.h"
- static int onePlayerGameModeButtonNewGameWindowRectangle[4] = { 50, 150, 10, 70 };
- static int twoPlayerGameModeButtonNewGameWindowRectangle[4] = { 250, 350, 10, 70 };
- static int whiteUserColorButtonNewGameWindowRectangle[4] = { 50, 150, 110, 160 };
- static int blackUserColorButtonNewGameWindowRectangle[4] = { 250, 350, 110, 160 };
- static int noobDifficultyModeNewGameWindowRectangle[4] = { 10, 70, 200, 250 };
- static int easyDifficultyModeNewGameWindowRectangle[4] = { 90, 150, 200, 250 };
- static int modarateDifficultyModeNewGameWindowRectangle[4] = { 170, 230, 200, 250 };
- static int hardDifficultyModeNewGameWindowRectangle[4] = { 250, 310, 200, 250 };
- static int expertDifficultyModeNewGameWindowRectangle[4] = { 330, 380, 200, 250 };
- static int backButtonNewGameWindowRectangle[4] = { 50, 150, 300, 350 };
- static int startNewGameButtonNewGameWindowRectangle[4] = { 250, 350, 300, 350 };
- static int backgroundNewGameWindowRectangle[4] = { 0, 400, 0, 400 };
+static int onePlayerGameModeButtonNewGameWindowRectangle[4] =
+		{ 50, 150, 10, 70 };
+static int twoPlayerGameModeButtonNewGameWindowRectangle[4] = { 250, 350, 10,
+		70 };
+static int whiteUserColorButtonNewGameWindowRectangle[4] =
+		{ 50, 150, 110, 160 };
+static int blackUserColorButtonNewGameWindowRectangle[4] =
+		{ 250, 350, 110, 160 };
+static int noobDifficultyModeNewGameWindowRectangle[4] = { 10, 70, 200, 250 };
+static int easyDifficultyModeNewGameWindowRectangle[4] = { 90, 150, 200, 250 };
+static int modarateDifficultyModeNewGameWindowRectangle[4] = { 170, 230, 200,
+		250 };
+static int hardDifficultyModeNewGameWindowRectangle[4] = { 250, 310, 200, 250 };
+static int expertDifficultyModeNewGameWindowRectangle[4] =
+		{ 330, 380, 200, 250 };
+static int backButtonNewGameWindowRectangle[4] = { 50, 150, 300, 350 };
+static int startNewGameButtonNewGameWindowRectangle[4] = { 250, 350, 300, 350 };
+static int backgroundNewGameWindowRectangle[4] = { 0, 400, 0, 400 };
 
 NewGameWindowElement ClickWasOnNewGameWindow(int x, int y) {
 	if (PointInsideRectangle(x, y, whiteUserColorButtonNewGameWindowRectangle))
@@ -55,8 +61,7 @@ void CreateNewGameWindow(NewGameWindow* src) {
 			SDL_WINDOWPOS_CENTERED, // initial y position
 			backgroundNewGameWindowRectangle[1], // width, in pixels
 			backgroundNewGameWindowRectangle[3], // height, in pixels
-			SDL_WINDOW_OPENGL
-			);
+			SDL_WINDOW_OPENGL);
 }
 
 NewGameWindow* NewGameWindowCreate() {
@@ -175,42 +180,44 @@ void NewGameWindowDestroy(NewGameWindow* src) {
 		SDL_DestroyTexture(src->startNewGameButtonTexture);
 	if (src->whiteButtonTexture != NULL)
 		SDL_DestroyTexture(src->whiteButtonTexture);
-	if (src->blackButtonTexture != NULL)
+	if (src->whiteButtonPressedTexture != NULL)
 		SDL_DestroyTexture(src->whiteButtonPressedTexture);
-	if (src->blackButtonPressedTexture != NULL)
+	if (src->blackButtonTexture != NULL)
 		SDL_DestroyTexture(src->blackButtonTexture);
-	if (src->onePlayerButtonTexture != NULL)
+	if (src->blackButtonPressedTexture != NULL)
 		SDL_DestroyTexture(src->blackButtonPressedTexture);
-	if (src->onePlayerButtonPressedTexture != NULL)
+	if (src->onePlayerButtonTexture != NULL)
 		SDL_DestroyTexture(src->onePlayerButtonTexture);
-	if (src->twoPlayerButtonTexture != NULL)
+	if (src->onePlayerButtonPressedTexture != NULL)
 		SDL_DestroyTexture(src->onePlayerButtonPressedTexture);
-	if (src->twoPlayerButtonPressedTexture != NULL)
+	if (src->twoPlayerButtonTexture != NULL)
 		SDL_DestroyTexture(src->twoPlayerButtonTexture);
-	if (src->noobDifficultyButtonTexture != NULL)
+	if (src->twoPlayerButtonPressedTexture != NULL)
 		SDL_DestroyTexture(src->twoPlayerButtonPressedTexture);
-	if (src->noobDifficultyButtonPressedTexture != NULL)
+	if (src->noobDifficultyButtonTexture != NULL)
 		SDL_DestroyTexture(src->noobDifficultyButtonTexture);
-	if (src->easyDifficultyButtonTexture != NULL)
+	if (src->noobDifficultyButtonPressedTexture != NULL)
 		SDL_DestroyTexture(src->noobDifficultyButtonPressedTexture);
-	if (src->easyDifficultyButtonPressedTexture != NULL)
+	if (src->easyDifficultyButtonTexture != NULL)
 		SDL_DestroyTexture(src->easyDifficultyButtonTexture);
-	if (src->moderateDifficultyButtonTexture != NULL)
+	if (src->easyDifficultyButtonPressedTexture != NULL)
 		SDL_DestroyTexture(src->easyDifficultyButtonPressedTexture);
-	if (src->moderateDifficultyButtonPressedTexture != NULL)
+	if (src->moderateDifficultyButtonTexture != NULL)
 		SDL_DestroyTexture(src->moderateDifficultyButtonTexture);
-	if (src->hardDifficultyButtonTexture != NULL)
+	if (src->moderateDifficultyButtonPressedTexture != NULL)
 		SDL_DestroyTexture(src->moderateDifficultyButtonPressedTexture);
-	if (src->hardDifficultyButtonPressedTexture != NULL)
+	if (src->hardDifficultyButtonTexture != NULL)
 		SDL_DestroyTexture(src->hardDifficultyButtonTexture);
-	if (src->expertDifficultyButtonTexture != NULL)
+	if (src->hardDifficultyButtonPressedTexture != NULL)
 		SDL_DestroyTexture(src->hardDifficultyButtonPressedTexture);
-	if (src->expertDifficultyButtonPressedTexture != NULL)
+	if (src->expertDifficultyButtonTexture != NULL)
 		SDL_DestroyTexture(src->expertDifficultyButtonTexture);
-	if (src->backButtonTexture != NULL)
+	if (src->expertDifficultyButtonPressedTexture != NULL)
 		SDL_DestroyTexture(src->expertDifficultyButtonPressedTexture);
-	if (src->backButtonPressedTexture != NULL)
+	if (src->backButtonTexture != NULL)
 		SDL_DestroyTexture(src->backButtonTexture);
+	if (src->backButtonPressedTexture != NULL)
+		SDL_DestroyTexture(src->backButtonPressedTexture);
 	if (src->newGameRenderer != NULL)
 		SDL_DestroyRenderer(src->newGameRenderer);
 	if (src->newGameWindow != NULL)
@@ -284,7 +291,8 @@ void NewGameWindowDraw(NewGameWindow* src) {
 					src->moderateDifficultyButtonTexture, NULL, &moderateR);
 		} else {
 			SDL_RenderCopy(src->newGameRenderer,
-					src->moderateDifficultyButtonPressedTexture, NULL, &moderateR);
+					src->moderateDifficultyButtonPressedTexture, NULL,
+					&moderateR);
 		}
 		if (src->difficulty != 4) {
 			SDL_RenderCopy(src->newGameRenderer,

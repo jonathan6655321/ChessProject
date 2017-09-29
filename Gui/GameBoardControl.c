@@ -72,7 +72,7 @@ void HandleFinishGameGameBoardControl(GameBoardControl* src) {
 	} else if (checkmateType == blackCheckmated) {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Black Checkmated!",
 				"White Player Wins!", NULL);
-	}else if (checkmateType == tie){
+	} else if (checkmateType == tie) {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Tie!",
 				"The Game Is Tied!", NULL);
 	}
@@ -471,7 +471,7 @@ int SaveGameErrorOccuredGameBoardControl(HandleCommandMessage message) {
 void SiftAllSaves() {
 	FILE *fp1, *fp2;
 	char ch;
-	char filepath1[300], filepath2[300];
+	char filepath1[BUFSIZ], filepath2[BUFSIZ];
 
 	for (int i = NUMBER_OF_SAVE_LOAD_SLOT; i > 1; i--) {
 		sprintf(filepath1, SAVE_LOAD_PATH_FORMAT, i - 1);
