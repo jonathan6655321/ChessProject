@@ -19,7 +19,6 @@ int saveGameToFile(GameBoard *gameBoard, Player currentPlayerTurn,
 	writeOneTag(GAME, fp, 0);
 	if (writeString("\n", fp) == FAIL)
 		return FAIL;
-
 	if (writeTurn(currentPlayerTurn, fp) == FAIL)
 		return FAIL;
 	if (writeMode(gameMode, fp) == FAIL)
