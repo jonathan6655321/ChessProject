@@ -11,6 +11,8 @@
 #include "Pieces.h"
 #include<stdio.h>
 
+// the scores were multiplied by 10 so that we could supply a value for center control
+// in integers without passing the value of a pawn
 #define PAWN_VAL 10
 #define KNIGHT_VAL 30
 #define BISHOP_VAL 30

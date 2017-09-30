@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<game>
+<current_turn>2</current_turn>
+<game_mode>2</game_mode>
+<user_color>1</user_color>
+<difficulty>2</difficulty>
+<board>
+<row_8>RN_QKB_R</row_8>
+<row_7>MMM_MMMM</row_7>
+<row_6>___MB___</row_6>
+<row_5>___Nm___</row_5>
+<row_4>__b_____</row_4>
+<row_3>__n__n__</row_3>
+<row_2>mmmm_mmm</row_2>
+<row_1>r_bqk__r</row_1>
+</board>
+</game>
