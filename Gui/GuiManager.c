@@ -85,6 +85,7 @@ void GuiManagerDraw(GuiManager* src) {
 	}
 }
 
+// show a new new game window and destroy the previews one if needed return empty event or quit event on faulure.
 EventStruct GuiManagerShowNewGameWindow(GuiManager* src) {
 	EventStruct eventStruct = { EmptyEvent, { 0 } };
 	GuiManagerHideCurrentWindow(src);
@@ -103,6 +104,7 @@ EventStruct GuiManagerShowNewGameWindow(GuiManager* src) {
 	return eventStruct;
 }
 
+//show a new load game windows and destroy the last one if needed return empty event or quit event on faulure.
 EventStruct GuiManagerShowLoadGameWindow(GuiManager* src) {
 	EventStruct eventStruct = { EmptyEvent, { 0 } };
 	GuiManagerHideCurrentWindow(src);
@@ -121,6 +123,7 @@ EventStruct GuiManagerShowLoadGameWindow(GuiManager* src) {
 	return eventStruct;
 }
 
+// show a new main windows and destroy the previews one if needed. return empty event or quit event on faulure.
 EventStruct GuiManagerShowMainGameWindow(GuiManager* src) {
 	EventStruct eventStruct = { EmptyEvent, { 0 } };
 	GuiManagerHideCurrentWindow(src);
@@ -139,12 +142,14 @@ EventStruct GuiManagerShowMainGameWindow(GuiManager* src) {
 	return eventStruct;
 }
 
+// handle back button click -> goig to the last state saved.
 void GuiManagerBackButtonHandler(GuiManager* src) {
 	GuiManagerHideCurrentWindow(src);
 	src->currentState = src->lastState;
 	GuiManagerShowCurrentWindow(src);
 }
 
+// handle start new game event, creating new game window. return empty event or quit event on faulure.
 EventStruct GuiManagerStratGame(GuiManager* src, char gameMode,
 		char gameDifficulty, char player1Color) {
 	EventStruct eventStruct = { EmptyEvent, { 0 } };
@@ -164,6 +169,7 @@ EventStruct GuiManagerStratGame(GuiManager* src, char gameMode,
 	return eventStruct;
 }
 
+// handle load game evnet, creating a new game window from save. return empty event or quit event on faulure.
 EventStruct GuiManagerLoadGameFromFile(GuiManager* src, char loadSlotSelected) {
 	EventStruct eventStruct = { EmptyEvent, { 0 } };
 	GuiManagerHideCurrentWindow(src);
@@ -182,6 +188,7 @@ EventStruct GuiManagerLoadGameFromFile(GuiManager* src, char loadSlotSelected) {
 	return eventStruct;
 }
 
+// handle events that were returned form the windows. return empty event or quit event on faulure.
 EventStruct GuiManagerInternalEventHandler(GuiManager* src, EventStruct event) {
 	EventStruct eventStruct = { EmptyEvent, { 0 } };
 	switch (event.eventType) {

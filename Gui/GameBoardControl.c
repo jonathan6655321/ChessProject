@@ -348,11 +348,13 @@ void GameBoardControlDraw(GameBoardControl *src, SDL_Renderer *renderer,
     }
 }
 
+// not imlemented.
 char AskPlayerForPawnPromotionOption() {
     //TODO pawn promotion
     return Queen;
 }
 
+// not implemented.
 void HandlePawnPromotion(GameBoardControl *src, char rowFrom, char colFrom,
                          char rowTo, char colTo) {
     Command command;
@@ -365,6 +367,7 @@ void HandlePawnPromotion(GameBoardControl *src, char rowFrom, char colFrom,
     handleCommand(command, &(src->game));
 }
 
+// make move row col from -> row col to.
 void MakeMoveGameBoardControl(GameBoardControl *src, char rowFrom,
                               char colFrom, char rowTo, char colTo) {
     Command command;
@@ -380,12 +383,14 @@ void MakeMoveGameBoardControl(GameBoardControl *src, char rowFrom,
     }
 }
 
+// not implemented.
 int ChechIfMoveIsCastleMoveGameBoardControl(GameBoardControl *src,
                                             char rowFrom, char colFrom, char rowTo, char colTo) {
     //TODO castle move
     return 0;
 }
 
+// not implemented.
 void MakeCastleMoveGameBoardControl(GameBoardControl *src, char rowFrom,
                                     char colFrom, char rowTo, char colTo) {
     //TODO castle move
@@ -432,6 +437,7 @@ EventStruct GameBoardControlHandleMoveEvent(GameBoardControl *src, int row,
     return eventStruct;
 }
 
+// check whether the piece in this row col is the current user piece.
 int PieceInRowColIsCurrentPlayerPiece(GameBoardControl *src, int row, int col) {
     char rowC = '1' + row;
     char colC = 'A' + col;
@@ -448,6 +454,7 @@ int PieceInRowColIsCurrentPlayerPiece(GameBoardControl *src, int row, int col) {
     }
 }
 
+// update the available moves to the current selected piece moves.
 void UpdateCurrentAvailableMoves(GameBoardControl *src) {
     Command command;
     command.commandType = getMoves;
@@ -473,6 +480,7 @@ EventStruct GameBoardControlHandleNewPieceChoosenEvent(GameBoardControl *src,
     return eventStruct;
 }
 
+// print undo moves error.
 void PrintUndoMoveErrorsGameBoardControl(HandleCommandMessage message) {
     char *errorString = NULL;
     if (message.messageType == errorUndo2PlayerModeMessage) {
@@ -486,6 +494,7 @@ void PrintUndoMoveErrorsGameBoardControl(HandleCommandMessage message) {
                              errorString, NULL);
 }
 
+// check if undo move error occured.
 int UndoMoveErrorOccuredGameBoardControl(HandleCommandMessage message) {
     return (message.messageType == errorUndo2PlayerModeMessage
             || message.messageType == errorUndoEmptyHistoryMessage);
@@ -509,15 +518,18 @@ EventStruct GameBoardControlHandleUndoMove(GameBoardControl *src) {
     return eventStruct;
 }
 
+// print save error.
 void PrintSaveErrorGameBoardControl(HandleCommandMessage message) {
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Can't Save Game",
                              "Error While Trying to saving the Game.", NULL);
 }
 
+// check whether save error occured.
 int SaveGameErrorOccuredGameBoardControl(HandleCommandMessage message) {
     return (message.messageType == errorSaveMessage);
 }
 
+//  shift all save files +1.
 void ShiftAllSaves() {
     FILE *fp1, *fp2;
     char ch;
@@ -560,6 +572,7 @@ EventStruct GameBoardControlHandleSaveGame(GameBoardControl *src) {
     return eventStruct;
 }
 
+// hanldle unsaved game data - ask user whether to save them. return 1 if can go on and exit.
 int CheckIfUserWantToSaveGameIfNeeded_OrCancelAction(GameBoardControl *src) {
     if (src->gameStateIsSaved)
         return 1;
@@ -633,18 +646,21 @@ EventStruct GameBoardControlHandleQuitGame(GameBoardControl *src) {
     return eventStruct;
 }
 
+// get the game row the click was on.
 int ClickWasOnGameRow(SDL_Event *event, int *Rectangle) {
     int y = event->button.y;
     y -= Rectangle[2];
     return 7 - (y / ((Rectangle[3] - Rectangle[2]) / 8));
 }
 
+// git the game col the click was on.
 int ClickWasOnGameCol(SDL_Event *event, int *Rectangle) {
     int x = event->button.x;
     x -= Rectangle[0];
     return x / ((Rectangle[1] - Rectangle[0]) / 8);
 }
 
+// check whther a move is valid for the current selected piece.
 int IsValidMoveForCurrentSelectedPiece(GameBoardControl *src, int row, int col) {
     if (src->currentPieceSelectedRow == -1) {
         return 0;

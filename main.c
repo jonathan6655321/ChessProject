@@ -8,10 +8,8 @@
 
 int main(int argc, char **argv) {
 	if (argc == 2 && strcmp("-g", argv[1]) == 0) {
-		MainGuiLoop();
+		return MainGuiLoop();
 	} else {
-		commandLineGameLoop();
+		return commandLineGameLoop();
 	}
-
-	return 0;
 }
