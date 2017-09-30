@@ -135,13 +135,37 @@ int main(int argc, char **argv) {
             int fromLoc;
 //            printf("\n********** PLAYER 1 MOVES: **************\n");
 
-            time_t s1;
-            s1 = time(NULL);
+
 
             minimax(&gameBoard, dif, INT_MIN, INT_MAX, Player1, scoreFunction, &move1, 1);
             fromLoc = getLocationIndexForPieceIndex(&gameBoard, move1.pieceIndex);
             movePiece(getRowFromLocationIndex(fromLoc), getColFromLocationIndex(fromLoc),
                       getRowFromLocationIndex(move1.toLocationIndex), getColFromLocationIndex(move1.toLocationIndex),
+                      &gameBoard);
+//            printBoard(&gameBoard, White);
+
+
+
+            if (gameBoard.mapPieceIndexToLocationOnBoard[PLAYER_2_KING_INDEX] == NOT_IN_GAME) {
+                printf("TURN %d\n", i);
+                printf("\n$$$$$$$$$ PLAYER 1 WINS $$$$$$$$$$$$$\n");
+                break;
+            }
+
+//            if (hasLegalMoves(Player2, &gameBoard) == FAIL)
+//                printf("Player %d has NO MOVES", Player2+1);
+//            else
+//                printf("Player %d has MOVES", Player2+1);
+
+            time_t s1;
+            s1 = time(NULL);
+//            printf("\nIs player 1 king threatened? %d", isKingThreatened(Player1, &gameBoard));
+//            printf("\nIs player 2 king threatened? %d", isKingThreatened(Player2, &gameBoard));
+//            printf("\n********** PLAYER 2 MOVES: **************\n");
+            minimax(&gameBoard, 5, INT_MIN, INT_MAX, Player2, amazingScoreFunction, &move2, 1);
+            fromLoc = getLocationIndexForPieceIndex(&gameBoard, move2.pieceIndex);
+            movePiece(getRowFromLocationIndex(fromLoc), getColFromLocationIndex(fromLoc),
+                      getRowFromLocationIndex(move2.toLocationIndex), getColFromLocationIndex(move2.toLocationIndex),
                       &gameBoard);
 //            printBoard(&gameBoard, White);
 
@@ -155,33 +179,13 @@ int main(int argc, char **argv) {
                 printf("\n\n!!!!!!!!!!!!!!!!!!!!!!!!! OVERTIME !!!!!!!!!!!!!!!!!!! \n\n");
 //            return 0;
             }
-
-            if (gameBoard.mapPieceIndexToLocationOnBoard[PLAYER_2_KING_INDEX] == NOT_IN_GAME) {
-                printf("TURN %d\n", i);
-                printf("\n$$$$$$$$$ PLAYER 1 WINS $$$$$$$$$$$$$\n");
-                break;
-            }
-
-//            if (hasLegalMoves(Player2, &gameBoard) == FAIL)
-//                printf("Player %d has NO MOVES", Player2+1);
-//            else
-//                printf("Player %d has MOVES", Player2+1);
-
-//            printf("\nIs player 1 king threatened? %d", isKingThreatened(Player1, &gameBoard));
-//            printf("\nIs player 2 king threatened? %d", isKingThreatened(Player2, &gameBoard));
-//            printf("\n********** PLAYER 2 MOVES: **************\n");
-            minimax(&gameBoard, 5, INT_MIN, INT_MAX, Player2, amazingScoreFunction, &move2, 1);
-            fromLoc = getLocationIndexForPieceIndex(&gameBoard, move2.pieceIndex);
-            movePiece(getRowFromLocationIndex(fromLoc), getColFromLocationIndex(fromLoc),
-                      getRowFromLocationIndex(move2.toLocationIndex), getColFromLocationIndex(move2.toLocationIndex),
-                      &gameBoard);
-//            printBoard(&gameBoard, White);
-
             if (gameBoard.mapPieceIndexToLocationOnBoard[PLAYER_1_KING_INDEX] == NOT_IN_GAME) {
                 printf("TURN %d\n", i);
                 printf("\n$$$$$$$$$ PLAYER 2 WINS $$$$$$$$$$$$$\n");
                 break;
             }
+
+
         }
 
     }

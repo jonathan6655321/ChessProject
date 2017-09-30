@@ -29,8 +29,8 @@
 #define BETTER_QUEEN_VAL 1000
 #define BETTER_KING_VAL 10000
 
-#define CENTER_VAL 3
-#define INNER_CENTER_VAL 6
+#define CENTER_VAL 5
+#define INNER_CENTER_VAL 4
 
 typedef struct{
     int pieceIndex;
