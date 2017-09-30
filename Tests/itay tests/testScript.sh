@@ -1,7 +1,7 @@
 #!/bin/bash
-for i in `seq 4 4`
+for i in `seq 1 2`
 do	
-	res=$(./../../FuckingGui.exe < "$i"a.in > "$i"a.res)
+	res=$(./../../FuckingGui.exe < test"$i".in > test"$i".res)
 	#res=$(diff "$i".res "$i".out)
-	diff "$i".res "$i"a.out
+	diff test"$i".res test"$i"a.out
 done
