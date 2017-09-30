@@ -6,7 +6,6 @@
 #include "Constants.h"
 #include "SDLHelperFunctions.h"
 
-
 typedef enum {
 	GameBoardGameWindowElement,
 	RestartGameButtonGameWindowElement,
@@ -26,6 +25,7 @@ typedef struct {
 	SDL_Texture* saveGameTexture;
 	SDL_Texture* loadGameTexture;
 	SDL_Texture* undoTexture;
+	SDL_Texture* unavailableUndoTexture;
 	SDL_Texture* goToMainWindowTexture;
 	SDL_Texture* restartTexture;
 	SDL_Texture* quitTexture;

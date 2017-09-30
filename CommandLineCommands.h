@@ -5,8 +5,6 @@
 #ifndef CHESSPROJECT_COMMANDLINECOMMANDS_H
 #define CHESSPROJECT_COMMANDLINECOMMANDS_H
 
-#include "Parser.h"
-
 //COMMANDS STRINGS:
         //general commands string
                 #define QUIT_GAME_COMMAND_STRING "quit"

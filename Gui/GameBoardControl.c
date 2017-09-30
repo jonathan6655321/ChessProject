@@ -1,6 +1,7 @@
 #include "GameBoardControl.h"
 
 GameBoardControl* GameBoardControlDefaultCreator(SDL_Renderer* renderer) {
+	int i, j;
 	GameBoardControl* newGameBoardControl = (GameBoardControl*) calloc(
 			sizeof(GameBoardControl), sizeof(char));
 
@@ -11,10 +12,18 @@ GameBoardControl* GameBoardControlDefaultCreator(SDL_Renderer* renderer) {
 
 	char buff[1024];
 	int success = 1;
-	for (int i = 0; i < NUMBER_OF_GAME_BOARD_TEXTURES; i++) {
+	for (i = 0; i < 6; i++) {
+		for (j = 0; j < 2; j++) {
+			sprintf(buff, PIECE_TEXTURE_PATH_FORMAT, i, j);
+			success &= LoadTexture(&(newGameBoardControl->piecesTexture[i][j]),
+					renderer, buff);
+		}
+	}
+
+	for (i = 0; i < 5; i++) {
 		sprintf(buff, GAME_BOARD_TEXTURE_PATH_FORMAT, i);
-		success &= LoadTexture(&(newGameBoardControl->textures[i]), renderer,
-				buff);
+		success &= LoadTexture(&(newGameBoardControl->boardTextures[i]),
+				renderer, buff);
 	}
 
 	if (!success) {
@@ -209,9 +218,17 @@ GameBoardControl* GameBoardControlLoad(SDL_Renderer* renderer,
 }
 
 void GameBoardControlDestroy(GameBoardControl* src) {
-	for (int i = 0; i < NUMBER_OF_GAME_BOARD_TEXTURES; i++) {
-		if (src->textures[i] != NULL) {
-			SDL_DestroyTexture(src->textures[i]);
+	int i, j;
+	for (i = 0; i < 6; i++) {
+		for (j = 0; j < 2; j++) {
+			if (src->piecesTexture[i][j] != NULL) {
+				SDL_DestroyTexture(src->piecesTexture[i][j]);
+			}
+		}
+	}
+	for (i = 0; i < 5; i++) {
+		if (src->boardTextures[i] != NULL) {
+			SDL_DestroyTexture(src->boardTextures[i]);
 		}
 	}
 	free(src);
@@ -228,6 +245,8 @@ int GetColorInLocation(GameBoardControl* src, int row, int col) {
 					== src->currentPieceSelectedCol)) {
 		if (src->availableMovesOfSelectedPiece.threatenedByOpponentMoves.legalMovesArray[locationInBoardOfRowCol]) {
 			colorInThisLocation = 2;
+		} else if (src->availableMovesOfSelectedPiece.opponentAtLocationMoves.legalMovesArray[locationInBoardOfRowCol]) {
+			colorInThisLocation = 4;
 		} else {
 			colorInThisLocation = 3;
 		}
@@ -240,7 +259,6 @@ int GetNeededTextureInSpecificPositionOnBoard(GameBoardControl* src, int row,
 	Piece piece;
 	char rowC = '1' + row;
 	char colC = 'A' + col;
-	int colorInThisLocation = GetColorInLocation(src, row, col);
 	int getPieceResult = getPieceAt(rowC, colC, &(src->game.board), &piece);
 	int pieceNumber = 0;
 	int pieceColor = 0;
@@ -277,16 +295,18 @@ int GetNeededTextureInSpecificPositionOnBoard(GameBoardControl* src, int row,
 			}
 		}
 	}
-	return pieceNumber * 8 + 4 * pieceColor + colorInThisLocation;
+	return (pieceNumber << 1) + pieceColor;
 }
 
 void GameBoardControlDraw(GameBoardControl* src, SDL_Renderer* renderer,
 		int* Rectangle) {
+	int row, col;
 	SDL_Rect sdlRect;
 	int boardRect[4];
 	int neededTextureIndex;
-	for (int row = 0; row < 8; row++) {
-		for (int col = 0; col < 8; col++) {
+	int colorInThisLocation;
+	for (row = 0; row < 8; row++) {
+		for (col = 0; col < 8; col++) {
 			boardRect[0] = Rectangle[0] + (col * (Rectangle[1] - Rectangle[0]))
 					/ 8;
 			boardRect[1] = boardRect[0] + (Rectangle[1] - Rectangle[0]) / 8;
@@ -294,10 +314,17 @@ void GameBoardControlDraw(GameBoardControl* src, SDL_Renderer* renderer,
 					- Rectangle[2])) / 8;
 			boardRect[3] = boardRect[2] + (Rectangle[3] - Rectangle[2]) / 8;
 			sdlRect = CreateSDLRectFromIntArray(boardRect);
+
+			colorInThisLocation = GetColorInLocation(src, row, col);
 			neededTextureIndex = GetNeededTextureInSpecificPositionOnBoard(src,
 					row, col);
-			SDL_RenderCopy(renderer, src->textures[neededTextureIndex], NULL,
-					&sdlRect);
+			SDL_RenderCopy(renderer, src->boardTextures[colorInThisLocation],
+					NULL, &sdlRect);
+			if ((neededTextureIndex >> 1) != 0)
+				SDL_RenderCopy(
+						renderer,
+						src->piecesTexture[(neededTextureIndex >> 1) - 1][neededTextureIndex
+								& 1], NULL, &sdlRect);
 		}
 	}
 }
@@ -368,6 +395,8 @@ EventStruct GameBoardControlHandleMoveEvent(GameBoardControl* src, int row,
 		HandleFinishGameGameBoardControl(src);
 		eventStruct.eventType = QuitEvent;
 		return eventStruct;
+	} else {
+		HandleCheckPrintsIfNeeded(src);
 	}
 
 	src->currentPieceSelectedRow = -1;
@@ -455,6 +484,8 @@ EventStruct GameBoardControlHandleUndoMove(GameBoardControl* src) {
 		PrintUndoMoveErrorsGameBoardControl(message);
 	} else {
 		src->gameStateIsSaved = 0;
+		src->currentPieceSelectedCol = -1;
+		src->currentPieceSelectedRow = -1;
 	}
 	return eventStruct;
 }
@@ -472,8 +503,8 @@ void SiftAllSaves() {
 	FILE *fp1, *fp2;
 	char ch;
 	char filepath1[BUFSIZ], filepath2[BUFSIZ];
-
-	for (int i = NUMBER_OF_SAVE_LOAD_SLOT; i > 1; i--) {
+	int i;
+	for (i = NUMBER_OF_SAVE_LOAD_SLOT; i > 1; i--) {
 		sprintf(filepath1, SAVE_LOAD_PATH_FORMAT, i - 1);
 		sprintf(filepath2, SAVE_LOAD_PATH_FORMAT, i);
 		fp1 = fopen(filepath1, "r");

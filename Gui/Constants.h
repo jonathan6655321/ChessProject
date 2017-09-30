@@ -10,14 +10,18 @@
 #define SAVE_GAME_BUTTON_GAME_WINDOW_TEXTURE_PATH "./Gui/images/GameWindow/save.bmp"
 #define LOAD_GAME_BUTTON_GAME_WINDOW_TEXTURE_PATH "./Gui/images/GameWindow/load.bmp"
 #define UNDO_BUTTON_GAME_WINDOW_TEXTURE_PATH "./Gui/images/GameWindow/undo.bmp"
+#define UNAVAILABLE_UNDO_BUTTON_GAME_WINDOW_TEXTURE_PATH "./Gui/images/GameWindow/unavailable_undo.bmp"
 #define GO_TO_MAIN_WINDOW_BUTTON_GAME_WINDOW_TEXTURE_PATH "./Gui/images/GameWindow/go_to_main_window.bmp"
 #define RESTART_GAME_BUTTON_GAME_WINDOW_TEXTURE_PATH "./Gui/images/GameWindow/restart.bmp"
 #define QUIT_GAME_BUTTON_GAME_WINDOW_TEXTURE_PATH "./Gui/images/GameWindow/quit.bmp"
 
-#define NUMBER_OF_GAME_BOARD_TEXTURES 56
-#define GAME_BOARD_TEXTURE_PATH_FORMAT "./Gui/images/GameBoard/%d.bmp"
+#define PIECE_TEXTURE_PATH_FORMAT "./Gui/images/GameBoard/piece_%d_%d.bmp"
+#define GAME_BOARD_TEXTURE_PATH_FORMAT "./Gui/images/GameBoard/board_%d.bmp"
 
-#define BACKGROUND_NEW_GAME_WINDOW_TEXTURE_PATH "./Gui/images/NewGameWindow/background.bmp"
+#define BACKGROUND_GAME_MODE_NEW_GAME_WINDOW_TEXTURE_PATH "./Gui/images/NewGameWindow/background_game_mode.bmp"
+#define BACKGROUND_DIFFICULTY_NEW_GAME_WINDOW_TEXTURE_PATH "./Gui/images/NewGameWindow/background_difficulty.bmp"
+#define BACKGROUND_USER_COLOR_NEW_GAME_WINDOW_TEXTURE_PATH "./Gui/images/NewGameWindow/background_user_color.bmp"
+#define NEXT_NEW_GAME_WINDOW_TEXTURE_PATH "./Gui/images/NewGameWindow/next.bmp"
 #define START_NEW_GAME_NEW_GAME_WINDOW_TEXTURE_PATH "./Gui/images/NewGameWindow/start.bmp"
 #define WHITE_NEW_GAME_WINDOW_TEXTURE_PATH "./Gui/images/NewGameWindow/white_color.bmp"
 #define WHITE_NEW_GAME_WINDOW_PRESSED_TEXTURE_PATH "./Gui/images/NewGameWindow/pressed/white_color.bmp"
@@ -44,6 +48,5 @@
 #define BACK_BUTTON_LOAD_WINDOW_TEXTURE_PATH "./Gui/images/LoadWindow/back.bmp"
 #define BACKGROUND_LOAD_WINDOW_TEXTURE_PATH "./Gui/images/LoadWindow/background.bmp"
 #define SAVE_LOAD_PATH_FORMAT "./save_slot_%d.spchess"
-
 
 #endif

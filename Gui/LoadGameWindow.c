@@ -5,6 +5,7 @@ static int loadButtonLoadWindowRectangleTemplate[4] = { 150, 350, 50, 100 };
 static int backgroundLoadWindowRectangle[4] = { 0, 400, 0, 150 };
 
 LoadWindowElementStruct ClickWasOnLoadWindow(LoadWindow* src, int x, int y) {
+	int i;
 	LoadWindowElementStruct emptyStruct = { BackgroundLoadWindowElement, 0 };
 	if (PointInsideRectangle(x, y, backButtonLoadWindowRectangle)) {
 		emptyStruct.element = BackButtonLoadWindowElement;
@@ -12,7 +13,7 @@ LoadWindowElementStruct ClickWasOnLoadWindow(LoadWindow* src, int x, int y) {
 		int loadTemplate[4];
 		loadTemplate[0] = loadButtonLoadWindowRectangleTemplate[0];
 		loadTemplate[1] = loadButtonLoadWindowRectangleTemplate[1];
-		for (int i = 0; i < src->numberOfOptions; i++) {
+		for (i = 0; i < src->numberOfOptions; i++) {
 			loadTemplate[2] = i * backgroundLoadWindowRectangle[3]
 					+ loadButtonLoadWindowRectangleTemplate[2];
 			loadTemplate[3] = i * backgroundLoadWindowRectangle[3]
@@ -92,9 +93,9 @@ LoadWindow* LoadWindowCreate() {
 		return NULL;
 	}
 
-	int success = 1;
+	int i, success = 1;
 	char str[BUFSIZ];
-	for (int i = 1; i <= newLoadWindow->numberOfOptions; i++) {
+	for (i = 1; i <= newLoadWindow->numberOfOptions; i++) {
 		sprintf(str, LOAD_SLOT_BUTTON_LOAD_WINDOW_TEXTURE_PATH_FORMAT, i);
 		success &= LoadTexture(&(newLoadWindow->loadButtonTexture[i - 1]),
 				newLoadWindow->loadRenderer, str);
@@ -115,10 +116,10 @@ LoadWindow* LoadWindowCreate() {
 void LoadWindowDraw(LoadWindow* src) {
 	SDL_Rect backR = CreateSDLRectFromIntArray(backButtonLoadWindowRectangle);
 	SDL_Rect loadR[NUMBER_OF_SAVE_LOAD_SLOT];
-	int loadTemplate[4];
+	int i, loadTemplate[4];
 	loadTemplate[0] = loadButtonLoadWindowRectangleTemplate[0];
 	loadTemplate[1] = loadButtonLoadWindowRectangleTemplate[1];
-	for (int i = 0; i < src->numberOfOptions; i++) {
+	for (i = 0; i < src->numberOfOptions; i++) {
 		loadTemplate[2] = i * backgroundLoadWindowRectangle[3]
 				+ loadButtonLoadWindowRectangleTemplate[2];
 		loadTemplate[3] = i * backgroundLoadWindowRectangle[3]
@@ -126,7 +127,7 @@ void LoadWindowDraw(LoadWindow* src) {
 		loadR[i] = CreateSDLRectFromIntArray(loadTemplate);
 	}
 	int backgroundRenct[4];
-	for (int i = 0; i < 3; i++) {
+	for (i = 0; i < 3; i++) {
 		backgroundRenct[i] = backgroundLoadWindowRectangle[i];
 	}
 	backgroundRenct[3] = ((src->numberOfOptions == 0) ? 1
@@ -138,7 +139,7 @@ void LoadWindowDraw(LoadWindow* src) {
 	SDL_RenderClear(src->loadRenderer);
 	SDL_RenderCopy(src->loadRenderer, src->backgroundTexture, NULL,
 			&backgroundR);
-	for (int i = 0; i < src->numberOfOptions; i++) {
+	for (i = 0; i < src->numberOfOptions; i++) {
 		SDL_RenderCopy(src->loadRenderer, src->loadButtonTexture[i], NULL,
 				&(loadR[i]));
 	}
@@ -146,11 +147,12 @@ void LoadWindowDraw(LoadWindow* src) {
 	SDL_RenderPresent(src->loadRenderer);
 }
 void LoadWindowDestroy(LoadWindow* src) {
+	int i;
 	if (src->backgroundTexture != NULL)
 		SDL_DestroyTexture(src->backgroundTexture);
 	if (src->backButtonTexture != NULL)
 		SDL_DestroyTexture(src->backButtonTexture);
-	for (int i = 0; i < src->numberOfOptions; i++) {
+	for (i = 0; i < src->numberOfOptions; i++) {
 		if (src->loadButtonTexture[i] != NULL)
 			SDL_DestroyTexture(src->loadButtonTexture[i]);
 	}

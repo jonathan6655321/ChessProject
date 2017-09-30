@@ -1,57 +1,65 @@
 #include "NewGameWindow.h"
-static int onePlayerGameModeButtonNewGameWindowRectangle[4] =
-		{ 50, 150, 10, 70 };
-static int twoPlayerGameModeButtonNewGameWindowRectangle[4] = { 250, 350, 10,
-		70 };
+static int onePlayerGameModeButtonNewGameWindowRectangle[4] = { 120, 280, 50,
+		150 };
+static int twoPlayerGameModeButtonNewGameWindowRectangle[4] = { 120, 280, 200,
+		300 };
 static int whiteUserColorButtonNewGameWindowRectangle[4] =
-		{ 50, 150, 110, 160 };
+		{ 150, 250, 50, 150 };
 static int blackUserColorButtonNewGameWindowRectangle[4] =
-		{ 250, 350, 110, 160 };
-static int noobDifficultyModeNewGameWindowRectangle[4] = { 10, 70, 200, 250 };
-static int easyDifficultyModeNewGameWindowRectangle[4] = { 90, 150, 200, 250 };
-static int modarateDifficultyModeNewGameWindowRectangle[4] = { 170, 230, 200,
-		250 };
-static int hardDifficultyModeNewGameWindowRectangle[4] = { 250, 310, 200, 250 };
+		{ 150, 250, 200, 300 };
+static int noobDifficultyModeNewGameWindowRectangle[4] = { 120, 280, 50, 100 };
+static int easyDifficultyModeNewGameWindowRectangle[4] = { 120, 280, 110, 160 };
+static int modarateDifficultyModeNewGameWindowRectangle[4] = { 120, 280, 170,
+		230 };
+static int hardDifficultyModeNewGameWindowRectangle[4] = { 120, 280, 240, 290 };
 static int expertDifficultyModeNewGameWindowRectangle[4] =
-		{ 330, 380, 200, 250 };
-static int backButtonNewGameWindowRectangle[4] = { 50, 150, 300, 350 };
-static int startNewGameButtonNewGameWindowRectangle[4] = { 250, 350, 300, 350 };
-static int backgroundNewGameWindowRectangle[4] = { 0, 400, 0, 400 };
+		{ 120, 280, 300, 350 };
+static int backButtonNewGameWindowRectangle[4] = { 50, 280, 380, 430 };
+static int startNewGameButtonNewGameWindowRectangle[4] = { 250, 350, 380, 430 };
+static int backgroundNewGameWindowRectangle[4] = { 0, 400, 0, 450 };
 
-NewGameWindowElement ClickWasOnNewGameWindow(int x, int y) {
-	if (PointInsideRectangle(x, y, whiteUserColorButtonNewGameWindowRectangle))
-		return WhiteUserColorNewGameWindowButtonElement;
-	else if (PointInsideRectangle(x, y,
-			startNewGameButtonNewGameWindowRectangle))
-		return StartNewGameNewGameWindowButtonElement;
-	else if (PointInsideRectangle(x, y,
-			blackUserColorButtonNewGameWindowRectangle))
-		return BlackUserColorModeNewGameWindowButtonElement;
-	else if (PointInsideRectangle(x, y,
-			onePlayerGameModeButtonNewGameWindowRectangle))
-		return OnePlayerGameModeNewGameWindowButtonElement;
-	else if (PointInsideRectangle(x, y,
-			twoPlayerGameModeButtonNewGameWindowRectangle))
-		return TwoPlayerGameModeNewGameWindowButtonElement;
-	else if (PointInsideRectangle(x, y,
-			noobDifficultyModeNewGameWindowRectangle))
-		return NoobDifficultyModeNewGameWindowButtonElement;
-	else if (PointInsideRectangle(x, y,
-			easyDifficultyModeNewGameWindowRectangle))
-		return EasyDifficultyModeNewGameWindowButtonElement;
-	else if (PointInsideRectangle(x, y,
-			modarateDifficultyModeNewGameWindowRectangle))
-		return ModerateDifficultyModeNewGameWindowButtonElement;
-	else if (PointInsideRectangle(x, y,
-			hardDifficultyModeNewGameWindowRectangle))
-		return HardDifficultyModeNewGameWindowButtonElement;
-	else if (PointInsideRectangle(x, y,
-			expertDifficultyModeNewGameWindowRectangle))
-		return ExpertDifficultyModeNewGameWindowButtonElement;
-	else if (PointInsideRectangle(x, y, backButtonNewGameWindowRectangle))
+NewGameWindowElement ClickWasOnNewGameWindow(NewGameWindow* src, int x, int y) {
+	if (PointInsideRectangle(x, y, startNewGameButtonNewGameWindowRectangle))
+		return NextStartNewGameNewGameWindowButtonElement;
+	if (PointInsideRectangle(x, y, backButtonNewGameWindowRectangle))
 		return BackButtonNewGameWindowElement;
-	else
-		return BackgroundNewGameWindowElement;
+
+	switch (src->state) {
+	case GameModeNewGameWindowState:
+		if (PointInsideRectangle(x, y,
+				onePlayerGameModeButtonNewGameWindowRectangle))
+			return OnePlayerGameModeNewGameWindowButtonElement;
+		if (PointInsideRectangle(x, y,
+				twoPlayerGameModeButtonNewGameWindowRectangle))
+			return TwoPlayerGameModeNewGameWindowButtonElement;
+		break;
+	case DifficultyNewGameWindowState:
+		if (PointInsideRectangle(x, y, noobDifficultyModeNewGameWindowRectangle))
+			return NoobDifficultyModeNewGameWindowButtonElement;
+		else if (PointInsideRectangle(x, y,
+				easyDifficultyModeNewGameWindowRectangle))
+			return EasyDifficultyModeNewGameWindowButtonElement;
+		else if (PointInsideRectangle(x, y,
+				modarateDifficultyModeNewGameWindowRectangle))
+			return ModerateDifficultyModeNewGameWindowButtonElement;
+		else if (PointInsideRectangle(x, y,
+				hardDifficultyModeNewGameWindowRectangle))
+			return HardDifficultyModeNewGameWindowButtonElement;
+		else if (PointInsideRectangle(x, y,
+				expertDifficultyModeNewGameWindowRectangle))
+			return ExpertDifficultyModeNewGameWindowButtonElement;
+		break;
+	case PlayerColorNewGameWindowState:
+		if (PointInsideRectangle(x, y,
+				whiteUserColorButtonNewGameWindowRectangle))
+			return WhiteUserColorNewGameWindowButtonElement;
+		if (PointInsideRectangle(x, y,
+				blackUserColorButtonNewGameWindowRectangle))
+			return BlackUserColorModeNewGameWindowButtonElement;
+		break;
+	}
+
+	return BackgroundNewGameWindowElement;
 }
 
 void CreateNewGameWindow(NewGameWindow* src) {
@@ -94,6 +102,9 @@ NewGameWindow* NewGameWindowCreate() {
 	success &= LoadTexture(&(newNewGameWindow->startNewGameButtonTexture),
 			newNewGameWindow->newGameRenderer,
 			START_NEW_GAME_NEW_GAME_WINDOW_TEXTURE_PATH);
+	success &= LoadTexture(&(newNewGameWindow->nextButtonTexture),
+			newNewGameWindow->newGameRenderer,
+			NEXT_NEW_GAME_WINDOW_TEXTURE_PATH);
 	success &= LoadTexture(&(newNewGameWindow->whiteButtonTexture),
 			newNewGameWindow->newGameRenderer,
 			WHITE_NEW_GAME_WINDOW_TEXTURE_PATH);
@@ -157,14 +168,25 @@ NewGameWindow* NewGameWindowCreate() {
 	success &= LoadTexture(&(newNewGameWindow->backButtonTexture),
 			newNewGameWindow->newGameRenderer,
 			BACK_NEW_GAME_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newNewGameWindow->backgroundTexture),
+	success &= LoadTexture(
+			&(newNewGameWindow->backgroundTextureChoosingGameMode),
 			newNewGameWindow->newGameRenderer,
-			BACKGROUND_NEW_GAME_WINDOW_TEXTURE_PATH);
+			BACKGROUND_GAME_MODE_NEW_GAME_WINDOW_TEXTURE_PATH);
+	success &= LoadTexture(
+			&(newNewGameWindow->backgroundTextureChoosingDifficulty),
+			newNewGameWindow->newGameRenderer,
+			BACKGROUND_DIFFICULTY_NEW_GAME_WINDOW_TEXTURE_PATH);
+	success &= LoadTexture(
+			&(newNewGameWindow->backgroundTextureChoosingUserColor),
+			newNewGameWindow->newGameRenderer,
+			BACKGROUND_USER_COLOR_NEW_GAME_WINDOW_TEXTURE_PATH);
 
 	if (!success) {
 		NewGameWindowDestroy(newNewGameWindow);
 		return NULL;
 	}
+
+	newNewGameWindow->state = GameModeNewGameWindowState;
 
 	newNewGameWindow->gameMode = 1;
 	newNewGameWindow->difficulty = 2;
@@ -174,8 +196,14 @@ NewGameWindow* NewGameWindowCreate() {
 }
 
 void NewGameWindowDestroy(NewGameWindow* src) {
-	if (src->backgroundTexture != NULL)
-		SDL_DestroyTexture(src->backgroundTexture);
+	if (src->backgroundTextureChoosingGameMode != NULL)
+		SDL_DestroyTexture(src->backgroundTextureChoosingGameMode);
+	if (src->backgroundTextureChoosingDifficulty != NULL)
+		SDL_DestroyTexture(src->backgroundTextureChoosingDifficulty);
+	if (src->backgroundTextureChoosingUserColor != NULL)
+		SDL_DestroyTexture(src->backgroundTextureChoosingUserColor);
+	if (src->nextButtonTexture != NULL)
+		SDL_DestroyTexture(src->nextButtonTexture);
 	if (src->startNewGameButtonTexture != NULL)
 		SDL_DestroyTexture(src->startNewGameButtonTexture);
 	if (src->whiteButtonTexture != NULL)
@@ -225,17 +253,11 @@ void NewGameWindowDestroy(NewGameWindow* src) {
 	free(src);
 }
 
-void NewGameWindowDraw(NewGameWindow* src) {
-	SDL_Rect startGameR = CreateSDLRectFromIntArray(
+void NewGameWindowDrawDifficultyWindow(NewGameWindow* src) {
+	SDL_Rect nextR = CreateSDLRectFromIntArray(
 			startNewGameButtonNewGameWindowRectangle);
-	SDL_Rect whiteR = CreateSDLRectFromIntArray(
-			whiteUserColorButtonNewGameWindowRectangle);
-	SDL_Rect blackR = CreateSDLRectFromIntArray(
-			blackUserColorButtonNewGameWindowRectangle);
-	SDL_Rect oneR = CreateSDLRectFromIntArray(
-			onePlayerGameModeButtonNewGameWindowRectangle);
-	SDL_Rect twoR = CreateSDLRectFromIntArray(
-			twoPlayerGameModeButtonNewGameWindowRectangle);
+	SDL_Rect backR =
+			CreateSDLRectFromIntArray(backButtonNewGameWindowRectangle);
 	SDL_Rect noobR = CreateSDLRectFromIntArray(
 			noobDifficultyModeNewGameWindowRectangle);
 	SDL_Rect easyR = CreateSDLRectFromIntArray(
@@ -246,78 +268,126 @@ void NewGameWindowDraw(NewGameWindow* src) {
 			hardDifficultyModeNewGameWindowRectangle);
 	SDL_Rect expertR = CreateSDLRectFromIntArray(
 			expertDifficultyModeNewGameWindowRectangle);
+	SDL_Rect backgroundR = CreateSDLRectFromIntArray(
+			backgroundNewGameWindowRectangle);
+
+	SDL_RenderCopy(src->newGameRenderer,
+			src->backgroundTextureChoosingDifficulty, NULL, &backgroundR);
+	if (src->difficulty != 1) {
+		SDL_RenderCopy(src->newGameRenderer, src->noobDifficultyButtonTexture,
+				NULL, &noobR);
+	} else {
+		SDL_RenderCopy(src->newGameRenderer,
+				src->noobDifficultyButtonPressedTexture, NULL, &noobR);
+	}
+	if (src->difficulty != 2) {
+		SDL_RenderCopy(src->newGameRenderer, src->easyDifficultyButtonTexture,
+				NULL, &easyR);
+	} else {
+		SDL_RenderCopy(src->newGameRenderer,
+				src->easyDifficultyButtonPressedTexture, NULL, &easyR);
+	}
+	if (src->difficulty != 3) {
+		SDL_RenderCopy(src->newGameRenderer,
+				src->moderateDifficultyButtonTexture, NULL, &moderateR);
+	} else {
+		SDL_RenderCopy(src->newGameRenderer,
+				src->moderateDifficultyButtonPressedTexture, NULL, &moderateR);
+	}
+	if (src->difficulty != 4) {
+		SDL_RenderCopy(src->newGameRenderer, src->hardDifficultyButtonTexture,
+				NULL, &hardR);
+	} else {
+		SDL_RenderCopy(src->newGameRenderer,
+				src->hardDifficultyButtonPressedTexture, NULL, &hardR);
+	}
+	if (src->difficulty != 5) {
+		SDL_RenderCopy(src->newGameRenderer,
+				src->expertDifficultyButtonTexture, NULL, &expertR);
+	} else {
+		SDL_RenderCopy(src->newGameRenderer,
+				src->expertDifficultyButtonPressedTexture, NULL, &expertR);
+	}
+	SDL_RenderCopy(src->newGameRenderer, src->nextButtonTexture, NULL, &nextR);
+	SDL_RenderCopy(src->newGameRenderer, src->backButtonTexture, NULL, &backR);
+	SDL_RenderPresent(src->newGameRenderer);
+}
+
+void NewGameWindowDrawGameModeWindow(NewGameWindow* src) {
+	SDL_Rect startGameNextR = CreateSDLRectFromIntArray(
+			startNewGameButtonNewGameWindowRectangle);
+	SDL_Rect oneR = CreateSDLRectFromIntArray(
+			onePlayerGameModeButtonNewGameWindowRectangle);
+	SDL_Rect twoR = CreateSDLRectFromIntArray(
+			twoPlayerGameModeButtonNewGameWindowRectangle);
 	SDL_Rect backR =
 			CreateSDLRectFromIntArray(backButtonNewGameWindowRectangle);
 	SDL_Rect backgroundR = CreateSDLRectFromIntArray(
 			backgroundNewGameWindowRectangle);
-	SDL_SetRenderDrawColor(src->newGameRenderer, 255, 255, 255, 255);
-
-	SDL_RenderClear(src->newGameRenderer);
-	SDL_RenderCopy(src->newGameRenderer, src->backgroundTexture, NULL,
-			&backgroundR);
+	SDL_RenderCopy(src->newGameRenderer,
+			src->backgroundTextureChoosingGameMode, NULL, &backgroundR);
 	if (src->gameMode == 1) {
 		SDL_RenderCopy(src->newGameRenderer,
 				src->onePlayerButtonPressedTexture, NULL, &oneR);
 		SDL_RenderCopy(src->newGameRenderer, src->twoPlayerButtonTexture, NULL,
 				&twoR);
-
-		if (src->userColor == 1) {
-			SDL_RenderCopy(src->newGameRenderer,
-					src->whiteButtonPressedTexture, NULL, &whiteR);
-			SDL_RenderCopy(src->newGameRenderer, src->blackButtonTexture, NULL,
-					&blackR);
-		} else {
-			SDL_RenderCopy(src->newGameRenderer, src->whiteButtonTexture, NULL,
-					&whiteR);
-			SDL_RenderCopy(src->newGameRenderer,
-					src->blackButtonPressedTexture, NULL, &blackR);
-		}
-		if (src->difficulty != 1) {
-			SDL_RenderCopy(src->newGameRenderer,
-					src->noobDifficultyButtonTexture, NULL, &noobR);
-		} else {
-			SDL_RenderCopy(src->newGameRenderer,
-					src->noobDifficultyButtonPressedTexture, NULL, &noobR);
-		}
-		if (src->difficulty != 2) {
-			SDL_RenderCopy(src->newGameRenderer,
-					src->easyDifficultyButtonTexture, NULL, &easyR);
-		} else {
-			SDL_RenderCopy(src->newGameRenderer,
-					src->easyDifficultyButtonPressedTexture, NULL, &easyR);
-		}
-		if (src->difficulty != 3) {
-			SDL_RenderCopy(src->newGameRenderer,
-					src->moderateDifficultyButtonTexture, NULL, &moderateR);
-		} else {
-			SDL_RenderCopy(src->newGameRenderer,
-					src->moderateDifficultyButtonPressedTexture, NULL,
-					&moderateR);
-		}
-		if (src->difficulty != 4) {
-			SDL_RenderCopy(src->newGameRenderer,
-					src->hardDifficultyButtonTexture, NULL, &hardR);
-		} else {
-			SDL_RenderCopy(src->newGameRenderer,
-					src->hardDifficultyButtonPressedTexture, NULL, &hardR);
-		}
-		if (src->difficulty != 5) {
-			SDL_RenderCopy(src->newGameRenderer,
-					src->expertDifficultyButtonTexture, NULL, &expertR);
-		} else {
-			SDL_RenderCopy(src->newGameRenderer,
-					src->expertDifficultyButtonPressedTexture, NULL, &expertR);
-		}
+		SDL_RenderCopy(src->newGameRenderer, src->nextButtonTexture, NULL,
+				&startGameNextR);
 	} else {
 		SDL_RenderCopy(src->newGameRenderer, src->onePlayerButtonTexture, NULL,
 				&oneR);
 		SDL_RenderCopy(src->newGameRenderer,
 				src->twoPlayerButtonPressedTexture, NULL, &twoR);
+		SDL_RenderCopy(src->newGameRenderer, src->startNewGameButtonTexture,
+				NULL, &startGameNextR);
 	}
+	SDL_RenderCopy(src->newGameRenderer, src->backButtonTexture, NULL, &backR);
+	SDL_RenderPresent(src->newGameRenderer);
+}
 
+void NewGameWindowDrawUserColorWindow(NewGameWindow* src) {
+	SDL_Rect startGameR = CreateSDLRectFromIntArray(
+			startNewGameButtonNewGameWindowRectangle);
+	SDL_Rect backR =
+			CreateSDLRectFromIntArray(backButtonNewGameWindowRectangle);
+	SDL_Rect whiteR = CreateSDLRectFromIntArray(
+			whiteUserColorButtonNewGameWindowRectangle);
+	SDL_Rect blackR = CreateSDLRectFromIntArray(
+			blackUserColorButtonNewGameWindowRectangle);
+	SDL_Rect backgroundR = CreateSDLRectFromIntArray(
+			backgroundNewGameWindowRectangle);
+	SDL_RenderCopy(src->newGameRenderer,
+			src->backgroundTextureChoosingUserColor, NULL, &backgroundR);
+	if (src->userColor == 1) {
+		SDL_RenderCopy(src->newGameRenderer, src->whiteButtonPressedTexture,
+				NULL, &whiteR);
+		SDL_RenderCopy(src->newGameRenderer, src->blackButtonTexture, NULL,
+				&blackR);
+	} else {
+		SDL_RenderCopy(src->newGameRenderer, src->whiteButtonTexture, NULL,
+				&whiteR);
+		SDL_RenderCopy(src->newGameRenderer, src->blackButtonPressedTexture,
+				NULL, &blackR);
+	}
 	SDL_RenderCopy(src->newGameRenderer, src->startNewGameButtonTexture, NULL,
 			&startGameR);
 	SDL_RenderCopy(src->newGameRenderer, src->backButtonTexture, NULL, &backR);
+}
+
+void NewGameWindowDraw(NewGameWindow* src) {
+	SDL_SetRenderDrawColor(src->newGameRenderer, 255, 255, 255, 255);
+	SDL_RenderClear(src->newGameRenderer);
+	switch (src->state) {
+	case GameModeNewGameWindowState:
+		NewGameWindowDrawGameModeWindow(src);
+		break;
+	case DifficultyNewGameWindowState:
+		NewGameWindowDrawDifficultyWindow(src);
+		break;
+	case PlayerColorNewGameWindowState:
+		NewGameWindowDrawUserColorWindow(src);
+		break;
+	}
 	SDL_RenderPresent(src->newGameRenderer);
 }
 
@@ -335,12 +405,27 @@ EventStruct NewGameWindowHandleEvent(NewGameWindow* src, SDL_Event* event) {
 		return eventStruct;
 	}
 
-	switch (ClickWasOnNewGameWindow(event->button.x, event->button.y)) {
-	case StartNewGameNewGameWindowButtonElement:
-		eventStruct.eventType = StartGameButtonNewGameWindowClickEvent;
-		eventStruct.eventArgument[0] = src->gameMode;
-		eventStruct.eventArgument[1] = src->difficulty;
-		eventStruct.eventArgument[2] = src->userColor;
+	switch (ClickWasOnNewGameWindow(src, event->button.x, event->button.y)) {
+	case NextStartNewGameNewGameWindowButtonElement:
+		switch (src->state) {
+		case GameModeNewGameWindowState:
+			if (src->gameMode == 2) {
+				eventStruct.eventType = StartGameButtonNewGameWindowClickEvent;
+				eventStruct.eventArgument[0] = src->gameMode;
+			} else {
+				src->state = DifficultyNewGameWindowState;
+			}
+			break;
+		case DifficultyNewGameWindowState:
+			src->state = PlayerColorNewGameWindowState;
+			break;
+		case PlayerColorNewGameWindowState:
+			eventStruct.eventType = StartGameButtonNewGameWindowClickEvent;
+			eventStruct.eventArgument[0] = src->gameMode;
+			eventStruct.eventArgument[1] = src->difficulty;
+			eventStruct.eventArgument[2] = src->userColor;
+			break;
+		}
 		break;
 	case WhiteUserColorNewGameWindowButtonElement:
 		src->userColor = 1;
@@ -370,7 +455,17 @@ EventStruct NewGameWindowHandleEvent(NewGameWindow* src, SDL_Event* event) {
 		src->difficulty = 5;
 		break;
 	case BackButtonNewGameWindowElement:
-		eventStruct.eventType = BackButtonNewGameWindowClickEvent;
+		switch (src->state) {
+		case GameModeNewGameWindowState:
+			eventStruct.eventType = BackButtonNewGameWindowClickEvent;
+			break;
+		case DifficultyNewGameWindowState:
+			src->state = GameModeNewGameWindowState;
+			break;
+		case PlayerColorNewGameWindowState:
+			src->state = DifficultyNewGameWindowState;
+			break;
+		}
 		break;
 	default:
 		break;

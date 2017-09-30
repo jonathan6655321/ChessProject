@@ -6,7 +6,7 @@
 #include "SDLHelperFunctions.h"
 
 typedef enum {
-	StartNewGameNewGameWindowButtonElement,
+	NextStartNewGameNewGameWindowButtonElement,
 	WhiteUserColorNewGameWindowButtonElement,
 	BlackUserColorModeNewGameWindowButtonElement,
 	OnePlayerGameModeNewGameWindowButtonElement,
@@ -20,16 +20,27 @@ typedef enum {
 	BackgroundNewGameWindowElement
 } NewGameWindowElement;
 
+typedef enum {
+	GameModeNewGameWindowState,
+	DifficultyNewGameWindowState,
+	PlayerColorNewGameWindowState,
+} NewGameWindowStateType;
+
 typedef struct {
 	SDL_Window* newGameWindow;
 	SDL_Renderer* newGameRenderer;
-	SDL_Texture* backgroundTexture;
+	SDL_Texture* backgroundTextureChoosingGameMode;
+	SDL_Texture* backgroundTextureChoosingDifficulty;
+	SDL_Texture* backgroundTextureChoosingUserColor;
 
 	char gameMode;
 	char difficulty;
 	char userColor;
 
+	NewGameWindowStateType state;
+
 	SDL_Texture* startNewGameButtonTexture;
+	SDL_Texture* nextButtonTexture;
 	SDL_Texture* whiteButtonTexture;
 	SDL_Texture* whiteButtonPressedTexture;
 	SDL_Texture* blackButtonTexture;

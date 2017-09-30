@@ -142,6 +142,7 @@ HandleCommandMessage handleStartGame(Game *game) {
 }
 
 HandleCommandMessage handleSetMove(Command command, Game *game) {
+	int j;
 	char rowFrom = command.argument[0];
 	char colFrom = command.argument[1];
 	char rowTo = command.argument[2];
@@ -181,7 +182,7 @@ HandleCommandMessage handleSetMove(Command command, Game *game) {
 	default:
 		break;
 	}
-	for (int j = 0; j < 4; ++j) {
+	for (j = 0; j < 4; ++j) {
 		game->lastMove[j] = command.argument[j];
 	}
 	Piece piece;
@@ -242,14 +243,15 @@ HandleCommandMessage handleSaveGame(Command command, Game *game) {
 }
 
 HandleCommandMessage handleUndoMove(Game *game) {
+	int i, j;
 	HandleCommandMessage message;
 	if (game->gameMode == PlayerVsPlayer && !(CAN_UNDO_IN_2_PLAYER_MODE)) {
 		message.messageType = errorUndo2PlayerModeMessage;
 	} else if (game->gameHistory->lenght < 2) {
 		message.messageType = errorUndoEmptyHistoryMessage;
 	} else {
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (i = 0; i < 2; i++) {
+			for (j = 0; j < 4; j++) {
 				message.argument[i * 4 + j] = game->lastMove[j];
 			}
 			*game

@@ -74,6 +74,9 @@ GameWindow* GameWindowDefaultCreator() {
 			LOAD_GAME_BUTTON_GAME_WINDOW_TEXTURE_PATH);
 	success &= LoadTexture(&(newGameWindow->undoTexture),
 			newGameWindow->gameRenderer, UNDO_BUTTON_GAME_WINDOW_TEXTURE_PATH);
+	success &= LoadTexture(&(newGameWindow->unavailableUndoTexture),
+			newGameWindow->gameRenderer,
+			UNAVAILABLE_UNDO_BUTTON_GAME_WINDOW_TEXTURE_PATH);
 	success &= LoadTexture(&(newGameWindow->goToMainWindowTexture),
 			newGameWindow->gameRenderer,
 			GO_TO_MAIN_WINDOW_BUTTON_GAME_WINDOW_TEXTURE_PATH);
@@ -140,6 +143,8 @@ void GameWindowDestroy(GameWindow* src) {
 		SDL_DestroyTexture(src->goToMainWindowTexture);
 	if (src->restartTexture != NULL)
 		SDL_DestroyTexture(src->restartTexture);
+	if (src->unavailableUndoTexture != NULL)
+		SDL_DestroyTexture(src->unavailableUndoTexture);
 	if (src->quitTexture != NULL)
 		SDL_DestroyTexture(src->quitTexture);
 
@@ -151,6 +156,11 @@ void GameWindowDestroy(GameWindow* src) {
 	if (src->gameWindow != NULL)
 		SDL_DestroyWindow(src->gameWindow);
 	free(src);
+}
+
+int IsUndoAvailable(GameWindow* src) {
+	return ((src->gameControl->gameHistory.lenght != 0)
+			&& (src->gameControl->game.gameMode != PlayerVsPlayer));
 }
 
 void GameWindowDraw(GameWindow* src) {
@@ -172,7 +182,12 @@ void GameWindowDraw(GameWindow* src) {
 			&backgroundR);
 	SDL_RenderCopy(src->gameRenderer, src->saveGameTexture, NULL, &saveGameR);
 	SDL_RenderCopy(src->gameRenderer, src->loadGameTexture, NULL, &loadGameR);
-	SDL_RenderCopy(src->gameRenderer, src->undoTexture, NULL, &undoR);
+	if (IsUndoAvailable(src)) {
+		SDL_RenderCopy(src->gameRenderer, src->undoTexture, NULL, &undoR);
+	} else {
+		SDL_RenderCopy(src->gameRenderer, src->unavailableUndoTexture, NULL,
+				&undoR);
+	}
 	SDL_RenderCopy(src->gameRenderer, src->goToMainWindowTexture, NULL,
 			&goToMainWindowR);
 	SDL_RenderCopy(src->gameRenderer, src->restartTexture, NULL, &restartR);

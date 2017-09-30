@@ -2,16 +2,14 @@
 // Created by Jonathan on 9/11/2017.
 //
 
-#include <mem.h>
 #include "XmlUtils.h"
-#include "consoleRendering.h"
 
 int saveGameToFile(GameBoard *gameBoard, Player currentPlayerTurn,
 		int gameMode, int difficulty, Color color, char *path) {
 	FILE *fp;
 	fp = fopen(path, "w");// overwrites the previous file completely!
 	if (fp == NULL) {
-		printf("open file failed\n\n %s", strerror(errno));
+		//printf("open file failed\n\n %s", strerror(errno));
 		return FAIL;
 	}
 
@@ -45,7 +43,7 @@ int saveGameToFile(GameBoard *gameBoard, Player currentPlayerTurn,
 int writeHeader(FILE *fp) {
 	size_t written = fwrite(XML_HEADER, 1, (unsigned) strlen(XML_HEADER), fp);
 	if (written != (unsigned) strlen(XML_HEADER)) {
-		printf("%s %s", SAVE_ERROR, strerror(errno));
+		//printf("%s %s", SAVE_ERROR, strerror(errno));
 		return FAIL;
 	}
 	return SUCCESS;
@@ -79,7 +77,7 @@ int writeOneTag(char *tagName, FILE *fp, int isClosingTag) {
 	size_t written = fwrite(str, 1, numBytes, fp);
 	free(str);
 	if (written <= 0) {
-		printf("%s %s", SAVE_ERROR, strerror(errno));
+		//printf("%s %s", SAVE_ERROR, strerror(errno));
 		return FAIL;
 	}
 	return SUCCESS;
@@ -92,7 +90,7 @@ int writeString(char *str, FILE *fp) {
 	//    printf("printing: %s", str);
 	size_t written = fwrite(str, 1, (unsigned) strlen(str), fp);
 	if (written <= 0) {
-		printf("%s %s", SAVE_ERROR, strerror(errno));
+		//printf("%s %s", SAVE_ERROR, strerror(errno));
 		return FAIL;
 	}
 	return SUCCESS;
@@ -127,10 +125,10 @@ int writeGameBoard(GameBoard *gameBoard, FILE *fp, Color color) {
 		return FAIL;
 	if (writeString("\n", fp) == FAIL)
 		return FAIL;
-
-	for (int r = LAST_ROW_CHAR; r >= FIRST_ROW_CHAR; r--) {
+	int r, c;
+	for (r = LAST_ROW_CHAR; r >= FIRST_ROW_CHAR; r--) {
 		char row[NUM_COLS + 1] = { '\0' };
-		for (int c = FIRST_COL_CHAR; c <= LAST_COL_CHAR; c++) {
+		for (c = FIRST_COL_CHAR; c <= LAST_COL_CHAR; c++) {
 			Piece p;
 			p.type = None;
 			getPieceAt(r, c, gameBoard, &p);
@@ -172,11 +170,11 @@ int loadGameFromFile(GameBoard *gameboard, Player *currentPlayerTurn,
 		char tagName[MAX_WORD_LENGTH] = { '\0' };
 		char tagContent[MAX_WORD_LENGTH] = { '\0' };
 		fgets(line, MAX_LINE_LENGTH - 1, fp);
-
+		int i;
 		int inFirstTag = 1;
 		int locInFirstTag = 0;
 		int locInContent = 0;
-		for (int i = 0; line[i] != '\0'; i++) {
+		for (i = 0; line[i] != '\0'; i++) {
 			char c = line[i];
 			if (inFirstTag) {
 				if (c == '<') {
@@ -244,8 +242,8 @@ void setPointer(char *tagName, char *tagContent, GameBoard *gameBoard,
 		return;
 	}
 	if (strncmp(tagName, BOARD_ROW, ROW_TAG_LENGTH - 1) == 0) {
-		char row = tagName[ROW_TAG_LENGTH - 1];
-		for (char col = FIRST_COL_CHAR; col <= LAST_COL_CHAR; col++) {
+		char col, row = tagName[ROW_TAG_LENGTH - 1];
+		for (col = FIRST_COL_CHAR; col <= LAST_COL_CHAR; col++) {
 			char pieceChar = tagContent[col - FIRST_COL_CHAR];
 			if (pieceChar != '_') {
 				int pieceIndex = getPieceIndexFromPieceChar(gameBoard,

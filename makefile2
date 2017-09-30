@@ -1,0 +1,29 @@
+CC = gcc
+OBJS = chessprog.o chessgame.o auxiliaryfunctions.o AI.o gui.o guiManager.o settings.o  piecemoves.o console.o
+
+EXEC = chessprog
+CC_COMP_FLAG = -g -std=c99 -Wall -Wextra \
+-Werror -pedantic-errors
+SDL_COMP_FLAG = -I/usr/local/lib/sdl_2.0.5/include/SDL2 -D_REENTRANT
+SDL_LIB = -L/usr/local/lib/sdl_2.0.5/lib -Wl,-rpath,/usr/local/lib/sdl_2.0.5/lib -Wl,--enable-new-dtags -lSDL2 -lSDL2main
+
+$(EXEC): $(OBJS)
+	$(CC) $(OBJS) $(SDL_LIB) -o $@
+chessprog.o: chessprog.c chessgame.h 
+	$(CC) $(COMP_FLAG) $(SDL_COMP_FLAG) -c $*.c
+chessgame.o: chessgame.c chessgame.h AI.h piecemoves.h auxiliaryfunctions.h
+	$(CC) $(COMP_FLAG) $(SDL_COMP_FLAG) -c $*.c
+piecemoves.o: piecemoves.c piecemoves.h auxiliaryfunctions.h
+	$(CC) $(COMP_FLAG) $(SDL_COMP_FLAG) -c $*.c
+console.o: console.c console.h settings.h
+	$(CC) $(COMP_FLAG) $(SDL_COMP_FLAG) -c $*.c
+auxiliaryfunctions.o: auxiliaryfunctions.c auxiliaryfunctions.h 
+	$(CC) $(COMP_FLAG) $(SDL_COMP_FLAG) -c $*.c
+AI.o: AI.c AI.h auxiliaryfunctions.h chessgame.h
+	$(CC) $(COMP_FLAG) $(SDL_COMP_FLAG) -c $*.c	
+gui.o: gui.c gui.h staticFunctions.h
+	$(CC) $(COMP_FLAG) $(SDL_COMP_FLAG) -c $*.c
+guiManager.o: guiManager.c guiManager.h piecemoves.h
+	$(CC) $(COMP_FLAG) $(SDL_COMP_FLAG) -c $*.c	
+clean:
+	rm -f $(OBJS) $(EXEC)

@@ -13,7 +13,9 @@ typedef struct {
 	ExecuteGetMovesResponse availableMovesOfSelectedPiece;
 	int gameStateIsSaved;
 
-	SDL_Texture* textures[NUMBER_OF_GAME_BOARD_TEXTURES]; // type of pieces + empty pieces  * white&black&blue&darkerBlue
+	SDL_Texture* piecesTexture[6][2];
+	SDL_Texture* boardTextures[5];
+
 	Game game;
 	GameHistory gameHistory;
 } GameBoardControl;

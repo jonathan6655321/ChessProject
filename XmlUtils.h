@@ -10,6 +10,7 @@
 #include <string.h>
 #include "Pieces.h"
 #include "GameBoard.h"
+#include "consoleRendering.h"
 
 #define FILE_1_PATH "saved_game_1.xml"
 #define XML_HEADER "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"

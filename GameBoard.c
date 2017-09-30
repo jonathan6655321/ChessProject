@@ -59,18 +59,19 @@ PieceType getTypeFromIndex(int i) {
  * fails player has max amount of this kind of piece.
  */
 int getPieceIndexFromPiece(GameBoard *gameBoard, Piece *piece) {
+	int i;
 	PieceType type = piece->type;
 	Player piecePlayer = piece->player;
 	switch (type) {
 	case Pawn:
 		if (piecePlayer == Player1) {
-			for (int i = 8; i <= 15; i++) {
+			for (i = 8; i <= 15; i++) {
 				if (getLocationIndexForPieceIndex(gameBoard, i) == NOT_IN_GAME) {
 					return i;
 				}
 			}
 		} else {
-			for (int i = 16; i <= 23; i++) {
+			for (i = 16; i <= 23; i++) {
 				if (getLocationIndexForPieceIndex(gameBoard, i) == NOT_IN_GAME) {
 					return i;
 				}
@@ -129,27 +130,27 @@ int getPieceIndexFromPiece(GameBoard *gameBoard, Piece *piece) {
 		}
 		break;
 	case Queen:
-			if (piecePlayer == Player1) {
-				if (getLocationIndexForPieceIndex(gameBoard, 3) == NOT_IN_GAME) {
-					return 3;
-				}
-			} else {
-				if (getLocationIndexForPieceIndex(gameBoard, 27) == NOT_IN_GAME) {
-					return 27;
-				}
+		if (piecePlayer == Player1) {
+			if (getLocationIndexForPieceIndex(gameBoard, 3) == NOT_IN_GAME) {
+				return 3;
 			}
-			break;
+		} else {
+			if (getLocationIndexForPieceIndex(gameBoard, 27) == NOT_IN_GAME) {
+				return 27;
+			}
+		}
+		break;
 	case King:
-			if (piecePlayer == Player1) {
-				if (getLocationIndexForPieceIndex(gameBoard, 4) == NOT_IN_GAME) {
-					return 4;
-				}
-			} else {
-				if (getLocationIndexForPieceIndex(gameBoard, 28) == NOT_IN_GAME) {
-					return 28;
-				}
+		if (piecePlayer == Player1) {
+			if (getLocationIndexForPieceIndex(gameBoard, 4) == NOT_IN_GAME) {
+				return 4;
 			}
-			break;
+		} else {
+			if (getLocationIndexForPieceIndex(gameBoard, 28) == NOT_IN_GAME) {
+				return 28;
+			}
+		}
+		break;
 	default:
 		break;
 	}
@@ -160,9 +161,10 @@ int getPieceIndexFromPiece(GameBoard *gameBoard, Piece *piece) {
  * places all pieces on the board
  */
 void initGame(GameBoard *gameBoard, Color player1Color) {
+	char col, row;
 	int pieceIndex = 0;
-	for (char row = '1'; row <= '8'; row++) {
-		for (char col = 'A'; col <= 'H'; col++) {
+	for (row = '1'; row <= '8'; row++) {
+		for (col = 'A'; col <= 'H'; col++) {
 			if (row == '1' || row == '2' || row == '7' || row == '8') {
 				gameBoard->mapPieceIndexToLocationOnBoard[pieceIndex]
 						= rowColToLocationIndex(row, col);
@@ -361,15 +363,16 @@ int getLastPieceIndexForPlayer(Player player) {
  * return  the number of pieces by type for certain player
  */
 int numPawns(GameBoard *gameBoard, Player player) {
+	int i;
 	int count = 0;
 	if (player == Player1) {
-		for (int i = PLAYER_1_FIRST_PAWN; i <= PLAYER_1_LAST_PAWN; i++) {
+		for (i = PLAYER_1_FIRST_PAWN; i <= PLAYER_1_LAST_PAWN; i++) {
 			if (gameBoard->mapPieceIndexToLocationOnBoard[i] != NOT_IN_GAME)
 				count++;
 		}
 		return count;
 	} else {
-		for (int i = PLAYER_2_FIRST_PAWN; i <= PLAYER_2_LAST_PAWN; i++) {
+		for (i = PLAYER_2_FIRST_PAWN; i <= PLAYER_2_LAST_PAWN; i++) {
 			if (gameBoard->mapPieceIndexToLocationOnBoard[i] != NOT_IN_GAME)
 				count++;
 		}
@@ -517,9 +520,10 @@ PieceType getTypeFromChar(char pieceChar) {
  * used for parsing
  */
 void initEmptyGame(GameBoard *gameBoard) {
+	char row, col;
 	int pieceIndex = 0;
-	for (char row = '1'; row <= '8'; row++) {
-		for (char col = 'A'; col <= 'H'; col++) {
+	for (row = '1'; row <= '8'; row++) {
+		for (col = 'A'; col <= 'H'; col++) {
 			if (row == '1' || row == '2' || row == '7' || row == '8') {
 				gameBoard->mapPieceIndexToLocationOnBoard[pieceIndex]
 						= NOT_IN_GAME;
