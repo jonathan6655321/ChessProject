@@ -1,7 +1,7 @@
-Full Name 1: 
-Id No 1: 
-User Name 1: 
-Full Name 2: 
-Id No 2: 
-User Name 2: 
+Full Name 1: Ido Kessler
+Id No 1: 311398499
+User Name 1: idokessler
+Full Name 2: Jonathan Somer
+Id No 2: 307923383
+User Name 2: somer
 Assignment: Final Project
