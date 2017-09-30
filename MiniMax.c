@@ -189,7 +189,7 @@ int scoreFunction(GameBoard *gameBoard) {
 int amazingScoreFunction(GameBoard *gameBoard) {
 	int score = scoreFunction(gameBoard);
 	score += centerControlScore(gameBoard);
-	score += mobilityScore(gameBoard);
+//	score += mobilityScore(gameBoard);
 	return score;
 }
 
