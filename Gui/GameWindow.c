@@ -58,37 +58,22 @@ GameWindow* GameWindowDefaultCreator() {
 		return NULL;
 	}
 
-	newGameWindow->gameRenderer = SDL_CreateRenderer(newGameWindow->gameWindow,
-			-1, SDL_RENDERER_ACCELERATED);
-	// Check that the window renerer was created
-	if (newGameWindow->gameRenderer == NULL) {
-		GameWindowDestroy(newGameWindow);
-		printf("Could not create window: %s\n", SDL_GetError());
-		return NULL;
-	}
-
 	int success = 1;
-	success &= LoadTexture(&(newGameWindow->backgroundTexture),
-			newGameWindow->gameRenderer, BACKGROUND_GAME_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newGameWindow->saveGameTexture),
-			newGameWindow->gameRenderer,
+	success &= LoadSurface(&(newGameWindow->backgroundSurface),
+			BACKGROUND_GAME_WINDOW_TEXTURE_PATH);
+	success &= LoadSurface(&(newGameWindow->saveGameSurface),
 			SAVE_GAME_BUTTON_GAME_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newGameWindow->loadGameTexture),
-			newGameWindow->gameRenderer,
+	success &= LoadSurface(&(newGameWindow->loadGameSurface),
 			LOAD_GAME_BUTTON_GAME_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newGameWindow->undoTexture),
-			newGameWindow->gameRenderer, UNDO_BUTTON_GAME_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newGameWindow->unavailableUndoTexture),
-			newGameWindow->gameRenderer,
+	success &= LoadSurface(&(newGameWindow->undoSurface),
+			UNDO_BUTTON_GAME_WINDOW_TEXTURE_PATH);
+	success &= LoadSurface(&(newGameWindow->unavailableUndoSurface),
 			UNAVAILABLE_UNDO_BUTTON_GAME_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newGameWindow->goToMainWindowTexture),
-			newGameWindow->gameRenderer,
+	success &= LoadSurface(&(newGameWindow->goToMainWindowSurface),
 			GO_TO_MAIN_WINDOW_BUTTON_GAME_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newGameWindow->restartTexture),
-			newGameWindow->gameRenderer,
+	success &= LoadSurface(&(newGameWindow->restartSurface),
 			RESTART_GAME_BUTTON_GAME_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newGameWindow->quitTexture),
-			newGameWindow->gameRenderer,
+	success &= LoadSurface(&(newGameWindow->quitSurface),
 			QUIT_GAME_BUTTON_GAME_WINDOW_TEXTURE_PATH);
 
 	if (!success) {
@@ -106,8 +91,7 @@ GameWindow* GameWindowLoad(char loadSlotSelected) {
 		return NULL;
 	}
 
-	newGameWindow->gameControl = GameBoardControlLoad(
-			newGameWindow->gameRenderer, loadSlotSelected);
+	newGameWindow->gameControl = GameBoardControlLoad(loadSlotSelected);
 	if (newGameWindow->gameControl == NULL) {
 		GameWindowDestroy(newGameWindow);
 		return NULL;
@@ -124,9 +108,8 @@ GameWindow* GameWindowCreate(char gameMode, char player1Color,
 		return NULL;
 	}
 
-	newGameWindow->gameControl
-			= GameBoardControlCreate(newGameWindow->gameRenderer, gameMode,
-					player1Color, gameDifficulty);
+	newGameWindow->gameControl = GameBoardControlCreate(gameMode, player1Color,
+			gameDifficulty);
 	if (newGameWindow->gameControl == NULL) {
 		GameWindowDestroy(newGameWindow);
 		return NULL;
@@ -135,34 +118,32 @@ GameWindow* GameWindowCreate(char gameMode, char player1Color,
 }
 
 void GameWindowDestroy(GameWindow* src) {
-	if (src->backgroundTexture != NULL)
-		SDL_DestroyTexture(src->backgroundTexture);
-	if (src->saveGameTexture != NULL)
-		SDL_DestroyTexture(src->saveGameTexture);
-	if (src->loadGameTexture != NULL)
-		SDL_DestroyTexture(src->loadGameTexture);
-	if (src->undoTexture != NULL)
-		SDL_DestroyTexture(src->undoTexture);
-	if (src->goToMainWindowTexture != NULL)
-		SDL_DestroyTexture(src->goToMainWindowTexture);
-	if (src->restartTexture != NULL)
-		SDL_DestroyTexture(src->restartTexture);
-	if (src->unavailableUndoTexture != NULL)
-		SDL_DestroyTexture(src->unavailableUndoTexture);
-	if (src->quitTexture != NULL)
-		SDL_DestroyTexture(src->quitTexture);
+	if (src->backgroundSurface != NULL)
+		SDL_FreeSurface(src->backgroundSurface);
+	if (src->saveGameSurface != NULL)
+		SDL_FreeSurface(src->saveGameSurface);
+	if (src->loadGameSurface != NULL)
+		SDL_FreeSurface(src->loadGameSurface);
+	if (src->undoSurface != NULL)
+		SDL_FreeSurface(src->undoSurface);
+	if (src->goToMainWindowSurface != NULL)
+		SDL_FreeSurface(src->goToMainWindowSurface);
+	if (src->restartSurface != NULL)
+		SDL_FreeSurface(src->restartSurface);
+	if (src->unavailableUndoSurface != NULL)
+		SDL_FreeSurface(src->unavailableUndoSurface);
+	if (src->quitSurface != NULL)
+		SDL_FreeSurface(src->quitSurface);
 
 	if (src->gameControl != NULL)
 		GameBoardControlDestroy(src->gameControl);
 
-	if (src->gameRenderer != NULL)
-		SDL_DestroyRenderer(src->gameRenderer);
 	if (src->gameWindow != NULL)
 		SDL_DestroyWindow(src->gameWindow);
 	free(src);
 }
 
-// check whther undo is available.
+// check whether undo is available.
 int IsUndoAvailable(GameWindow* src) {
 	return ((src->gameControl->gameHistory.lenght != 0)
 			&& (src->gameControl->game.gameMode != PlayerVsPlayer));
@@ -180,28 +161,23 @@ void GameWindowDraw(GameWindow* src) {
 	SDL_Rect backgroundR = CreateSDLRectFromIntArray(
 			backgroundGameWindowRectangle);
 
-	SDL_SetRenderDrawColor(src->gameRenderer, 255, 255, 255, 255);
+	SDL_Surface *screen = SDL_GetWindowSurface(src->gameWindow);
 
-	SDL_RenderClear(src->gameRenderer);
-	SDL_RenderCopy(src->gameRenderer, src->backgroundTexture, NULL,
-			&backgroundR);
-	SDL_RenderCopy(src->gameRenderer, src->saveGameTexture, NULL, &saveGameR);
-	SDL_RenderCopy(src->gameRenderer, src->loadGameTexture, NULL, &loadGameR);
+	SDL_BlitScaled(src->backgroundSurface, NULL, screen, &backgroundR);
+	SDL_BlitScaled(src->saveGameSurface, NULL, screen, &saveGameR);
+	SDL_BlitScaled(src->loadGameSurface, NULL, screen, &loadGameR);
 	if (IsUndoAvailable(src)) {
-		SDL_RenderCopy(src->gameRenderer, src->undoTexture, NULL, &undoR);
+		SDL_BlitScaled(src->undoSurface, NULL, screen, &undoR);
 	} else {
-		SDL_RenderCopy(src->gameRenderer, src->unavailableUndoTexture, NULL,
-				&undoR);
+		SDL_BlitScaled(src->unavailableUndoSurface, NULL, screen, &undoR);
 	}
-	SDL_RenderCopy(src->gameRenderer, src->goToMainWindowTexture, NULL,
-			&goToMainWindowR);
-	SDL_RenderCopy(src->gameRenderer, src->restartTexture, NULL, &restartR);
-	SDL_RenderCopy(src->gameRenderer, src->quitTexture, NULL, &quitR);
+	SDL_BlitScaled(src->goToMainWindowSurface, NULL, screen, &goToMainWindowR);
+	SDL_BlitScaled(src->restartSurface, NULL, screen, &restartR);
+	SDL_BlitScaled(src->quitSurface, NULL, screen, &quitR);
+	GameBoardControlDraw(screen, src->gameControl, gameBoardGameWindowRectangle);
 
-	GameBoardControlDraw(src->gameControl, src->gameRenderer,
-			gameBoardGameWindowRectangle);
-
-	SDL_RenderPresent(src->gameRenderer);
+	SDL_UpdateWindowSurface(src->gameWindow);
+	SDL_FreeSurface(screen);
 }
 
 void GameWindowHide(GameWindow* src) {

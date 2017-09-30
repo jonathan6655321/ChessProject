@@ -39,8 +39,6 @@ typedef enum {
 typedef struct {
     // the window
     SDL_Window *newGameWindow;
-    //the renderer
-    SDL_Renderer *newGameRenderer;
 
     //the new game windows state:
     NewGameWindowStateType state;
@@ -50,32 +48,32 @@ typedef struct {
     char gameMode;
     char userColor;
 
-    // textures:
-    SDL_Texture *backgroundTextureChoosingGameMode;
-    SDL_Texture *backgroundTextureChoosingDifficulty;
-    SDL_Texture *backgroundTextureChoosingUserColor;
-    SDL_Texture *startNewGameButtonTexture;
-    SDL_Texture *nextButtonTexture;
-    SDL_Texture *whiteButtonTexture;
-    SDL_Texture *whiteButtonPressedTexture;
-    SDL_Texture *blackButtonTexture;
-    SDL_Texture *blackButtonPressedTexture;
-    SDL_Texture *onePlayerButtonTexture;
-    SDL_Texture *onePlayerButtonPressedTexture;
-    SDL_Texture *twoPlayerButtonTexture;
-    SDL_Texture *twoPlayerButtonPressedTexture;
-    SDL_Texture *noobDifficultyButtonTexture;
-    SDL_Texture *noobDifficultyButtonPressedTexture;
-    SDL_Texture *easyDifficultyButtonTexture;
-    SDL_Texture *easyDifficultyButtonPressedTexture;
-    SDL_Texture *moderateDifficultyButtonTexture;
-    SDL_Texture *moderateDifficultyButtonPressedTexture;
-    SDL_Texture *hardDifficultyButtonTexture;
-    SDL_Texture *hardDifficultyButtonPressedTexture;
-    SDL_Texture *expertDifficultyButtonTexture;
-    SDL_Texture *expertDifficultyButtonPressedTexture;
-    SDL_Texture *backButtonTexture;
-    SDL_Texture *backButtonPressedTexture;
+    // Surfaces:
+    SDL_Surface *backgroundSurfaceChoosingGameMode;
+    SDL_Surface *backgroundSurfaceChoosingDifficulty;
+    SDL_Surface *backgroundSurfaceChoosingUserColor;
+    SDL_Surface *startNewGameButtonSurface;
+    SDL_Surface *nextButtonSurface;
+    SDL_Surface *whiteButtonSurface;
+    SDL_Surface *whiteButtonPressedSurface;
+    SDL_Surface *blackButtonSurface;
+    SDL_Surface *blackButtonPressedSurface;
+    SDL_Surface *onePlayerButtonSurface;
+    SDL_Surface *onePlayerButtonPressedSurface;
+    SDL_Surface *twoPlayerButtonSurface;
+    SDL_Surface *twoPlayerButtonPressedSurface;
+    SDL_Surface *noobDifficultyButtonSurface;
+    SDL_Surface *noobDifficultyButtonPressedSurface;
+    SDL_Surface *easyDifficultyButtonSurface;
+    SDL_Surface *easyDifficultyButtonPressedSurface;
+    SDL_Surface *moderateDifficultyButtonSurface;
+    SDL_Surface *moderateDifficultyButtonPressedSurface;
+    SDL_Surface *hardDifficultyButtonSurface;
+    SDL_Surface *hardDifficultyButtonPressedSurface;
+    SDL_Surface *expertDifficultyButtonSurface;
+    SDL_Surface *expertDifficultyButtonPressedSurface;
+    SDL_Surface *backButtonSurface;
+    SDL_Surface *backButtonPressedSurface;
 } NewGameWindow;
 
 /*!

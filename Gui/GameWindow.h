@@ -27,20 +27,18 @@ typedef enum {
 typedef struct {
     // the game window
     SDL_Window *gameWindow;
-    // the game window renderer
-    SDL_Renderer *gameRenderer;
     // the game control
     GameBoardControl *gameControl;
 
-    // buttons textures:
-    SDL_Texture *saveGameTexture;
-    SDL_Texture *backgroundTexture;
-    SDL_Texture *loadGameTexture;
-    SDL_Texture *undoTexture;
-    SDL_Texture *unavailableUndoTexture;
-    SDL_Texture *goToMainWindowTexture;
-    SDL_Texture *restartTexture;
-    SDL_Texture *quitTexture;
+    // buttons Surfaces:
+    SDL_Surface *saveGameSurface;
+    SDL_Surface *backgroundSurface;
+    SDL_Surface *loadGameSurface;
+    SDL_Surface *undoSurface;
+    SDL_Surface *unavailableUndoSurface;
+    SDL_Surface *goToMainWindowSurface;
+    SDL_Surface *restartSurface;
+    SDL_Surface *quitSurface;
 } GameWindow;
 
 /*!

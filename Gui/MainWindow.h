@@ -22,10 +22,10 @@ typedef enum {
 typedef struct {
     SDL_Window *mainWindow;
     SDL_Renderer *mainRenderer;
-    SDL_Texture *backgroundTexture;
-    SDL_Texture *newGameTexture;
-    SDL_Texture *loadGameTexture;
-    SDL_Texture *quitTexture;
+    SDL_Surface *backgroundTexture;
+    SDL_Surface *newGameTexture;
+    SDL_Surface *loadGameTexture;
+    SDL_Surface *quitTexture;
 } MainWindow;
 
 /*!

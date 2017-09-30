@@ -55,17 +55,17 @@ MainWindow* MainWindowCreate() {
 	}
 
 	int success = 1;
-	success &= LoadTexture(&(newMainWindow->newGameTexture),
-			newMainWindow->mainRenderer,
-			NEW_GAME_BUTTON_MAIN_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newMainWindow->loadGameTexture),
-			newMainWindow->mainRenderer,
-			LOAD_GAME_BUTTON_MAIN_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newMainWindow->quitTexture),
-			newMainWindow->mainRenderer,
-			QUIT_GAME_BUTTON_MAIN_WINDOW_TEXTURE_PATH);
-	success &= LoadTexture(&(newMainWindow->backgroundTexture),
-			newMainWindow->mainRenderer, BACKGROUND_MAIN_WINDOW_TEXTURE_PATH);
+	success &= LoadSurface(&(newMainWindow->newGameTexture),
+
+	NEW_GAME_BUTTON_MAIN_WINDOW_TEXTURE_PATH);
+	success &= LoadSurface(&(newMainWindow->loadGameTexture),
+
+	LOAD_GAME_BUTTON_MAIN_WINDOW_TEXTURE_PATH);
+	success &= LoadSurface(&(newMainWindow->quitTexture),
+
+	QUIT_GAME_BUTTON_MAIN_WINDOW_TEXTURE_PATH);
+	success &= LoadSurface(&(newMainWindow->backgroundTexture),
+			BACKGROUND_MAIN_WINDOW_TEXTURE_PATH);
 
 	if (!success) {
 		MainWindowDestroy(newMainWindow);
@@ -77,13 +77,13 @@ MainWindow* MainWindowCreate() {
 
 void MainWindowDestroy(MainWindow* src) {
 	if (src->backgroundTexture != NULL)
-		SDL_DestroyTexture(src->backgroundTexture);
+		SDL_FreeSurface(src->backgroundTexture);
 	if (src->newGameTexture != NULL)
-		SDL_DestroyTexture(src->newGameTexture);
+		SDL_FreeSurface(src->newGameTexture);
 	if (src->loadGameTexture != NULL)
-		SDL_DestroyTexture(src->loadGameTexture);
+		SDL_FreeSurface(src->loadGameTexture);
 	if (src->quitTexture != NULL)
-		SDL_DestroyTexture(src->quitTexture);
+		SDL_FreeSurface(src->quitTexture);
 	if (src->mainRenderer != NULL)
 		SDL_DestroyRenderer(src->mainRenderer);
 	if (src->mainWindow != NULL)
@@ -97,15 +97,15 @@ void MainWindowDraw(MainWindow* src) {
 	SDL_Rect quitGameR = CreateSDLRectFromIntArray(quitGameMainWindowRectangle);
 	SDL_Rect backgroundR = CreateSDLRectFromIntArray(
 			backgroundMainWindowRectangle);
-	SDL_SetRenderDrawColor(src->mainRenderer, 255, 255, 255, 255);
 
-	SDL_RenderClear(src->mainRenderer);
-	SDL_RenderCopy(src->mainRenderer, src->backgroundTexture, NULL,
-			&backgroundR);
-	SDL_RenderCopy(src->mainRenderer, src->newGameTexture, NULL, &newGameR);
-	SDL_RenderCopy(src->mainRenderer, src->loadGameTexture, NULL, &loadGameR);
-	SDL_RenderCopy(src->mainRenderer, src->quitTexture, NULL, &quitGameR);
-	SDL_RenderPresent(src->mainRenderer);
+	SDL_Surface *screen = SDL_GetWindowSurface(src->mainWindow);
+	SDL_BlitScaled(src->backgroundTexture, NULL, screen, &backgroundR);
+	SDL_BlitScaled(src->newGameTexture, NULL, screen, &newGameR);
+	SDL_BlitScaled(src->loadGameTexture, NULL, screen, &loadGameR);
+	SDL_BlitScaled(src->quitTexture, NULL, screen, &quitGameR);
+
+	SDL_UpdateWindowSurface(src->mainWindow);
+	SDL_FreeSurface(screen);
 }
 
 void MainWindowHide(MainWindow* src) {

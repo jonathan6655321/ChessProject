@@ -32,19 +32,17 @@ typedef struct {
 typedef struct {
     // the window
     SDL_Window *loadWindow;
-    //the renderer
-    SDL_Renderer *loadRenderer;
 
     // slots:
     int numberOfOptions;
     int selectedOption;
 
-    // Windows textures:
-    SDL_Texture *loadButtonTexture[NUMBER_OF_SAVE_LOAD_SLOT][2];
-    SDL_Texture *backgroundTexture;
-    SDL_Texture *backButtonTexture;
-    SDL_Texture *loadloadButtonTexture;
-    SDL_Texture *loadloadUnavailableButtonTexture;
+    // Windows Surfaces:
+    SDL_Surface *loadButtonSurface[NUMBER_OF_SAVE_LOAD_SLOT][2];
+    SDL_Surface *backgroundSurface;
+    SDL_Surface *backButtonSurface;
+    SDL_Surface *loadloadButtonSurface;
+    SDL_Surface *loadloadUnavailableButtonSurface;
 } LoadWindow;
 
 /*!

@@ -12,56 +12,53 @@
  * The struct that is used to represent a game board control.
  */
 typedef struct {
-    // current selected index;
-    int currentPieceSelectedRow;
-    int currentPieceSelectedCol;
-    // is true when the current selected index was choosen with a right click.
-    int rightClick;
-    // arrays containing the data from the "get_move" response.
-    // indicate that a move is possible and if it's threatened ot not.
-    ExecuteGetMovesResponse availableMovesOfSelectedPiece;
-    // is true when the current game state is saved.
-    int gameStateIsSaved;
-    // pieces textures
-    SDL_Texture *piecesTexture[6][2];
-    // board textures
-    SDL_Texture *boardTextures[5];
-    // game element
-    Game game;
-    // game history element
-    GameHistory gameHistory;
+	// current selected index;
+	int currentPieceSelectedRow;
+	int currentPieceSelectedCol;
+	// is true when the current selected index was choosen with a right click.
+	int rightClick;
+	// arrays containing the data from the "get_move" response.
+	// indicate that a move is possible and if it's threatened ot not.
+	ExecuteGetMovesResponse availableMovesOfSelectedPiece;
+	// is true when the current game state is saved.
+	int gameStateIsSaved;
+	// pieces Surfaces
+	SDL_Surface *piecesSurface[6][2];
+	// board Surfaces
+	SDL_Surface *boardSurfaces[5];
+	// game element
+	Game game;
+	// game history element
+	GameHistory gameHistory;
 } GameBoardControl;
 
 /*!
  * Creates a new game board control
- * @param renderer the renderer of the windows this control is going to work on.
  * @param gameMode the game mode specified.
  * @param player1Color the player 1 color specified.
  * @param gameDifficulty the game difficulty specified.
  * @return a new game board control instance.
  * 			or null on failure.
  */
-GameBoardControl *GameBoardControlCreate(SDL_Renderer *renderer, char gameMode,
-                                         char player1Color, char gameDifficulty);
+GameBoardControl *GameBoardControlCreate(char gameMode, char player1Color,
+		char gameDifficulty);
 
 /*!
  * Creates a new game board from a save file. print error if needed.
- * @param renderer the renderer of the windows this control is going to work on.
  * @param loadSlotSelected the game slot specified.
  * @return a new game board from the save file,
  * 			or null on failure.
  */
-GameBoardControl *GameBoardControlLoad(SDL_Renderer *renderer,
-                                       int loadSlotSelected);
+GameBoardControl *GameBoardControlLoad(int loadSlotSelected);
 
 /*!
- * Draw the game board control on the specified renderer.
+ * Draw the game board control on the specified window.
+ * @param screen the windows screen to draw to.
  * @param src the game board control to draw.
- * @param renderer the renderer of the windows this control is going to work on.
  * @param Rectangle the rentangle it should draw on.
  */
-void GameBoardControlDraw(GameBoardControl *src, SDL_Renderer *renderer,
-                          int *Rectangle);
+void GameBoardControlDraw(SDL_Surface* screen, GameBoardControl *src,
+		int *Rectangle);
 
 /*!
  * destroy the game board control specified.
@@ -76,7 +73,7 @@ void GameBoardControlDestroy(GameBoardControl *src);
  * @return empty event, or Quit event if game is over.
  */
 EventStruct GameBoardControlHandleMoveEvent(GameBoardControl *src, int row,
-                                            int col);
+		int col);
 
 /*!
  * Handle choosing new piece on board
@@ -85,7 +82,7 @@ EventStruct GameBoardControlHandleMoveEvent(GameBoardControl *src, int row,
  * @return empty event.
  */
 EventStruct GameBoardControlHandleNewPieceChoosenEvent(GameBoardControl *src,
-                                                       int row, int col);
+		int row, int col);
 
 /*!
  * undo the last move. print error if needed.
@@ -133,6 +130,6 @@ EventStruct GameBoardControlHandleQuitGame(GameBoardControl *src);
  * @return Event relevent to the GUI Manager if needed, or empty events.
  */
 EventStruct GameBoardControlHandleEvent(GameBoardControl *src,
-                                        SDL_Event *event, int *Rectangle);
+		SDL_Event *event, int *Rectangle);
 
 #endif

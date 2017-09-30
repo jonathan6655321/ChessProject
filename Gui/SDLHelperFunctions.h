@@ -27,6 +27,13 @@ int EventIsExitEvent(SDL_Event*);
  * Also make (FF,00,FF) color transparent.
  * @return 1 on success, 0 on failure.
  */
-int LoadTexture(SDL_Texture**,  SDL_Renderer*, char*);
+int LoadTexture(SDL_Texture**, SDL_Renderer*, char*);
+
+/*!
+ * Load surface into SDL_Surface pointer.
+ * Also make (FF,00,FF) color transparent.
+ * @return 1 on success, 0 on failure.
+ */
+int LoadSurface(SDL_Surface**, char*);
 
 #endif
