@@ -8,13 +8,15 @@
 #include "CommandLineGame.h"
 
 int commandLineGameLoop() {
-    commandLineState state = settingCommandState;
     Game game;
     GameHistory gameHistory;
     Command command;
     HandleCommandMessage commandMessage;
-
+    // starts at setting state:
+    commandLineState state = settingCommandState;
+    // start by initializing the game
     command.commandType = resetGame;
+
     while (command.commandType != quitGame) {
         if (state == settingCommandState) {
             if (command.commandType == resetGame) {
@@ -31,8 +33,8 @@ int commandLineGameLoop() {
         } else if (state == gameCommandState) {
             if (isUserMove(&game)) {
                 if (game.needToReprintBoard) {
-                    game.needToReprintBoard = 0;
                     printGame(&game);
+                    game.needToReprintBoard = 0;
                 }
                 printf(ASK_FOR_PLAYER_MOVE_FORMAT_STRING,
                        getColorName(getCurrentPlayerColor(&game)));
@@ -45,7 +47,6 @@ int commandLineGameLoop() {
             return 0;
         }
         commandMessage = handleCommand(command, &game);
-        handlePawnPromotionLoop(&command, &commandMessage, &game);
         printCommandLineMessages(&game, command, commandMessage);
         switchStateIfNeeded(command, &state);
         handleCheckmates(&game, &state);
@@ -91,28 +92,14 @@ void handlePrintMove(Game *game, Command command, HandleCommandMessage message) 
     handlePrintCheckmate(getCheckmate(game), moveWasComputerMove);
 }
 
-void handlePrintPawnPromotion(Game *game, Command command) {
-    //if game is against AI and the current player is after the AI:
-    int moveWasComputerMove = (game->gameMode == PlayerVsComputer
-                               && game->currentPlayer == Player1);
-    if (moveWasComputerMove) {
-        printf(PAWN_PROMOTION_COMPUTER_FORMAT_STRING, command.argument[0],
-               command.argument[1], command.argument[2], command.argument[3],
-               getPieceTypeName(command.argument[4]));
+// Print a single get move line:
+void printSingleGetMoveMessage(int row, int col, int isPossible, int isThreatened, int isCapturing) {
+    if (isPossible) {
+        printf(GET_MOVES_STANDART_MOVE_FORMAT_STRING, row, col);
+        if (isThreatened) printf("%s", "*");
+        if (isCapturing) printf("%s", "^");
+        printf("%s", "\n");
     }
-
-    handlePrintCheckmate(getCheckmate(game), moveWasComputerMove);
-}
-
-void handlePrintCastleMove(Game *game, HandleCommandMessage message) {
-    //if game is against AI and the current player is after the AI:
-    int moveWasComputerMove = (game->gameMode == PlayerVsComputer
-                               && game->currentPlayer == Player1);
-    if (moveWasComputerMove) {
-        printf(CASTLING_MOVE_COMPUTER_FORMAT_STRING, message.argument[0],
-               message.argument[1], message.argument[2], message.argument[3]);
-    }
-    handlePrintCheckmate(getCheckmate(game), moveWasComputerMove);
 }
 
 void handlePrintGetMoves(Game *game, Command command,
@@ -120,8 +107,6 @@ void handlePrintGetMoves(Game *game, Command command,
     int currentIndex;
     char row, col;
     int isPossible, isThreatened, isCapturing, isCastle;
-    isCastle = 0;
-    // Regular move:
     for (row = '1'; row <= '8'; ++row) {
         for (col = 'A'; col <= 'H'; ++col) {
             currentIndex = rowColToLocationIndex(row, col);
@@ -131,50 +116,9 @@ void handlePrintGetMoves(Game *game, Command command,
                     = message.getMovesResponse.threatenedByOpponentMoves.legalMovesArray[currentIndex];
             isCapturing
                     = message.getMovesResponse.opponentAtLocationMoves.legalMovesArray[currentIndex];
-            PRINT_SINGLE_GET_MOVE(row, col, isPossible, isThreatened, isCapturing, isCastle);
+            printSingleGetMoveMessage(row, col, isPossible, isThreatened, isCapturing);
         }
     }
-
-    // Castle move:
-    isCastle = 1;
-    // castle move can't be threatened (it's the king!)
-    // castle move can't capture anything (need to be unoccupied!).
-    isThreatened = 0;
-    isCapturing = 0;
-    row = command.argument[0];
-    char shortCastleCol, longCastleCol;
-    if (command.argument[1] == 'E') {
-        longCastleCol = 'C';
-        shortCastleCol = 'G';
-    } else if (command.argument[1] == 'D') {
-        longCastleCol = 'F';
-        shortCastleCol = 'B';
-    } else {
-        // We are moving the rook!
-        if (command.argument[1] == 'A') {
-            longCastleCol = 'D';
-            shortCastleCol = 'C';
-        } else {
-            longCastleCol = 'E';
-            shortCastleCol = 'F';
-        }
-        if (message.getMovesResponse.castleType == LongCastle) {
-            currentIndex = rowColToLocationIndex(row, longCastleCol);
-        } else {
-            currentIndex = rowColToLocationIndex(row, shortCastleCol);
-        }
-        // if we are moving the rook, we need to check if it's being threatened.
-        isThreatened
-                = message.getMovesResponse.threatenedByOpponentMoves.legalMovesArray[currentIndex];
-    }
-    // long castle
-    isPossible = (message.getMovesResponse.castleType == BothCastle
-                  || message.getMovesResponse.castleType == LongCastle);
-    PRINT_SINGLE_GET_MOVE(row, longCastleCol, isPossible, isThreatened, isCapturing, isCastle);
-    // short castle
-    isPossible = (message.getMovesResponse.castleType == BothCastle
-                  || message.getMovesResponse.castleType == ShortCastle);
-    PRINT_SINGLE_GET_MOVE(row, shortCastleCol, isPossible, isThreatened, isCapturing, isCastle);
 }
 
 void handlePrintCheckmate(CheckmateType checkmateType, int moveWasComputerMove) {
@@ -225,48 +169,6 @@ void switchStateIfNeeded(Command command, commandLineState *state) {
     }
 }
 
-void handlePawnPromotionLoop(Command *command, HandleCommandMessage *message,
-                             Game *game) {
-    if (message->messageType == pawnPromoteNeededMessage) { // TODO pawn promotion
-        if (CAN_HANDLE_PAWN_PROMOTION) {
-            Command pawnCommand;
-            pawnCommand.commandType = invalidCommand;
-            while (pawnCommand.commandType == invalidCommand) {
-                printf("%s", PAWN_PROMOTION_REQUEST_STRING);
-                pawnCommand = getNextPawnPromotionCommand();
-                if ((pawnCommand.commandType == invalidCommand)) {
-                    printf("%s", PAWN_PROMOTION_INVALID_STRING);
-                }
-            }
-            switch (pawnCommand.commandType) {
-                case pawnPromoteToPawn:
-                    command->argument[4] = Pawn;
-                    break;
-                case pawnPromoteToRook:
-                    command->argument[4] = Rook;
-                    break;
-                case pawnPromoteToKnight:
-                    command->argument[4] = Knight;
-                    break;
-                case pawnPromoteToBishop:
-                    command->argument[4] = Bishop;
-                    break;
-                case pawnPromoteToQueen:
-                    command->argument[4] = Queen;
-                    break;
-                case quitGame:
-                case resetGame:
-                    command->commandType = pawnCommand.commandType;
-                default:
-                    break;
-            }
-            *message = handleCommand(*command, game);
-        } else {
-            command->argument[4] = Pawn;
-        }
-    }
-}
-
 void setGameDefaultValue(Game *game) {
     Command command;
     command.commandType = loadDefaultSettings;
@@ -311,21 +213,6 @@ void printCommandLineMessages(Game *game, Command command,
             break;
         case setMoveMessage:
             handlePrintMove(game, command, message);
-            break;
-        case pawnPromoteNeededMessage:
-            printf("%s", "ERROR: this shouldn't happen...");
-            break;
-        case pawnPromoteMessage:
-            handlePrintPawnPromotion(game, command);
-            break;
-        case errorCastleMoveNoRookMessage:
-            printf("%s", CASTLING_MOVE_NO_ROOK_ERROR_STRING);
-            break;
-        case errorCastleMoveIllegalMoveMessage:
-            printf("%s", CASTLING_MOVE_ILLEGAL_ERROR_STRING);
-            break;
-        case castleMoveMessage:
-            handlePrintCastleMove(game, message);
             break;
         case getMovesMessage:
             handlePrintGetMoves(game, command, message);

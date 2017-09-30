@@ -32,9 +32,6 @@ typedef enum {
     IllegalMove,
     AteOpponentsPiece,
     MadeMove,
-    PawnPromotionNeeded,
-    AteOpponentsPiece_PawnPromote,
-    MadeMove_Pawn_Promote,
     OK
 } ResponseType;
 

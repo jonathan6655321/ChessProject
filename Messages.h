@@ -49,15 +49,6 @@
 #define GET_MOVES_INVALID_POSITION_ERROR_STRING "Invalid position on the board\n"
 #define GET_MOVES_NOT_YOUR_PIECE_ERROR_FORMAT_STRING "The specified position does not contain %s player piece\n"
 #define GET_MOVES_STANDART_MOVE_FORMAT_STRING "<%c,%c>"
-#define GET_MOVES_CASTLE_MOVE_FORMAT_STRING "castle "
-#define PRINT_SINGLE_GET_MOVE(row, col, isPossible, isThreatened, isCapturing, isCastle) \
-if(isPossible){ \
-    if(isCastle) printf("%s", GET_MOVES_CASTLE_MOVE_FORMAT_STRING); \
-    printf(GET_MOVES_STANDART_MOVE_FORMAT_STRING,row,col); \
-    if(isThreatened) printf("%s", "*"); \
-    if(isCapturing) printf("%s", "^"); \
-    printf("%s", "\n"); \
-}
 
 
 #define PAWN_NAME_STRING "pawn"

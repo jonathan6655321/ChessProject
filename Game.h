@@ -59,17 +59,10 @@ typedef enum {
 	startGame,
 	//game commands
 	setMove,
-	castleMove,
 	getMoves,
 	saveGame,
 	undoMove,
 	resetGame,
-	//pawn promotion command
-	pawnPromoteToPawn,
-	pawnPromoteToKnight,
-	pawnPromoteToRook,
-	pawnPromoteToBishop,
-	pawnPromoteToQueen,
 	//general commands
 	quitGame,
 	invalidCommand
@@ -94,11 +87,6 @@ typedef enum {
 	errorSetMoveNotYourPieceMessage,
 	errorIllegalMoveMessage,
 	setMoveMessage,
-	pawnPromoteNeededMessage,
-	pawnPromoteMessage,
-	errorCastleMoveNoRookMessage,
-	errorCastleMoveIllegalMoveMessage,
-	castleMoveMessage,
 	getMovesMessage,
 	errorGetMovesInvalidPositionMessage,
 	errorGetMovesNotYourPieceMessage,

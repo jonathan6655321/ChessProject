@@ -68,10 +68,4 @@ Command getNextSettingCommand();
  */
 Command getNextGameCommand();
 
-/*!
- * get user input, parse it, and return the command the user entered. (return only pawn promotion commands)
- * @return Command - containing the type the user entered.
- */
-Command getNextPawnPromotionCommand();
-
 #endif /* PARSER_H_ */
