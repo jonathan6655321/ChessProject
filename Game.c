@@ -275,11 +275,11 @@ Command getComputerMove(Game *game) {
 	char rowFrom, colFrom, rowTo, colTo;
 	MiniMaxMove miniMaxMove;
 	if (game->difficulty == '5') {
-		minimax(&(game->board), 5, INT_MIN, INT_MAX, game->currentPlayer,
+		minimax(&(game->board), 4, INT_MIN, INT_MAX, game->currentPlayer,
 				amazingScoreFunction, &miniMaxMove, 1);
 	} else {
 		minimax(&(game->board), game->difficulty - '0', INT_MIN, INT_MAX,
-				game->currentPlayer, amazingScoreFunction, &miniMaxMove, 1); //TODO do we need the fast scoring funciton\ trivial?
+				game->currentPlayer, scoreFunction, &miniMaxMove, 1);
 	}
 
 	rowFrom = getRowFromLocationIndex(

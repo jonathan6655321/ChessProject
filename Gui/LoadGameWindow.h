@@ -23,9 +23,12 @@ typedef struct {
 	SDL_Texture* backgroundTexture;
 
 	int numberOfOptions;
+	int selectedOption;
 
-	SDL_Texture* loadButtonTexture[NUMBER_OF_SAVE_LOAD_SLOT];
+	SDL_Texture* loadButtonTexture[NUMBER_OF_SAVE_LOAD_SLOT][2];
 	SDL_Texture* backButtonTexture;
+	SDL_Texture* loadButtonTexture;
+	SDL_Texture* loadUnavailableButtonTexture;
 } LoadWindow;
 
 LoadWindow* LoadWindowCreate();

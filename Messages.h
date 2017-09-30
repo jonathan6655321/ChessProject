@@ -9,7 +9,8 @@
 #define MESSAGES_H_
 
 #define SETTING_STATE_FIRST_MESSAGE "Specify game setting or type 'start' to begin a game with the current setting:\n"
-#define SET_GAME_MODE_FORMAT_STRING "Game mode is set to %c players\n"
+#define SET_GAME_MODE_1_STRING "Game mode is set to 1 player\n"
+#define SET_GAME_MODE_2_STRING "Game mode is set to 2 players\n"
 #define SET_GAME_MODE_ERROR_STRING "Wrong game mode\n"
 #define SET_DIFFICULTY_EXPERT_ERROR_STRING "Expert level not supported, please choose a value between 1 to 4:\n"
 #define SET_DIFFICULTY_ERROR_STRING "Wrong difficulty level. The value should be between 1 to 5\n"

@@ -280,7 +280,11 @@ void printCommandLineMessages(Game *game, Command command,
 	case successMessage:
 		break;
 	case setGameModeMessage:
-		printf(SET_GAME_MODE_FORMAT_STRING, message.argument[0]);
+		if (message.argument[0] == '1') {
+			printf(SET_GAME_MODE_1_STRING);
+		} else {
+			printf(SET_GAME_MODE_2_STRING);
+		}
 		break;
 	case errorSetGameModeMessage:
 		printf("%s", SET_GAME_MODE_ERROR_STRING);

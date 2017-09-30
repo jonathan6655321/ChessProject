@@ -1,7 +1,8 @@
 #include "LoadGameWindow.h"
 
 static int backButtonLoadWindowRectangle[4] = { 0, 100, 0, 50 };
-static int loadButtonLoadWindowRectangleTemplate[4] = { 150, 350, 50, 100 };
+static int loadloadButtonLoadWindowRectangle[4] = { 300, 400, 0, 50 };
+static int loadButtonLoadWindowRectangleTemplate[4] = { 150, 350, 75, 135 };
 static int backgroundLoadWindowRectangle[4] = { 0, 400, 0, 150 };
 
 LoadWindowElementStruct ClickWasOnLoadWindow(LoadWindow* src, int x, int y) {
