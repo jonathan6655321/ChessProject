@@ -186,11 +186,66 @@ int scoreFunction(GameBoard *gameBoard) {
 	return score;
 }
 
+// BETTER_
+
+/*
+ * taken from chessprogramming.com
+ */
+int advancedMaterialScoreFunction(GameBoard *gameBoard) {
+    int score = 0;
+    score += BETTER_PAWN_VAL * numPawns(gameBoard, Player1);
+    score -= BETTER_PAWN_VAL * numPawns(gameBoard, Player2);
+
+    score += BETTER_KNIGHT_VAL * numKnights(gameBoard, Player1);
+    score -= BETTER_KNIGHT_VAL * numKnights(gameBoard, Player2);
+
+    score += BETTER_BISHOP_VAL * numBishops(gameBoard, Player1);
+    score -= BETTER_BISHOP_VAL * numBishops(gameBoard, Player2);
+
+    score += BETTER_ROOK_VAL * numRooks(gameBoard, Player1);
+    score -= BETTER_ROOK_VAL * numRooks(gameBoard, Player2);
+
+    score += BETTER_QUEEN_VAL * numQueens(gameBoard, Player1);
+    score -= BETTER_QUEEN_VAL * numQueens(gameBoard, Player2);
+
+    score += BETTER_KING_VAL * numKings(gameBoard, Player1);
+    score -= BETTER_KING_VAL * numKings(gameBoard, Player2);
+
+    return score;
+}
+
+
+
 int amazingScoreFunction(GameBoard *gameBoard) {
 	int score = scoreFunction(gameBoard);
 	score += centerControlScore(gameBoard);
-//	score += mobilityScore(gameBoard);
+
+//    if(countPiecesOnBoard(gameBoard) > 10)
+//        score += mobilityScore(gameBoard);
+//    else
+//        score += getCloseToKing(gameBoard);
+//
+//    score += checkmateMoveScore(gameBoard);
+
 	return score;
+}
+
+
+/*
+ * checks if this move leaves the opponent with no moves and king threatened
+ */
+int checkmateMoveScore(GameBoard *gameBoard)
+{
+    int score = 0;
+    if(isKingThreatened(Player1, gameBoard) && getMobilityScoreByPlayer(gameBoard, Player1) == 0)
+    {
+        score -= 100000;
+    }
+    if(isKingThreatened(Player2, gameBoard) && getMobilityScoreByPlayer(gameBoard, Player2) == 0)
+    {
+        score += 100000;
+    }
+    return score;
 }
 
 /*
@@ -227,7 +282,7 @@ int mobilityScore(GameBoard *gameBoard) {
 
 	// normalize:
 	score /= 10;
-
+    score = min(score, PAWN_VAL-1);
 	return score;
 }
 
@@ -263,4 +318,81 @@ int countMoves(LegalMoves *pieceCanMoveTo) {
 			cnt++;
 	}
 	return cnt;
+}
+
+/*
+ * with distance from king taken into account
+ */
+int getCloseToKing(GameBoard *gameBoard) {
+    int score = 0;
+    score += getAdvancedMobilityScoreByPlayer(gameBoard, Player1);
+    score -= getAdvancedMobilityScoreByPlayer(gameBoard, Player2);
+
+    // normalize:
+    score /= 10;
+    score = min(score, PAWN_VAL-1);
+    return score;
+}
+
+int getAdvancedMobilityScoreByPlayer(GameBoard *gameBoard, Player player) {
+    int pieceIndex, score = 0;
+    int firstPiece = getFirstPieceIndexForPlayer(player);
+    int lastPiece = getLastPieceIndexForPlayer(player);
+
+
+
+    char enemyKingRow;
+    char enemyKingCol;
+    int kingLocationIndex;
+
+    if(player == Player1)
+        kingLocationIndex = getLocationIndexForPieceIndex(gameBoard, PLAYER_2_KING_INDEX);
+    else
+        kingLocationIndex = getLocationIndexForPieceIndex(gameBoard, PLAYER_1_KING_INDEX);
+
+    enemyKingRow = getRowFromLocationIndex(kingLocationIndex);
+    enemyKingCol = getColFromLocationIndex(kingLocationIndex);
+
+    for (pieceIndex = firstPiece; pieceIndex <= lastPiece; pieceIndex++) {
+        int pieceLocationIndex = getLocationIndexForPieceIndex(gameBoard,
+                                                               pieceIndex);
+        if (!isValidLocationIndex(pieceLocationIndex))
+            continue;
+        LegalMoves pieceCanMoveTo = { 0 };
+        char row = getRowFromLocationIndex(pieceLocationIndex);
+        char col = getColFromLocationIndex(pieceLocationIndex);
+        getPossibleMovesForPieceAt(row, col, gameBoard, &pieceCanMoveTo);
+
+
+        score += countCloserToEnemyKingMoves(&pieceCanMoveTo, enemyKingRow, enemyKingCol, row, col);
+    }
+
+    return score;
+}
+
+
+int countCloserToEnemyKingMoves(LegalMoves *pieceCanMoveTo,  char enemyKingRow, char enemyKingCol, char row, char col)
+{
+    int i, cnt = 0;
+    int originalDistance = abs(enemyKingRow - row) + abs(enemyKingCol - col);
+    for (i = 0; i < BOARD_SIZE; i++) {
+        int currentDistance = abs(enemyKingRow - getRowFromLocationIndex(i)) + abs(enemyKingCol - getColFromLocationIndex(i));
+        if (pieceCanMoveTo->legalMovesArray[i] > 0 && currentDistance > originalDistance)
+        {
+            cnt++;
+        }
+    }
+    return cnt;
+}
+
+int countPiecesOnBoard(GameBoard *gameBoard)
+{
+    int cnt = 0;
+    for(int i=0; i < NUM_STARTING_PIECES; i++)
+    {
+        int pieceLoc = getLocationIndexForPieceIndex(gameBoard, i);
+        if( pieceLoc >= 0 && pieceLoc < BOARD_SIZE)
+            cnt++;
+    }
+    return cnt;
 }
