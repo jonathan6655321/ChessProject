@@ -2,7 +2,7 @@
 
 static int backButtonLoadWindowRectangle[4] = { 0, 100, 0, 50 };
 static int loadloadButtonLoadWindowRectangle[4] = { 300, 400, 0, 50 };
-static int loadButtonLoadWindowRectangleTemplate[4] = { 150, 350, 75, 135 };
+static int loadButtonLoadWindowRectangleTemplate[4] = { 100, 300, 75, 135 };
 static int backgroundLoadWindowRectangle[4] = { 0, 400, 0, 150 };
 
 LoadWindowElementStruct ClickWasOnLoadWindow(LoadWindow* src, int x, int y) {
@@ -10,6 +10,8 @@ LoadWindowElementStruct ClickWasOnLoadWindow(LoadWindow* src, int x, int y) {
 	LoadWindowElementStruct emptyStruct = { BackgroundLoadWindowElement, 0 };
 	if (PointInsideRectangle(x, y, backButtonLoadWindowRectangle)) {
 		emptyStruct.element = BackButtonLoadWindowElement;
+	} else if (PointInsideRectangle(x, y, loadloadButtonLoadWindowRectangle)) {
+		emptyStruct.element = LoadLoadGameButtonLoadWindowElement;
 	} else {
 		int loadTemplate[4];
 		loadTemplate[0] = loadButtonLoadWindowRectangleTemplate[0];
@@ -21,7 +23,7 @@ LoadWindowElementStruct ClickWasOnLoadWindow(LoadWindow* src, int x, int y) {
 					+ loadButtonLoadWindowRectangleTemplate[3];
 			if (PointInsideRectangle(x, y, loadTemplate)) {
 				emptyStruct.element = LoadGameButtonLoadWindowElement;
-				emptyStruct.argument = i + 1;
+				emptyStruct.argument = i;
 			}
 		}
 	}
@@ -69,6 +71,7 @@ LoadWindow* LoadWindowCreate() {
 	}
 
 	newLoadWindow->numberOfOptions = GetNumberOfSaveFiles();
+	newLoadWindow->selectedOption = -1;
 
 	if (newLoadWindow->numberOfOptions == 0) {
 		newLoadWindow->numberOfOptions = 1;
@@ -98,11 +101,20 @@ LoadWindow* LoadWindowCreate() {
 	char str[BUFSIZ];
 	for (i = 1; i <= newLoadWindow->numberOfOptions; i++) {
 		sprintf(str, LOAD_SLOT_BUTTON_LOAD_WINDOW_TEXTURE_PATH_FORMAT, i);
-		success &= LoadTexture(&(newLoadWindow->loadButtonTexture[i - 1]),
+		success &= LoadTexture(&(newLoadWindow->loadButtonTexture[i - 1][0]),
+				newLoadWindow->loadRenderer, str);
+		sprintf(str, LOAD_SLOT_BUTTON_SELECTED_LOAD_WINDOW_TEXTURE_PATH_FORMAT,
+				i);
+		success &= LoadTexture(&(newLoadWindow->loadButtonTexture[i - 1][1]),
 				newLoadWindow->loadRenderer, str);
 	}
 	success &= LoadTexture(&(newLoadWindow->backButtonTexture),
 			newLoadWindow->loadRenderer, BACK_BUTTON_LOAD_WINDOW_TEXTURE_PATH);
+	success &= LoadTexture(&(newLoadWindow->loadloadButtonTexture),
+			newLoadWindow->loadRenderer, LOAD_BUTTON_LOAD_WINDOW_TEXTURE_PATH);
+	success &= LoadTexture(&(newLoadWindow->loadloadUnavailableButtonTexture),
+			newLoadWindow->loadRenderer,
+			LOAD_UNAVAILABLE_BUTTON_LOAD_WINDOW_TEXTURE_PATH);
 	success &= LoadTexture(&(newLoadWindow->backgroundTexture),
 			newLoadWindow->loadRenderer, BACKGROUND_LOAD_WINDOW_TEXTURE_PATH);
 
@@ -116,8 +128,10 @@ LoadWindow* LoadWindowCreate() {
 
 void LoadWindowDraw(LoadWindow* src) {
 	SDL_Rect backR = CreateSDLRectFromIntArray(backButtonLoadWindowRectangle);
+	SDL_Rect loadloadR = CreateSDLRectFromIntArray(
+			loadloadButtonLoadWindowRectangle);
 	SDL_Rect loadR[NUMBER_OF_SAVE_LOAD_SLOT];
-	int i, loadTemplate[4];
+	int i, j, loadTemplate[4];
 	loadTemplate[0] = loadButtonLoadWindowRectangleTemplate[0];
 	loadTemplate[1] = loadButtonLoadWindowRectangleTemplate[1];
 	for (i = 0; i < src->numberOfOptions; i++) {
@@ -141,21 +155,36 @@ void LoadWindowDraw(LoadWindow* src) {
 	SDL_RenderCopy(src->loadRenderer, src->backgroundTexture, NULL,
 			&backgroundR);
 	for (i = 0; i < src->numberOfOptions; i++) {
-		SDL_RenderCopy(src->loadRenderer, src->loadButtonTexture[i], NULL,
+		j = (src->selectedOption == i) ? 1 : 0;
+		SDL_RenderCopy(src->loadRenderer, src->loadButtonTexture[i][j], NULL,
 				&(loadR[i]));
+
+	}
+	if (src->selectedOption == -1) {
+		SDL_RenderCopy(src->loadRenderer,
+				src->loadloadUnavailableButtonTexture, NULL, &loadloadR);
+	} else {
+		SDL_RenderCopy(src->loadRenderer, src->loadloadButtonTexture, NULL,
+				&loadloadR);
 	}
 	SDL_RenderCopy(src->loadRenderer, src->backButtonTexture, NULL, &backR);
 	SDL_RenderPresent(src->loadRenderer);
 }
 void LoadWindowDestroy(LoadWindow* src) {
-	int i;
+	int i, j;
 	if (src->backgroundTexture != NULL)
 		SDL_DestroyTexture(src->backgroundTexture);
 	if (src->backButtonTexture != NULL)
 		SDL_DestroyTexture(src->backButtonTexture);
+	if (src->loadloadButtonTexture != NULL)
+		SDL_DestroyTexture(src->loadloadButtonTexture);
+	if (src->loadloadUnavailableButtonTexture != NULL)
+		SDL_DestroyTexture(src->loadloadUnavailableButtonTexture);
 	for (i = 0; i < src->numberOfOptions; i++) {
-		if (src->loadButtonTexture[i] != NULL)
-			SDL_DestroyTexture(src->loadButtonTexture[i]);
+		for (j = 0; j < 2; j++) {
+			if (src->loadButtonTexture[i][j] != NULL)
+				SDL_DestroyTexture(src->loadButtonTexture[i][j]);
+		}
 	}
 	if (src->loadRenderer != NULL)
 		SDL_DestroyRenderer(src->loadRenderer);
@@ -183,8 +212,14 @@ EventStruct LoadWindowHandleEvent(LoadWindow* src, SDL_Event* event) {
 		eventStruct.eventType = BackButtonLoadWindowClickEvent;
 		break;
 	case LoadGameButtonLoadWindowElement:
-		eventStruct.eventType = GameLoadOptionLoadWindowClickEvent;
-		eventStruct.eventArgument[0] = windowsEventStruct.argument;
+		src->selectedOption = windowsEventStruct.argument;
+		break;
+	case LoadLoadGameButtonLoadWindowElement:
+		if (src->selectedOption != -1) {
+			eventStruct.eventType = GameLoadOptionLoadWindowClickEvent;
+			eventStruct.eventArgument[0] = src->selectedOption + 1;
+		}
+		break;
 	default:
 		break;
 	}

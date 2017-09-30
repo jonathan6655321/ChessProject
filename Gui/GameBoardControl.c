@@ -35,6 +35,7 @@ GameBoardControl* GameBoardControlDefaultCreator(SDL_Renderer* renderer) {
 	newGameBoardControl->gameHistory = EmptyGameHistory;
 	newGameBoardControl->game.gameHistory = &(newGameBoardControl->gameHistory);
 	newGameBoardControl->gameStateIsSaved = 1;
+	newGameBoardControl->rightClick = 0;
 	newGameBoardControl->currentPieceSelectedRow = -1;
 	newGameBoardControl->currentPieceSelectedCol = -1;
 	return newGameBoardControl;
@@ -239,10 +240,12 @@ int GetColorInLocation(GameBoardControl* src, int row, int col) {
 	char colC = 'A' + col;
 	int colorInThisLocation = (row + col) % 2;
 	int locationInBoardOfRowCol = rowColToLocationIndex(rowC, colC);
-	if ((src->currentPieceSelectedRow != -1
-			&& src->availableMovesOfSelectedPiece.allMoves.legalMovesArray[locationInBoardOfRowCol])
-			|| (row == src->currentPieceSelectedRow && col
-					== src->currentPieceSelectedCol)) {
+	if ((src->rightClick && (src->game.gameMode == PlayerVsPlayer
+			|| src->game.difficulty <= '2'))
+			&& ((src->currentPieceSelectedRow != -1
+					&& src->availableMovesOfSelectedPiece.allMoves.legalMovesArray[locationInBoardOfRowCol])
+					|| (row == src->currentPieceSelectedRow && col
+							== src->currentPieceSelectedCol))) {
 		if (src->availableMovesOfSelectedPiece.threatenedByOpponentMoves.legalMovesArray[locationInBoardOfRowCol]) {
 			colorInThisLocation = 2;
 		} else if (src->availableMovesOfSelectedPiece.opponentAtLocationMoves.legalMovesArray[locationInBoardOfRowCol]) {
@@ -652,9 +655,19 @@ EventStruct GameBoardControlHandleEvent(GameBoardControl* src,
 	int row = ClickWasOnGameRow(event, Rectangle);
 	int col = ClickWasOnGameCol(event, Rectangle);
 
-	if (IsValidMoveForCurrentSelectedPiece(src, row, col)) {
-		return GameBoardControlHandleMoveEvent(src, row, col);
-	} else {
+	if (event->type == SDL_MOUSEBUTTONUP) {
+		if (event->button.button == SDL_BUTTON_RIGHT) {
+			src->rightClick = 1;
+			return GameBoardControlHandleNewPieceChoosenEvent(src, row, col);
+		} else if (event->button.button == SDL_BUTTON_LEFT) {
+			if (IsValidMoveForCurrentSelectedPiece(src, row, col)) {
+				return GameBoardControlHandleMoveEvent(src, row, col);
+			}
+		}
+	} else if (event->type == SDL_MOUSEBUTTONDOWN && event->button.button
+			== SDL_BUTTON_LEFT) {
+		src->rightClick = 0;
 		return GameBoardControlHandleNewPieceChoosenEvent(src, row, col);
 	}
+	return eventStruct;
 }

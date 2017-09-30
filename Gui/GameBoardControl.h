@@ -12,6 +12,7 @@ typedef struct {
 	int currentPieceSelectedCol;
 	ExecuteGetMovesResponse availableMovesOfSelectedPiece;
 	int gameStateIsSaved;
+	int rightClick;
 
 	SDL_Texture* piecesTexture[6][2];
 	SDL_Texture* boardTextures[5];

@@ -7,6 +7,7 @@
 #include "SDLHelperFunctions.h"
 
 typedef enum {
+	LoadLoadGameButtonLoadWindowElement,
 	LoadGameButtonLoadWindowElement,
 	BackButtonLoadWindowElement,
 	BackgroundLoadWindowElement

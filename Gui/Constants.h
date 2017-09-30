@@ -44,8 +44,8 @@
 #define BACK_NEW_GAME_WINDOW_TEXTURE_PATH "./Gui/images/NewGameWindow/back.bmp"
 
 #define NUMBER_OF_SAVE_LOAD_SLOT 5
-#define LOAD_BUTTON_LOAD_WINDOW_TEXTURE_PATH_FORMAT "./Gui/images/LoadWindow/load.bmp"
-#define LOAD_UNAVAILABLE_BUTTON_LOAD_WINDOW_TEXTURE_PATH_FORMAT "./Gui/images/LoadWindow/load_unavailable.bmp"
+#define LOAD_BUTTON_LOAD_WINDOW_TEXTURE_PATH "./Gui/images/LoadWindow/load.bmp"
+#define LOAD_UNAVAILABLE_BUTTON_LOAD_WINDOW_TEXTURE_PATH "./Gui/images/LoadWindow/load_unavailable.bmp"
 #define LOAD_SLOT_BUTTON_LOAD_WINDOW_TEXTURE_PATH_FORMAT "./Gui/images/LoadWindow/slot_%d.bmp"
 #define LOAD_SLOT_BUTTON_SELECTED_LOAD_WINDOW_TEXTURE_PATH_FORMAT "./Gui/images/LoadWindow/slot_%d_selected.bmp"
 #define BACK_BUTTON_LOAD_WINDOW_TEXTURE_PATH "./Gui/images/LoadWindow/back.bmp"

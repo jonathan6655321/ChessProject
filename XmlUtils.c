@@ -59,15 +59,13 @@ int writeWholeTag(char *tagContent, char *tagName, FILE *fp) {
 
 int writeOneTag(char *tagName, FILE *fp, int isClosingTag) {
 	int numBytes;
-	char *str;
+	char str[BUFSIZ];
 	if (isClosingTag) {
 		//        printf("%s %d\n\n", tagName,(unsigned)strlen(tagName));
 		numBytes = (unsigned) strlen(tagName) + 4;
-		str = calloc(numBytes, sizeof(char));
 		sprintf(str, "</%s>\n", tagName);
 	} else {
 		numBytes = (unsigned) strlen(tagName) + 2;
-		str = calloc(numBytes, sizeof(char));
 		sprintf(str, "<%s>", tagName);
 	}
 
@@ -75,7 +73,6 @@ int writeOneTag(char *tagName, FILE *fp, int isClosingTag) {
 	//    printf("num chars in str: %d\n\n", sizeof(str));
 
 	size_t written = fwrite(str, 1, numBytes, fp);
-	free(str);
 	if (written <= 0) {
 		//printf("%s %s", SAVE_ERROR, strerror(errno));
 		return FAIL;

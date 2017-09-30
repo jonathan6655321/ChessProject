@@ -221,7 +221,8 @@ EventStruct GuiManagerHandleEvent(GuiManager* src, SDL_Event* event) {
 		return eventStruct;
 	}
 
-	if (event->type == SDL_MOUSEBUTTONUP) {
+	if ((event->type == SDL_MOUSEBUTTONUP && event->button.button
+			== SDL_BUTTON_LEFT) || src->currentState == GameWindowState) {
 		switch (src->currentState) {
 		case MainWindowState:
 			eventStruct = MainWindowHandleEvent(src->mainWindow, event);
