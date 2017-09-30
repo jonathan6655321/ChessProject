@@ -8,8 +8,15 @@
 #include "GameBoard.h"
 #include "Pieces.h"
 
+/*
+ * according to specifications in PDF
+ */
 void printBoard(GameBoard *gameBoard, Color player1Color);
 
+/*
+ * black -> white
+ * white -> black
+ */
 Color getOppositeColor(Color color);
 
 /*

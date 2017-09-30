@@ -23,6 +23,11 @@
 #define NO_PIECE -2
 #define NOT_IN_GAME -1
 
+/*
+ * the following HARDCODED indeces might seem clumsy but this enables a use of a very compact representation
+ * of the board.
+ * this enables our minmax algo to go to depth 5 easily!
+ */
 #define PLAYER_1_QUEEN_INDEX 3
 #define PLAYER_1_KING_INDEX 4
 #define PLAYER_1_ROOK_1 0
@@ -45,11 +50,21 @@
 #define PLAYER_2_FIRST_PAWN 16
 #define PLAYER_2_LAST_PAWN 23
 
+
+/*
+ * this representation enables fetching piece by location,
+ * and location of piece.
+ * easily! O(1)
+ */
 typedef struct GameBoard {
     /*
      * each location holds the index of the piece in it.
      */
     int mapLocationOnBoardToPieceIndex[BOARD_SIZE];
+
+    /*
+     * maps a piece to its location
+     */
     int mapPieceIndexToLocationOnBoard[NUM_STARTING_PIECES];
 } GameBoard;
 
@@ -89,12 +104,18 @@ void swapQueenKing(GameBoard *gameBoard);
  * if there is no piece there function returns -1
  */
 int getPieceAt(char row, char col, GameBoard *gameBoard, Piece *piece);
+
+/*
+ * gets location index (representing location on board, and gets the piece inside
+ * or NO_PIECE if there is none
+ */
 int getPieceFromLocationIndex(GameBoard *gameBoard, int locationIndex, Piece *piece);
 
 /*
  *
  */
 int rowColToLocationIndex(char row, char col);
+
 /*
  * checks if row col are legal: row 1-8, col A-H
  */
