@@ -73,12 +73,17 @@ HandleCommandMessage handleSetDifficulty(Command command, Game *game) {
 	HandleCommandMessage message;
 	char difficulty = command.argument[0];
 	message.argument[0] = command.argument[0];
+
 	if (command.numberOfArgs == 1 && '1' <= difficulty && difficulty <= '5') {
-		if (difficulty == '5' && !(CAN_HANDLE_EXPERT_DIFFICULTY)) {
-			message.messageType = errorExpertSetDifficultyMessage;
+		if (game->gameMode != PlayerVsPlayer) {
+			if (difficulty == '5' && !(CAN_HANDLE_EXPERT_DIFFICULTY)) {
+				message.messageType = errorExpertSetDifficultyMessage;
+			} else {
+				message.messageType = successMessage;
+				game->difficulty = difficulty;
+			}
 		} else {
-			message.messageType = successMessage;
-			game->difficulty = difficulty;
+			message.messageType = invalidCommandMessage;
 		}
 	} else {
 		message.messageType = errorSetDifficultyMessage;

@@ -357,7 +357,7 @@ void printCommandLineMessages(Game *game, Command command,
 		printf("%s", QUITING_STRING);
 		break;
 	case invalidCommandMessage:
-		printf("%s", "Invalid Command!\n"); //TODO: this wasn't in the PDF so we need to check if we actually need this.
+		printf("%s", "Invalid command\n"); //TODO: this wasn't in the PDF so we need to check if we actually need this.
 		break;
 	}
 }

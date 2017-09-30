@@ -14,8 +14,8 @@ static int modarateDifficultyModeNewGameWindowRectangle[4] = { 120, 280, 170,
 static int hardDifficultyModeNewGameWindowRectangle[4] = { 120, 280, 240, 290 };
 static int expertDifficultyModeNewGameWindowRectangle[4] =
 		{ 120, 280, 300, 350 };
-static int backButtonNewGameWindowRectangle[4] = { 50, 280, 380, 430 };
-static int startNewGameButtonNewGameWindowRectangle[4] = { 250, 350, 380, 430 };
+static int backButtonNewGameWindowRectangle[4] = { 50, 175, 380, 430 };
+static int startNewGameButtonNewGameWindowRectangle[4] = { 225, 350, 380, 430 };
 static int backgroundNewGameWindowRectangle[4] = { 0, 400, 0, 450 };
 
 NewGameWindowElement ClickWasOnNewGameWindow(NewGameWindow* src, int x, int y) {

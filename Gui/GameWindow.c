@@ -233,23 +233,30 @@ EventStruct GameWindowHandleEvent(GameWindow* src, SDL_Event* event) {
 	if (event == NULL) {
 		return eventStruct;
 	}
-
 	eventStruct.eventType = GetGameWindowEvent(event);
-	switch (eventStruct.eventType) {
-	case BoardPositionButtonGameWindowClickEvent:
-		return GameBoardControlHandleEvent(src->gameControl, event,
-				gameBoardGameWindowRectangle);
-	case UndoButtonGameWindowClickEvent:
-		return GameBoardControlHandleUndoMove(src->gameControl);
-	case SaveGameButtonGameWindowClickEvent:
-		return GameBoardControlHandleSaveGame(src->gameControl);
-	case RestartGameButtonGameWindowClickEvent:
-		return GameBoardControlHandleRestartGame(src->gameControl);
-	case GoToMainWindowButtonGameWindowClickEvent:
-		return GameBoardControlHandleGoToMainWindow(src->gameControl);
-	case QuitButtonGameWindowClickEvent:
-		return GameBoardControlHandleQuitGame(src->gameControl);
-	default:
-		return eventStruct;
+	if ((event->type == SDL_MOUSEBUTTONUP && event->button.button
+			== SDL_BUTTON_LEFT) || eventStruct.eventType
+			== BoardPositionButtonGameWindowClickEvent) {
+		switch (eventStruct.eventType) {
+		case BoardPositionButtonGameWindowClickEvent:
+			return GameBoardControlHandleEvent(src->gameControl, event,
+					gameBoardGameWindowRectangle);
+		case UndoButtonGameWindowClickEvent:
+			return GameBoardControlHandleUndoMove(src->gameControl);
+		case SaveGameButtonGameWindowClickEvent:
+			return GameBoardControlHandleSaveGame(src->gameControl);
+		case RestartGameButtonGameWindowClickEvent:
+			return GameBoardControlHandleRestartGame(src->gameControl);
+		case GoToMainWindowButtonGameWindowClickEvent:
+			return GameBoardControlHandleGoToMainWindow(src->gameControl);
+		case QuitButtonGameWindowClickEvent:
+			return GameBoardControlHandleQuitGame(src->gameControl);
+		default:
+			break;
+		}
+	} else {
+		eventStruct.eventType = EmptyEvent;
 	}
+	return eventStruct;
+
 }
