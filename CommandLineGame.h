@@ -21,7 +21,7 @@ typedef enum {
 /*!
  * start a console game chess.
  */
-void commandLineGameLoop();
+int commandLineGameLoop();
 
 /*!
  *

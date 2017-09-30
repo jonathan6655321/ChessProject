@@ -1,9 +1,11 @@
 #include "MainWindow.h"
+//main window elemnent locations:
 static int newGameMainWindowRectangle[4] = { 75, 250, 50, 150 };
 static int loadGameMainWindowRectangle[4] = { 75, 250, 175, 275 };
 static int quitGameMainWindowRectangle[4] = { 75, 250, 300, 400 };
 static int backgroundMainWindowRectangle[4] = { 0, 400, 0, 450 };
 
+// return the element the x,y point is on.
 MainWindowElement ClickWasOnMainWindow(int x, int y) {
 	if (PointInsideRectangle(x, y, newGameMainWindowRectangle))
 		return NewGameMainWindowButtonElement;
@@ -15,6 +17,7 @@ MainWindowElement ClickWasOnMainWindow(int x, int y) {
 		return BackgroundMainWindowElement;
 }
 
+// creates the main windows's window.
 void CreateMainWindow(MainWindow* src) {
 	// Create an application window with the following settings:
 	src->mainWindow = SDL_CreateWindow("Chess Game", // window title

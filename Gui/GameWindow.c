@@ -1,4 +1,5 @@
 #include "GameWindow.h"
+// the game windows specification and sizes:
 static int gameBoardGameWindowRectangle[4] = { 50, 650, 100, 700 };
 static int saveGameGameWindowRectangle[4] = { 700, 800, 100, 150 };
 static int loadGameGameWindowRectangle[4] = { 700, 800, 200, 250 };
@@ -8,6 +9,7 @@ static int restartButtonGameWindowRectangle[4] = { 700, 800, 500, 550 };
 static int quitGameGameWindowRectangle[4] = { 700, 800, 600, 650 };
 static int backgroundGameWindowRectangle[4] = { 0, 850, 0, 800 };
 
+// return where is the button on right now.
 GameWindowElement ClickWasOnGameWindow(int x, int y) {
 	if (PointInsideRectangle(x, y, gameBoardGameWindowRectangle))
 		return GameBoardGameWindowElement;
@@ -27,6 +29,7 @@ GameWindowElement ClickWasOnGameWindow(int x, int y) {
 		return BackgroundGameWindowElement;
 }
 
+// create a new game windows window.
 void CreateGameWindow(GameWindow* src) {
 	// Create an application window with the following settings:
 	src->gameWindow = SDL_CreateWindow("Chess Game", // window title
@@ -37,6 +40,7 @@ void CreateGameWindow(GameWindow* src) {
 			SDL_WINDOW_OPENGL);
 }
 
+// create the default game window. return null on failure.
 GameWindow* GameWindowDefaultCreator() {
 	GameWindow* newGameWindow = (GameWindow*) calloc(sizeof(GameWindow),
 			sizeof(char));
@@ -158,6 +162,7 @@ void GameWindowDestroy(GameWindow* src) {
 	free(src);
 }
 
+// check whther undo is available.
 int IsUndoAvailable(GameWindow* src) {
 	return ((src->gameControl->gameHistory.lenght != 0)
 			&& (src->gameControl->game.gameMode != PlayerVsPlayer));
@@ -207,6 +212,7 @@ void GameWindowShow(GameWindow* src) {
 	SDL_ShowWindow(src->gameWindow);
 }
 
+// get the current game window event to handle.
 EventType GetGameWindowEvent(SDL_Event* event) {
 	switch (ClickWasOnGameWindow(event->button.x, event->button.y)) {
 	case SaveGameButtonGameWindowElement:

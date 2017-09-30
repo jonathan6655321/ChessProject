@@ -1,44 +1,81 @@
 #ifndef LOADWINDOW_H_
 #define LOADWINDOW_H_
+
 #include <SDL.h>
 #include <stdio.h>
 #include "Events.h"
 #include "Constants.h"
 #include "SDLHelperFunctions.h"
 
+/*!
+ * the load window elements.
+ */
 typedef enum {
-	LoadLoadGameButtonLoadWindowElement,
-	LoadGameButtonLoadWindowElement,
-	BackButtonLoadWindowElement,
-	BackgroundLoadWindowElement
+    LoadLoadGameButtonLoadWindowElement,
+    LoadGameButtonLoadWindowElement,
+    BackButtonLoadWindowElement,
+    BackgroundLoadWindowElement
 } LoadWindowElement;
 
+/*!
+ * a struct representing an element on the window
+ */
 typedef struct {
-	LoadWindowElement element;
-	int argument;
+    LoadWindowElement element;
+    // is used when pointing to a game slot, specifing the slot number.
+    int argument;
 } LoadWindowElementStruct;
 
+/*!
+ *  structure representing a Load windows and all it's necessery variables.
+ */
 typedef struct {
-	SDL_Window* loadWindow;
-	SDL_Renderer* loadRenderer;
-	SDL_Texture* backgroundTexture;
+    // the window
+    SDL_Window *loadWindow;
+    //the renderer
+    SDL_Renderer *loadRenderer;
 
-	int numberOfOptions;
-	int selectedOption;
+    // slots:
+    int numberOfOptions;
+    int selectedOption;
 
-	SDL_Texture* loadButtonTexture[NUMBER_OF_SAVE_LOAD_SLOT][2];
-	SDL_Texture* backButtonTexture;
-	SDL_Texture* loadloadButtonTexture;
-	SDL_Texture* loadloadUnavailableButtonTexture;
+    // Windows textures:
+    SDL_Texture *loadButtonTexture[NUMBER_OF_SAVE_LOAD_SLOT][2];
+    SDL_Texture *backgroundTexture;
+    SDL_Texture *backButtonTexture;
+    SDL_Texture *loadloadButtonTexture;
+    SDL_Texture *loadloadUnavailableButtonTexture;
 } LoadWindow;
 
-LoadWindow* LoadWindowCreate();
+/*!
+ * @return a new default load windows, or null on failure
+ */
+LoadWindow *LoadWindowCreate();
 
-void LoadWindowDraw(LoadWindow* src);
-void LoadWindowDestroy(LoadWindow* src);
-void LoadWindowHide(LoadWindow* src);
-void LoadWindowShow(LoadWindow* src);
+/*!
+ *  Draw load windows
+ */
+void LoadWindowDraw(LoadWindow *src);
 
-EventStruct LoadWindowHandleEvent(LoadWindow* src, SDL_Event* event);
+/*!
+ * Destroy load windows.
+ */
+void LoadWindowDestroy(LoadWindow *src);
+
+/*!
+ * Hide load windows
+ */
+void LoadWindowHide(LoadWindow *src);
+
+/*!
+ * show load windows
+ */
+void LoadWindowShow(LoadWindow *src);
+
+/*!
+ * handles Load window events.
+ * @return  empty event or event for the gui manager to handle (load, back).
+ */
+EventStruct LoadWindowHandleEvent(LoadWindow *src, SDL_Event *event);
 
 #endif
