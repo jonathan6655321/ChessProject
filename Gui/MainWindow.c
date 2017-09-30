@@ -97,7 +97,6 @@ void MainWindowDraw(MainWindow* src) {
 	SDL_Rect quitGameR = CreateSDLRectFromIntArray(quitGameMainWindowRectangle);
 	SDL_Rect backgroundR = CreateSDLRectFromIntArray(
 			backgroundMainWindowRectangle);
-
 	SDL_Surface *screen = SDL_GetWindowSurface(src->mainWindow);
 	SDL_BlitScaled(src->backgroundTexture, NULL, screen, &backgroundR);
 	SDL_BlitScaled(src->newGameTexture, NULL, screen, &newGameR);
