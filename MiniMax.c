@@ -186,7 +186,6 @@ int scoreFunction(GameBoard *gameBoard) {
 	return score;
 }
 
-// BETTER_
 
 /*
  * taken from chessprogramming.com
@@ -215,17 +214,18 @@ int advancedMaterialScoreFunction(GameBoard *gameBoard) {
 }
 
 
-
+/*
+ * use regular score function along with center control
+ *
+ * when there are not many pieces we can look a bit deeper and
+ * try to move towards opponents king
+ */
 int amazingScoreFunction(GameBoard *gameBoard) {
 	int score = scoreFunction(gameBoard);
-	score += centerControlScore(gameBoard);
-
-//    if(countPiecesOnBoard(gameBoard) > 10)
-//        score += mobilityScore(gameBoard);
-//    else
-//        score += getCloseToKing(gameBoard);
-//
-//    score += checkmateMoveScore(gameBoard);
+//	int score = advancedMaterialScoreFunction(gameBoard);
+//    score += 0.1*mobilityScore(gameBoard);
+//    score += 3*checkmateMoveScore(gameBoard);
+	score += 1*centerControlScore(gameBoard);
 
 	return score;
 }
@@ -282,7 +282,7 @@ int mobilityScore(GameBoard *gameBoard) {
 
 	// normalize:
 	score /= 10;
-    score = min(score, PAWN_VAL-1);
+    score = min(score, PAWN_VAL);
 	return score;
 }
 
@@ -320,13 +320,26 @@ int countMoves(LegalMoves *pieceCanMoveTo) {
 	return cnt;
 }
 
+int countPiecesOnBoard(GameBoard *gameBoard)
+{
+    int cnt = 0;
+    for(int i=0; i < NUM_STARTING_PIECES; i++)
+    {
+        int pieceLoc = getLocationIndexForPieceIndex(gameBoard, i);
+        if( pieceLoc >= 0 && pieceLoc < BOARD_SIZE)
+            cnt++;
+    }
+    return cnt;
+}
+
+
 /*
  * with distance from king taken into account
  */
-int getCloseToKing(GameBoard *gameBoard) {
+int getDistanceFromKingScore(GameBoard *gameBoard) {
     int score = 0;
-    score += getAdvancedMobilityScoreByPlayer(gameBoard, Player1);
-    score -= getAdvancedMobilityScoreByPlayer(gameBoard, Player2);
+    score += getKingDistanceScoreByPlayer(gameBoard, Player1);
+    score -= getKingDistanceScoreByPlayer(gameBoard, Player2);
 
     // normalize:
     score /= 10;
@@ -334,21 +347,23 @@ int getCloseToKing(GameBoard *gameBoard) {
     return score;
 }
 
-int getAdvancedMobilityScoreByPlayer(GameBoard *gameBoard, Player player) {
+/*
+ * sums the opponents average distances from king
+ * the further away the opponent is the better for you
+ */
+int getKingDistanceScoreByPlayer(GameBoard *gameBoard, Player player) {
     int pieceIndex, score = 0;
-    int firstPiece = getFirstPieceIndexForPlayer(player);
-    int lastPiece = getLastPieceIndexForPlayer(player);
-
-
+    int firstPiece = getFirstPieceIndexForPlayer(getOtherPlayer(player));
+    int lastPiece = getLastPieceIndexForPlayer(getOtherPlayer(player));
 
     char enemyKingRow;
     char enemyKingCol;
     int kingLocationIndex;
 
     if(player == Player1)
-        kingLocationIndex = getLocationIndexForPieceIndex(gameBoard, PLAYER_2_KING_INDEX);
-    else
         kingLocationIndex = getLocationIndexForPieceIndex(gameBoard, PLAYER_1_KING_INDEX);
+    else
+        kingLocationIndex = getLocationIndexForPieceIndex(gameBoard, PLAYER_2_KING_INDEX);
 
     enemyKingRow = getRowFromLocationIndex(kingLocationIndex);
     enemyKingCol = getColFromLocationIndex(kingLocationIndex);
@@ -364,35 +379,26 @@ int getAdvancedMobilityScoreByPlayer(GameBoard *gameBoard, Player player) {
         getPossibleMovesForPieceAt(row, col, gameBoard, &pieceCanMoveTo);
 
 
-        score += countCloserToEnemyKingMoves(&pieceCanMoveTo, enemyKingRow, enemyKingCol, row, col);
+        score += enemyPieceAverageDistancesToKing(&pieceCanMoveTo, enemyKingRow, enemyKingCol, row, col);
     }
 
     return score;
 }
 
 
-int countCloserToEnemyKingMoves(LegalMoves *pieceCanMoveTo,  char enemyKingRow, char enemyKingCol, char row, char col)
+int enemyPieceAverageDistancesToKing(LegalMoves *pieceCanMoveTo, char enemyKingRow, char enemyKingCol, char row, char col)
 {
-    int i, cnt = 0;
-    int originalDistance = abs(enemyKingRow - row) + abs(enemyKingCol - col);
+    int i, distancesSum = 0;
+    int numMoves = 0;
     for (i = 0; i < BOARD_SIZE; i++) {
-        int currentDistance = abs(enemyKingRow - getRowFromLocationIndex(i)) + abs(enemyKingCol - getColFromLocationIndex(i));
-        if (pieceCanMoveTo->legalMovesArray[i] > 0 && currentDistance > originalDistance)
+        if (pieceCanMoveTo->legalMovesArray[i] > 0 )
         {
-            cnt++;
+            numMoves++;
+            int currentDistance = abs(enemyKingRow - getRowFromLocationIndex(i)) + abs(enemyKingCol - getColFromLocationIndex(i));
+            distancesSum += currentDistance;
         }
     }
-    return cnt;
-}
-
-int countPiecesOnBoard(GameBoard *gameBoard)
-{
-    int cnt = 0;
-    for(int i=0; i < NUM_STARTING_PIECES; i++)
-    {
-        int pieceLoc = getLocationIndexForPieceIndex(gameBoard, i);
-        if( pieceLoc >= 0 && pieceLoc < BOARD_SIZE)
-            cnt++;
-    }
-    return cnt;
+    if (numMoves == 0 )
+        return 0;
+    return distancesSum/numMoves;
 }

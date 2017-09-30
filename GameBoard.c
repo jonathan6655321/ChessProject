@@ -65,13 +65,13 @@ int getPieceIndexFromPiece(GameBoard *gameBoard, Piece *piece) {
 	switch (type) {
 	case Pawn:
 		if (piecePlayer == Player1) {
-			for (i = 8; i <= 15; i++) {
+			for (i = PLAYER_1_FIRST_PAWN; i <= PLAYER_1_LAST_PAWN; i++) {
 				if (getLocationIndexForPieceIndex(gameBoard, i) == NOT_IN_GAME) {
 					return i;
 				}
 			}
 		} else {
-			for (i = 16; i <= 23; i++) {
+			for (i = PLAYER_2_FIRST_PAWN; i <= PLAYER_2_LAST_PAWN; i++) {
 				if (getLocationIndexForPieceIndex(gameBoard, i) == NOT_IN_GAME) {
 					return i;
 				}
@@ -80,74 +80,74 @@ int getPieceIndexFromPiece(GameBoard *gameBoard, Piece *piece) {
 		break;
 	case Bishop: // 2,5
 		if (piecePlayer == Player1) {
-			if (getLocationIndexForPieceIndex(gameBoard, 2) == NOT_IN_GAME) {
-				return 2;
+			if (getLocationIndexForPieceIndex(gameBoard, PLAYER_1_BISHOP_1) == NOT_IN_GAME) {
+				return PLAYER_1_BISHOP_1;
 			}
-			if (getLocationIndexForPieceIndex(gameBoard, 5) == NOT_IN_GAME) {
-				return 5;
+			if (getLocationIndexForPieceIndex(gameBoard, PLAYER_1_BISHOP_2) == NOT_IN_GAME) {
+				return PLAYER_1_BISHOP_2;
 			}
 		} else {
-			if (getLocationIndexForPieceIndex(gameBoard, 26) == NOT_IN_GAME) {
-				return 26;
+			if (getLocationIndexForPieceIndex(gameBoard, PLAYER_2_BISHOP_1) == NOT_IN_GAME) {
+				return PLAYER_2_BISHOP_1;
 			}
-			if (getLocationIndexForPieceIndex(gameBoard, 29) == NOT_IN_GAME) {
-				return 29;
+			if (getLocationIndexForPieceIndex(gameBoard, PLAYER_2_BISHOP_2) == NOT_IN_GAME) {
+				return PLAYER_2_BISHOP_2;
 			}
 		}
 		break;
 	case Rook:
 		if (piecePlayer == Player1) {
-			if (getLocationIndexForPieceIndex(gameBoard, 0) == NOT_IN_GAME) {
-				return 0;
+			if (getLocationIndexForPieceIndex(gameBoard, PLAYER_1_ROOK_1) == NOT_IN_GAME) {
+				return PLAYER_1_ROOK_1;
 			}
-			if (getLocationIndexForPieceIndex(gameBoard, 7) == NOT_IN_GAME) {
-				return 7;
+			if (getLocationIndexForPieceIndex(gameBoard, PLAYER_1_ROOK_2) == NOT_IN_GAME) {
+				return PLAYER_1_ROOK_2;
 			}
 		} else {
-			if (getLocationIndexForPieceIndex(gameBoard, 24) == NOT_IN_GAME) {
-				return 24;
+			if (getLocationIndexForPieceIndex(gameBoard, PLAYER_2_ROOK_1) == NOT_IN_GAME) {
+				return PLAYER_2_ROOK_1;
 			}
-			if (getLocationIndexForPieceIndex(gameBoard, 31) == NOT_IN_GAME) {
-				return 31;
+			if (getLocationIndexForPieceIndex(gameBoard, PLAYER_2_ROOK_2) == NOT_IN_GAME) {
+				return PLAYER_2_ROOK_2;
 			}
 		}
 		break;
 	case Knight:
 		if (piecePlayer == Player1) {
-			if (getLocationIndexForPieceIndex(gameBoard, 1) == NOT_IN_GAME) {
-				return 1;
+			if (getLocationIndexForPieceIndex(gameBoard, PLAYER_1_KNIGHT_1) == NOT_IN_GAME) {
+				return PLAYER_1_KNIGHT_1;
 			}
-			if (getLocationIndexForPieceIndex(gameBoard, 6) == NOT_IN_GAME) {
-				return 6;
+			if (getLocationIndexForPieceIndex(gameBoard, PLAYER_1_KNIGHT_2) == NOT_IN_GAME) {
+				return PLAYER_1_KNIGHT_2;
 			}
 		} else {
-			if (getLocationIndexForPieceIndex(gameBoard, 25) == NOT_IN_GAME) {
-				return 25;
+			if (getLocationIndexForPieceIndex(gameBoard, PLAYER_2_KNIGHT_1) == NOT_IN_GAME) {
+				return PLAYER_2_KNIGHT_1;
 			}
-			if (getLocationIndexForPieceIndex(gameBoard, 30) == NOT_IN_GAME) {
-				return 30;
+			if (getLocationIndexForPieceIndex(gameBoard, PLAYER_2_KNIGHT_2) == NOT_IN_GAME) {
+				return PLAYER_2_KNIGHT_2;
 			}
 		}
 		break;
 	case Queen:
 		if (piecePlayer == Player1) {
-			if (getLocationIndexForPieceIndex(gameBoard, 3) == NOT_IN_GAME) {
-				return 3;
+			if (getLocationIndexForPieceIndex(gameBoard, PLAYER_1_QUEEN_INDEX) == NOT_IN_GAME) {
+				return PLAYER_1_QUEEN_INDEX;
 			}
 		} else {
-			if (getLocationIndexForPieceIndex(gameBoard, 27) == NOT_IN_GAME) {
-				return 27;
+			if (getLocationIndexForPieceIndex(gameBoard, PLAYER_2_QUEEN_INDEX) == NOT_IN_GAME) {
+				return PLAYER_2_QUEEN_INDEX;
 			}
 		}
 		break;
 	case King:
 		if (piecePlayer == Player1) {
-			if (getLocationIndexForPieceIndex(gameBoard, 4) == NOT_IN_GAME) {
-				return 4;
+			if (getLocationIndexForPieceIndex(gameBoard, PLAYER_1_KING_INDEX) == NOT_IN_GAME) {
+				return PLAYER_1_KING_INDEX;
 			}
 		} else {
-			if (getLocationIndexForPieceIndex(gameBoard, 28) == NOT_IN_GAME) {
-				return 28;
+			if (getLocationIndexForPieceIndex(gameBoard, PLAYER_2_KING_INDEX) == NOT_IN_GAME) {
+				return PLAYER_2_KING_INDEX;
 			}
 		}
 		break;
@@ -216,6 +216,10 @@ int getPieceAt(char row, char col, GameBoard *gameBoard, Piece *piece) {
 	return SUCCESS;
 }
 
+/*
+ * gets location index (representing location on board, and gets the piece inside
+ * or NO_PIECE if there is none
+ */
 int getPieceFromLocationIndex(GameBoard *gameBoard, int locationIndex,
 		Piece *piece) {
 	int pieceIndex = gameBoard->mapLocationOnBoardToPieceIndex[locationIndex];
@@ -232,6 +236,9 @@ int rowColToLocationIndex(char row, char col) {
 		return (row - '1') * 8 + (col - 'A');
 }
 
+/*
+ * checks if row col are legal: row 1-8, col A-H
+ */
 int isValidRowCol(char row, char col) {
 	if (row < '1' || row > '8' || col < 'A' || col > 'H') {
 		//        printf("Invalid row, col\n");
