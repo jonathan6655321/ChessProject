@@ -1,6 +1,9 @@
 #ifndef EVENTS_H_
 #define EVENTS_H_
 
+/*!
+ *	All events type that can occurs in the game.
+ */
 typedef enum {
 	NewGameButtonMainWindowClickEvent,
 	LoadGameButtonMainWindowClickEvent,
@@ -26,6 +29,9 @@ typedef enum {
 	EmptyEvent
 } EventType;
 
+/*!
+ * Event struct represent an event that happened in the game, with possible arguments.
+ */
 typedef struct {
 	EventType eventType;
 	char eventArgument[3];
