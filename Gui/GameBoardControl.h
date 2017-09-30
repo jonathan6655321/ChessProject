@@ -17,6 +17,9 @@ typedef struct {
 	int currentPieceSelectedCol;
 	// is true when the current selected index was choosen with a right click.
 	int rightClick;
+	// is true when the left mouse is down.
+	int leftDown;
+	int mousePosition[2];
 	// arrays containing the data from the "get_move" response.
 	// indicate that a move is possible and if it's threatened ot not.
 	ExecuteGetMovesResponse availableMovesOfSelectedPiece;

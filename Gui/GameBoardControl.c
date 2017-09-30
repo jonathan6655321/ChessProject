@@ -335,11 +335,39 @@ void GameBoardControlDraw(SDL_Surface* screen, GameBoardControl *src,
 					row, col);
 			SDL_BlitScaled(src->boardSurfaces[colorInThisLocation], NULL,
 					screen, &sdlRect);
-			if ((neededSurfaceIndex >> 1) != 0)
+			if (((neededSurfaceIndex >> 1) != 0) && (!(src->leftDown && row
+					== src->currentPieceSelectedRow && col
+					== src->currentPieceSelectedCol))) {
 				SDL_BlitScaled(
 						src->piecesSurface[(neededSurfaceIndex >> 1) - 1][neededSurfaceIndex
 								& 1], NULL, screen, &sdlRect);
+			}
 		}
+	}
+	if (src->currentPieceSelectedRow != -1 && src->leftDown) {
+		boardRect[0] = Rectangle[0] + (src->currentPieceSelectedCol
+				* (Rectangle[1] - Rectangle[0])) / 8;
+		boardRect[1] = boardRect[0] + (Rectangle[1] - Rectangle[0]) / 8;
+		boardRect[2] = Rectangle[2] + ((7 - src->currentPieceSelectedRow)
+				* (Rectangle[3] - Rectangle[2])) / 8;
+		boardRect[3] = boardRect[2] + (Rectangle[3] - Rectangle[2]) / 8;
+		int x = (boardRect[1] + boardRect[0]) / 2;
+		int y = (boardRect[3] + boardRect[2]) / 2;
+		x -= src->mousePosition[0];
+		y -= src->mousePosition[1];
+		boardRect[0] -= x;
+		boardRect[1] -= x;
+		boardRect[2] -= y;
+		boardRect[3] -= y;
+
+		sdlRect = CreateSDLRectFromIntArray(boardRect);
+
+		neededSurfaceIndex = GetNeededSurfaceInSpecificPositionOnBoard(src,
+				src->currentPieceSelectedRow, src->currentPieceSelectedCol);
+		if (((neededSurfaceIndex >> 1) != 0))
+			SDL_BlitScaled(
+					src->piecesSurface[(neededSurfaceIndex >> 1) - 1][neededSurfaceIndex
+							& 1], NULL, screen, &sdlRect);
 	}
 }
 
@@ -679,22 +707,28 @@ EventStruct GameBoardControlHandleEvent(GameBoardControl *src,
 		return eventStruct;
 	}
 
-	int row = ClickWasOnGameRow(event, Rectangle);
-	int col = ClickWasOnGameCol(event, Rectangle);
-
 	if (event->type == SDL_MOUSEBUTTONUP) {
+		int row = ClickWasOnGameRow(event, Rectangle);
+		int col = ClickWasOnGameCol(event, Rectangle);
 		if (event->button.button == SDL_BUTTON_RIGHT) {
 			src->rightClick = 1;
 			return GameBoardControlHandleNewPieceChoosenEvent(src, row, col);
 		} else if (event->button.button == SDL_BUTTON_LEFT) {
+			src->leftDown = 0;
 			if (IsValidMoveForCurrentSelectedPiece(src, row, col)) {
 				return GameBoardControlHandleMoveEvent(src, row, col);
 			}
 		}
 	} else if (event->type == SDL_MOUSEBUTTONDOWN && event->button.button
 			== SDL_BUTTON_LEFT) {
+		int row = ClickWasOnGameRow(event, Rectangle);
+		int col = ClickWasOnGameCol(event, Rectangle);
 		src->rightClick = 0;
+		src->leftDown = 1;
 		return GameBoardControlHandleNewPieceChoosenEvent(src, row, col);
+	} else if (event->type == SDL_MOUSEMOTION) {
+		src ->mousePosition[0] = event->button.x;
+		src ->mousePosition[1] = event->button.y;
 	}
 	return eventStruct;
 }

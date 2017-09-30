@@ -275,7 +275,7 @@ void NewGameWindowDrawDifficultyWindow(NewGameWindow *src) {
 		SDL_BlitScaled(src->expertDifficultyButtonSurface, NULL, screen,
 				&expertR);
 	} else {
-		SDL_BlitScaled(src->expertDifficultyButtonPressedSurface, screen, NULL,
+		SDL_BlitScaled(src->expertDifficultyButtonPressedSurface, NULL, screen,
 				&expertR);
 	}
 	SDL_BlitScaled(src->nextButtonSurface, NULL, screen, &nextR);
@@ -338,7 +338,7 @@ void NewGameWindowDrawUserColorWindow(NewGameWindow *src) {
 		SDL_BlitScaled(src->blackButtonSurface, NULL, screen, &blackR);
 	} else {
 		SDL_BlitScaled(src->whiteButtonSurface, NULL, screen, &whiteR);
-		SDL_BlitScaled(src->blackButtonPressedSurface, screen, NULL, &blackR);
+		SDL_BlitScaled(src->blackButtonPressedSurface, NULL, screen, &blackR);
 	}
 	SDL_BlitScaled(src->startNewGameButtonSurface, NULL, screen, &startGameR);
 	SDL_BlitScaled(src->backButtonSurface, NULL, screen, &backR);
