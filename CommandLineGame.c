@@ -106,7 +106,7 @@ void handlePrintGetMoves(Game *game, Command command,
                          HandleCommandMessage message) {
     int currentIndex;
     char row, col;
-    int isPossible, isThreatened, isCapturing, isCastle;
+    int isPossible, isThreatened, isCapturing;
     for (row = '1'; row <= '8'; ++row) {
         for (col = 'A'; col <= 'H'; ++col) {
             currentIndex = rowColToLocationIndex(row, col);

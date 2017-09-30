@@ -322,8 +322,8 @@ int countMoves(LegalMoves *pieceCanMoveTo) {
 
 int countPiecesOnBoard(GameBoard *gameBoard)
 {
-    int cnt = 0;
-    for(int i=0; i < NUM_STARTING_PIECES; i++)
+    int i, cnt = 0;
+    for(i=0; i < NUM_STARTING_PIECES; i++)
     {
         int pieceLoc = getLocationIndexForPieceIndex(gameBoard, i);
         if( pieceLoc >= 0 && pieceLoc < BOARD_SIZE)

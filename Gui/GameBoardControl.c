@@ -371,25 +371,6 @@ void GameBoardControlDraw(SDL_Surface* screen, GameBoardControl *src,
 	}
 }
 
-// not implemented.
-char AskPlayerForPawnPromotionOption() {
-	//TODO pawn promotion
-	return Queen;
-}
-
-// not implemented.
-void HandlePawnPromotion(GameBoardControl *src, char rowFrom, char colFrom,
-		char rowTo, char colTo) {
-	Command command;
-	command.commandType = setMove;
-	command.argument[0] = rowFrom;
-	command.argument[1] = colFrom;
-	command.argument[2] = rowTo;
-	command.argument[3] = colTo;
-	command.argument[4] = AskPlayerForPawnPromotionOption();
-	handleCommand(command, &(src->game));
-}
-
 // make move row col from -> row col to.
 void MakeMoveGameBoardControl(GameBoardControl *src, char rowFrom,
 		char colFrom, char rowTo, char colTo) {
@@ -400,23 +381,7 @@ void MakeMoveGameBoardControl(GameBoardControl *src, char rowFrom,
 	command.argument[2] = rowTo;
 	command.argument[3] = colTo;
 	command.argument[4] = 0;
-	HandleCommandMessage message = handleCommand(command, &(src->game));
-	if (message.messageType == pawnPromoteNeededMessage) {
-		HandlePawnPromotion(src, rowFrom, colFrom, rowTo, colTo);
-	}
-}
-
-// not implemented.
-int ChechIfMoveIsCastleMoveGameBoardControl(GameBoardControl *src,
-		char rowFrom, char colFrom, char rowTo, char colTo) {
-	//TODO castle move
-	return 0;
-}
-
-// not implemented.
-void MakeCastleMoveGameBoardControl(GameBoardControl *src, char rowFrom,
-		char colFrom, char rowTo, char colTo) {
-	//TODO castle move
+	handleCommand(command, &(src->game));
 }
 
 EventStruct GameBoardControlHandleMoveEvent(GameBoardControl *src, int row,
@@ -431,12 +396,7 @@ EventStruct GameBoardControlHandleMoveEvent(GameBoardControl *src, int row,
 	char rowTo = (char) ('1' + row);
 	char colTo = (char) ('A' + col);
 
-	if (ChechIfMoveIsCastleMoveGameBoardControl(src, rowFrom, colFrom, rowTo,
-			colTo)) {
-		MakeCastleMoveGameBoardControl(src, rowFrom, colFrom, rowTo, colTo);
-	} else {
-		MakeMoveGameBoardControl(src, rowFrom, colFrom, rowTo, colTo);
-	}
+	MakeMoveGameBoardControl(src, rowFrom, colFrom, rowTo, colTo);
 
 	if (IsGameCompletedGameBoardControl(src)) {
 		HandleFinishGameGameBoardControl(src);
